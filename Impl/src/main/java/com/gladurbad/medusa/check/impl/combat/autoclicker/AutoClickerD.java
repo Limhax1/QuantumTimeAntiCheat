@@ -33,7 +33,7 @@ public final class AutoClickerD extends Check {
                 samples.add(ticks);
             }
 
-            if (samples.size() == 20) {
+            if (samples.size() == 10) {
                 final Pair<List<Double>, List<Double>> outlierPair = MathUtil.getOutliers(samples);
 
                 final int outliers = outlierPair.getX().size() + outlierPair.getY().size();

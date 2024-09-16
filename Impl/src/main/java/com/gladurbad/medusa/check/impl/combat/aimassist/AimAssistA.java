@@ -12,10 +12,13 @@ import java.util.function.Predicate;
  * Created on 10/24/2020 Package com.gladurbad.medusa.check.impl.combat.aim by GladUrBad
  */
 
-@CheckInfo(name = "AimAssist (A)", description = "Checks for irregular movements in the rotation.")
+@CheckInfo(name = "AimAssist (A)", description = "Checks for killAura flaws.")
 public final class AimAssistA extends Check {
 
     private final Predicate<Float> validRotation = rotation -> rotation > 3F && rotation < 35F;
+    private double buffer = 0.0;
+    private static final double BUFFER_LIMIT = 8.0;
+    private static final double BUFFER_DECAY = 0.25;
 
     public AimAssistA(final PlayerData data) {
         super(data);
@@ -24,25 +27,20 @@ public final class AimAssistA extends Check {
     @Override
     public void handle(final Packet packet) {
         if (packet.isRotation()) {
-            final float deltaPitch = Math.abs(data.getRotationProcessor().getDeltaPitch());
-            final float deltaYaw =  Math.abs(data.getRotationProcessor().getDeltaYaw() % 360F);
+            final double deltaYaw = data.getRotationProcessor().getDeltaYaw();
+            final double deltaPitch = data.getRotationProcessor().getDeltaPitch();
+            final boolean invalid = deltaYaw > 1.5F && deltaPitch < 0.01;
+            final boolean invalid2 = deltaYaw < 0.01 && deltaPitch > 2F;
 
-            final float pitch = Math.abs(data.getRotationProcessor().getPitch());
+            if (invalid || invalid2) {
+                buffer += 1.0;
 
-            final boolean invalidPitch = deltaPitch < 0.009 && validRotation.test(deltaYaw);
-            final boolean invalidYaw = deltaYaw < 0.009 && validRotation.test(deltaPitch);
-
-            final boolean exempt = isExempt(ExemptType.INSIDE_VEHICLE);
-            final boolean invalid = !exempt && (invalidPitch || invalidYaw) && pitch < 89F;
-
-            debug(String.format("deltaYaw=%.2f, deltaPitch=%.2f", deltaYaw, deltaPitch));
-
-            if (invalid) {
-                if (++buffer > 20) {
-                    fail(String.format("deltaYaw=%.2f, deltaPitch=%.2f", deltaYaw, deltaPitch));
+                if (buffer > BUFFER_LIMIT) {
+                    fail("deltaYaw=" + deltaYaw + " deltaPitch=" + deltaPitch);
+                    buffer = 0;
                 }
             } else {
-                buffer -= buffer > 0 ? 1 : 0;
+                buffer = Math.max(0, buffer - BUFFER_DECAY);
             }
         }
     }

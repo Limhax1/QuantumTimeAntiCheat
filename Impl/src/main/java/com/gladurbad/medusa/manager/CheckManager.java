@@ -8,21 +8,15 @@ import com.gladurbad.medusa.check.impl.combat.autoclicker.AutoClickerC;
 import com.gladurbad.medusa.check.impl.combat.autoclicker.AutoClickerD;
 import com.gladurbad.medusa.check.impl.combat.killaura.KillAuraF;
 import com.gladurbad.medusa.check.impl.combat.reach.ReachA;
-import com.gladurbad.medusa.check.impl.combat.hitbox.HitBoxA;
 import com.gladurbad.medusa.check.impl.combat.reach.ReachB;
 import com.gladurbad.medusa.check.impl.combat.killaura.*;
+import com.gladurbad.medusa.check.impl.combat.reach.ReachC;
 import com.gladurbad.medusa.check.impl.combat.velocity.VelocityA;
-import com.gladurbad.medusa.check.impl.movement.fastclimb.FastClimbA;
 import com.gladurbad.medusa.check.impl.movement.fly.FlyA;
 import com.gladurbad.medusa.check.impl.movement.fly.FlyB;
 import com.gladurbad.medusa.check.impl.movement.fly.FlyC;
-import com.gladurbad.medusa.check.impl.movement.jesus.JesusA;
-import com.gladurbad.medusa.check.impl.movement.jesus.JesusB;
-import com.gladurbad.medusa.check.impl.movement.motion.*;
-import com.gladurbad.medusa.check.impl.movement.noslow.NoSlowA;
+import com.gladurbad.medusa.check.impl.movement.motion.SpeedB;
 import com.gladurbad.medusa.check.impl.movement.phase.PhaseA;
-import com.gladurbad.medusa.check.impl.movement.speed.*;
-import com.gladurbad.medusa.check.impl.movement.speed.SpeedC;
 import com.gladurbad.medusa.check.impl.player.hand.HandA;
 import com.gladurbad.medusa.check.impl.player.inventory.InventoryA;
 import com.gladurbad.medusa.check.impl.player.inventory.InventoryB;
@@ -46,14 +40,6 @@ public final class CheckManager {
 
     public static final Class<?>[] CHECKS = new Class[] {
             AimAssistA.class,
-            AimAssistB.class,
-            AimAssistC.class,
-            AimAssistD.class,
-            AimAssistE.class,
-            AimAssistF.class,
-            AimAssistG.class,
-            AimAssistH.class,
-            AimAssistI.class,
             AutoClickerA.class,
             AutoClickerB.class,
             AutoClickerC.class,
@@ -66,24 +52,14 @@ public final class CheckManager {
             KillAuraF.class,
             KillAuraG.class,
             ReachA.class,
-            HitBoxA.class,
             ReachB.class,
+            ReachC.class,
             VelocityA.class,
-            FastClimbA.class,
             FlyA.class,
             FlyB.class,
             FlyC.class,
             JesusA.class,
             JesusB.class,
-            MotionA.class,
-            MotionB.class,
-            MotionC.class,
-            MotionD.class,
-            SpeedA.class,
-            SpeedB.class,
-            MotionE.class,
-            SpeedC.class,
-            NoSlowA.class,
             PhaseA.class,
             TimerA.class,
             TimerB.class,
@@ -91,6 +67,7 @@ public final class CheckManager {
             HandA.class,
             InventoryA.class,
             InventoryB.class,
+            SpeedB.class,
             ScaffoldA.class,
             ScaffoldB.class,
             ScaffoldC.class,
@@ -104,7 +81,8 @@ public final class CheckManager {
             ProtocolG.class,
             ProtocolH.class,
             ProtocolI.class,
-            ProtocolJ.class
+            ProtocolJ.class,
+            ProtocolK.class
     };
 
     private static final List<Constructor<?>> CONSTRUCTORS = new ArrayList<>();
