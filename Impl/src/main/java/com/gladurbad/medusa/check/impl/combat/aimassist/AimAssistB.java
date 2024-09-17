@@ -8,15 +8,15 @@ import com.gladurbad.medusa.packet.Packet;
 
 import java.util.function.Predicate;
 
-@CheckInfo(name = "AimAssist (A)", description = "Checks for killAura flaws.")
-public final class AimAssistA extends Check {
+@CheckInfo(name = "AimAssist (B)", description = "Checks for killAura flaws.")
+public final class AimAssistB extends Check {
 
     private final Predicate<Float> validRotation = rotation -> rotation > 3F && rotation < 35F;
     private double buffer = 0.0;
-    private static final double BUFFER_LIMIT = 6.0;
+    private static final double BUFFER_LIMIT = 8.0;
     private static final double BUFFER_DECAY = 0.25;
 
-    public AimAssistA(final PlayerData data) {
+    public AimAssistB(final PlayerData data) {
         super(data);
     }
 
@@ -25,8 +25,8 @@ public final class AimAssistA extends Check {
         if (packet.isRotation()) {
             final double deltaYaw = data.getRotationProcessor().getDeltaYaw();
             final double deltaPitch = data.getRotationProcessor().getDeltaPitch();
-            final boolean invalid = deltaYaw > 1.5F && deltaPitch < 0.01 && Math.abs(data.getRotationProcessor().getPitch()) != 90  ;
-            final boolean invalid2 = deltaYaw < 0.01 && deltaPitch > 2F;
+            final boolean invalid = deltaYaw >= 160 && deltaPitch <= 2;
+            final boolean invalid2 =deltaPitch > 85 && deltaYaw <= 2;
 
             if (invalid || invalid2) {
                 buffer += 1.0;

@@ -59,7 +59,7 @@ public final class FlyB extends Check {
                 if(!onGround && !nearClimbable(location)) {
                     double prediction = (lastDeltaY -0.08 ) * 0.9800000190734863;
 
-                    if(!(DY - prediction < 0.2) && lastDeltaY > 0 && DY != 0) {
+                    if(!(DY - prediction < 0.2) && lastDeltaY > 0 && DY != 0 && !isExempt(ExemptType.PISTON)) {
                         fail("Gravity prediction " + (DY - prediction));
                     }
                 }

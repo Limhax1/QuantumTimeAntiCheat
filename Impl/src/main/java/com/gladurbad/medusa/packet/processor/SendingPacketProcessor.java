@@ -26,7 +26,7 @@ public final class SendingPacketProcessor  {
             final WrappedPacketOutPosition wrapper = new WrappedPacketOutPosition(packet.getRawPacket());
             data.getPositionProcessor().handleServerPosition(wrapper);
         }
-        if (!data.getPlayer().hasPermission("medusa.bypass") || data.getPlayer().isOp()) {
+        if (!data.getPlayer().hasPermission("qatc.bypass") || data.getPlayer().isOp()) {
             data.getChecks().forEach(check -> check.handle(packet));
         }
     }

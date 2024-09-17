@@ -24,9 +24,9 @@ public final class Alerts extends MedusaCommand {
 
             if (data != null) {
                 if (AlertUtil.toggleAlerts(data) == AlertUtil.ToggleAlertType.ADD) {
-                    sendMessage(sender, Config.ACCENT_ONE + "Toggled your cheat alerts &2on" + Config.ACCENT_ONE + ".");
+                    sendMessage(sender, Config.ACCENT_ONE + "QATC alerts &2on" + Config.ACCENT_ONE + ".");
                 } else {
-                    sendMessage(sender, Config.ACCENT_ONE + "Toggled your cheat alerts &coff" + Config.ACCENT_ONE + ".");
+                    sendMessage(sender, Config.ACCENT_ONE + "QATC alerts &coff" + Config.ACCENT_ONE + ".");
                 }
                 return true;
             }
