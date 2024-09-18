@@ -27,7 +27,7 @@ public final class FlyC extends Check {
 
             final boolean exempt = isExempt(
                     ExemptType.TELEPORT, ExemptType.NEAR_VEHICLE, ExemptType.FLYING,
-                    ExemptType.INSIDE_VEHICLE, ExemptType.VELOCITY
+                    ExemptType.INSIDE_VEHICLE, ExemptType.VELOCITY, ExemptType.PISTON
             );
 
             final boolean invalid = !exempt

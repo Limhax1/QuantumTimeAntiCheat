@@ -19,7 +19,7 @@ public final class JoinQuitListener implements Listener {
     public void onPlayerJoin(final PlayerJoinEvent event) {
         Medusa.INSTANCE.getPlayerDataManager().add(event.getPlayer());
 
-        if (event.getPlayer().hasPermission("medusa.alerts")) {
+        if (event.getPlayer().hasPermission("qatc.alerts")) {
             AlertUtil.toggleAlerts(Medusa.INSTANCE.getPlayerDataManager().getPlayerData(event.getPlayer()));
         }
     }

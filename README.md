@@ -1,4 +1,4 @@
-# Medusa Anticheat
+#Medusa Anticheat
 
 Anticheat for Spigot (and *some* related forks) servers.
 

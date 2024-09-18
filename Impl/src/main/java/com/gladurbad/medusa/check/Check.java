@@ -118,7 +118,7 @@ public abstract class Check implements MedusaCheck {
     public void debug(final Object... objects) {
         if (isDebugging()) {
             for (final Object object : objects) {
-                data.getPlayer().sendMessage(ChatColor.GREEN + "[Medusa-Debug] " + ChatColor.GRAY + object);
+                data.getPlayer().sendMessage(ChatColor.AQUA + "[QTAC-Debug] " + ChatColor.GRAY + object);
             }
         }
     }
@@ -126,7 +126,7 @@ public abstract class Check implements MedusaCheck {
     public void debugToConsole(final Object... objects) {
         if (isDebugging()) {
             for (final Object object : objects) {
-                System.out.println(ChatColor.GREEN + "[Medusa-Debug] " + ChatColor.GRAY + object);
+                System.out.println(ChatColor.AQUA + "[QTAC-Debug] " + ChatColor.GRAY + object);
             }
         }
     }

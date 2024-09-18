@@ -6,6 +6,7 @@ import com.gladurbad.medusa.check.impl.combat.autoclicker.AutoClickerA;
 import com.gladurbad.medusa.check.impl.combat.autoclicker.AutoClickerB;
 import com.gladurbad.medusa.check.impl.combat.autoclicker.AutoClickerC;
 import com.gladurbad.medusa.check.impl.combat.autoclicker.AutoClickerD;
+import com.gladurbad.medusa.check.impl.combat.hitbox.HitboxA;
 import com.gladurbad.medusa.check.impl.combat.killaura.KillAuraF;
 import com.gladurbad.medusa.check.impl.combat.reach.ReachA;
 import com.gladurbad.medusa.check.impl.combat.reach.ReachB;
@@ -15,19 +16,13 @@ import com.gladurbad.medusa.check.impl.combat.velocity.VelocityA;
 import com.gladurbad.medusa.check.impl.movement.fly.FlyA;
 import com.gladurbad.medusa.check.impl.movement.fly.FlyB;
 import com.gladurbad.medusa.check.impl.movement.fly.FlyC;
+import com.gladurbad.medusa.check.impl.movement.jesus.JesusA;
+import com.gladurbad.medusa.check.impl.movement.jesus.JesusB;
+import com.gladurbad.medusa.check.impl.movement.motion.SpeedA;
 import com.gladurbad.medusa.check.impl.movement.motion.SpeedB;
 import com.gladurbad.medusa.check.impl.movement.phase.PhaseA;
 import com.gladurbad.medusa.check.impl.player.hand.HandA;
-import com.gladurbad.medusa.check.impl.player.inventory.InventoryA;
-import com.gladurbad.medusa.check.impl.player.inventory.InventoryB;
 import com.gladurbad.medusa.check.impl.player.protocol.*;
-import com.gladurbad.medusa.check.impl.player.scaffold.ScaffoldB;
-import com.gladurbad.medusa.check.impl.player.scaffold.ScaffoldA;
-import com.gladurbad.medusa.check.impl.player.scaffold.ScaffoldC;
-import com.gladurbad.medusa.check.impl.player.scaffold.ScaffoldD;
-import com.gladurbad.medusa.check.impl.player.timer.TimerA;
-import com.gladurbad.medusa.check.impl.player.timer.TimerB;
-import com.gladurbad.medusa.check.impl.player.timer.TimerC;
 import com.gladurbad.medusa.config.Config;
 import com.gladurbad.medusa.data.PlayerData;
 import org.bukkit.Bukkit;
@@ -40,6 +35,7 @@ public final class CheckManager {
 
     public static final Class<?>[] CHECKS = new Class[] {
             AimAssistA.class,
+            AimAssistB.class,
             AutoClickerA.class,
             AutoClickerB.class,
             AutoClickerC.class,
@@ -54,24 +50,17 @@ public final class CheckManager {
             ReachA.class,
             ReachB.class,
             ReachC.class,
+            HitboxA.class,
             VelocityA.class,
             FlyA.class,
             FlyB.class,
             FlyC.class,
+            PhaseA.class,
+            HandA.class,
+            SpeedA.class,
+            SpeedB.class,
             JesusA.class,
             JesusB.class,
-            PhaseA.class,
-            TimerA.class,
-            TimerB.class,
-            TimerC.class,
-            HandA.class,
-            InventoryA.class,
-            InventoryB.class,
-            SpeedB.class,
-            ScaffoldA.class,
-            ScaffoldB.class,
-            ScaffoldC.class,
-            ScaffoldD.class,
             ProtocolA.class,
             ProtocolB.class,
             ProtocolC.class,

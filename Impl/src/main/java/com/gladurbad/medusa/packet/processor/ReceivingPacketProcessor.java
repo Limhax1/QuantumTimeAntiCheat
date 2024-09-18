@@ -59,7 +59,7 @@ public final class ReceivingPacketProcessor  {
             final WrappedPacketInTransaction wrapper = new WrappedPacketInTransaction(packet.getRawPacket());
             data.getVelocityProcessor().handleTransaction(wrapper);
         }
-        if (!data.getPlayer().hasPermission("medusa.bypass") || data.getPlayer().isOp()) {
+        if (!data.getPlayer().hasPermission("qatc.bypass") || data.getPlayer().isOp()) {
             data.getChecks().forEach(check -> check.handle(packet));
         }
     }
