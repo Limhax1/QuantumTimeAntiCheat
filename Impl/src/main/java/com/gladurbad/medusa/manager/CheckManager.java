@@ -16,6 +16,8 @@ import com.gladurbad.medusa.check.impl.combat.velocity.VelocityA;
 import com.gladurbad.medusa.check.impl.movement.fly.FlyA;
 import com.gladurbad.medusa.check.impl.movement.fly.FlyB;
 import com.gladurbad.medusa.check.impl.movement.fly.FlyC;
+import com.gladurbad.medusa.check.impl.movement.jesus.JesusA;
+import com.gladurbad.medusa.check.impl.movement.jesus.JesusB;
 import com.gladurbad.medusa.check.impl.movement.motion.SpeedA;
 import com.gladurbad.medusa.check.impl.movement.motion.SpeedB;
 import com.gladurbad.medusa.check.impl.movement.phase.PhaseA;
@@ -57,6 +59,8 @@ public final class CheckManager {
             HandA.class,
             SpeedA.class,
             SpeedB.class,
+            JesusA.class,
+            JesusB.class,
             ProtocolA.class,
             ProtocolB.class,
             ProtocolC.class,

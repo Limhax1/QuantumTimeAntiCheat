@@ -43,16 +43,13 @@ public final class VelocityA extends Check {
                             ExemptType.WEB, ExemptType.STEPPED
                     );
 
+                    debug(velocityY);
+
                     final boolean invalid = !exempt
                             && (percentage < minVelPct.getInt() || percentage > maxVelPct.getInt());
 
                     if (invalid) {
-                        if (++buffer > 5) {
-                            buffer = 0;
-                            fail("vy=" + velocityY + " pct=" + percentage);
-                        }
-                    } else {
-                        buffer = 0;
+
                     }
                 }
             }

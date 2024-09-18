@@ -16,25 +16,29 @@ public final class FlyA extends Check {
 
     @Override
     public void handle(final Packet packet) {
-        final double deltaXZ = data.getPositionProcessor().getDeltaX();
-        final double lastdeltadeltaXZ = Math.abs(data.getPositionProcessor().getLastDeltaXZ());
-        final double lastDeltaY = data.getPositionProcessor().getLastDeltaY();
-        final double Ymotion = data.getPlayer().getVelocity().getY();
-        final double DeltaY = data.getPositionProcessor().getDeltaY();
-        final double speed = data.getPositionProcessor().getDeltaXZ();
-        final double bps = speed * 2;
 
-        boolean exempt = isExempt(ExemptType.FLYING, ExemptType.TELEPORT, ExemptType.VELOCITY);
+        if (packet.isPosition() || packet.isPosLook()) {
 
-        if (data.getPositionProcessor().getAirTicks() > 60 && data.getPositionProcessor().isInAir() && !exempt) {
-            if (speed > 0.34) {
-                fail("Most likely flying " + speed);
+            final double deltaXZ = data.getPositionProcessor().getDeltaX();
+            final double lastdeltadeltaXZ = Math.abs(data.getPositionProcessor().getLastDeltaXZ());
+            final double lastDeltaY = data.getPositionProcessor().getLastDeltaY();
+            final double Ymotion = data.getPlayer().getVelocity().getY();
+            final double DeltaY = data.getPositionProcessor().getDeltaY();
+            final double speed = data.getPositionProcessor().getDeltaXZ();
+            final double bps = speed * 2;
+
+            boolean exempt = isExempt(ExemptType.FLYING, ExemptType.TELEPORT, ExemptType.VELOCITY);
+
+            if (data.getPositionProcessor().getAirTicks() > 60 && data.getPositionProcessor().isInAir() && !exempt) {
+                if (speed > 0.34) {
+                    fail("Most likely flying " + speed);
+                }
             }
-        }
 
-        if (data.getPositionProcessor().isInAir() && data.getPositionProcessor().getAirTicks() > 20 && !exempt) {
-            if (DeltaY == 0.0) {
-                fail("Hovering " + DeltaY);
+            if (data.getPositionProcessor().isInAir() && data.getPositionProcessor().getAirTicks() > 20 && !exempt) {
+                if (DeltaY == 0.0) {
+                    fail("Hovering " + DeltaY);
+                }
             }
         }
     }
