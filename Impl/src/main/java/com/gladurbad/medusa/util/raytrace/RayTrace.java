@@ -10,6 +10,8 @@ import com.gladurbad.medusa.util.type.BoundingBox;
 import java.util.List;
 
 public class RayTrace {
+
+    private final Player player;
     private final Vector origin;
     private final Vector direction;
     private final double maxDistance;
@@ -18,7 +20,8 @@ public class RayTrace {
 
     private boolean render = false;
 
-    public RayTrace(Location start, Vector direction, double maxDistance, double pointScale) {
+    public RayTrace(Player player, Location start, Vector direction, double maxDistance, double pointScale) {
+        this.player = player;
         this.world = start.getWorld();
         this.origin = start.toVector();
         this.direction = direction.normalize();
@@ -40,24 +43,25 @@ public class RayTrace {
             }
 
             for (Player player : players) {
+                if (player.equals(this.player)) continue;
                 BoundingBox playerBox = new BoundingBox(player);
-                Vector min = new Vector(playerBox.getMinX(), playerBox.getMinY(), playerBox.getMinZ());
-                Vector max = new Vector(playerBox.getMaxX(), playerBox.getMaxY(), playerBox.getMaxZ());
-
                 double tMin = 0;
                 double tMax = maxDistance;
 
                 for (int i = 0; i < 3; i++) {
-                    double origin_i = origin(i).length();
-                    double direction_i = direction(i).length();
+                    double axisOrigin = i == 0 ? origin.getX() : (i == 1 ? origin.getY() : origin.getZ());
+                    double axisDirection = i == 0 ? direction.getX() : (i == 1 ? direction.getY() : direction.getZ());
+                    double axisMin = i == 0 ? playerBox.getMinX() : (i == 1 ? playerBox.getMinY() : playerBox.getMinZ());
+                    double axisMax = i == 0 ? playerBox.getMaxX() : (i == 1 ? playerBox.getMaxY() : playerBox.getMaxZ());
 
-                    if (Math.abs(direction_i) < 1e-8) {
-                        if (origin_i < min.getX() || origin_i > max.getX()) {
-                            continue;
+                    if (Math.abs(axisDirection) < 1e-8) {
+                        if (axisOrigin < axisMin || axisOrigin > axisMax) {
+                            tMin = maxDistance + 1;
+                            break;
                         }
                     } else {
-                        double t1 = (min.getX() - origin_i) / direction_i;
-                        double t2 = (max.getX() - origin_i) / direction_i;
+                        double t1 = (axisMin - axisOrigin) / axisDirection;
+                        double t2 = (axisMax - axisOrigin) / axisDirection;
 
                         if (t1 > t2) {
                             double temp = t1;
@@ -69,7 +73,8 @@ public class RayTrace {
                         tMax = Math.min(tMax, t2);
 
                         if (tMin > tMax) {
-                            continue;
+                            tMin = maxDistance + 1;
+                            break;
                         }
                     }
                 }
@@ -89,6 +94,7 @@ public class RayTrace {
 
     public void spawnParticles(Effect particle, Location location, int count) {
         if (!render) return;
+        
         //idk ill make it work some time later
     }
 

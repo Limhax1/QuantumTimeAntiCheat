@@ -41,4 +41,14 @@ public class RayTraceResult {
     public boolean hasHit() {
         return hitType != HitType.NONE;
     }
+
+    @Override
+    public String toString() {
+        return "RayTraceResult{" +
+                "hitType=" + hitType +
+                ", hitLocation=" + hitLocation +
+                ", distance=" + distance +
+                ", hitEntity=" + (hitEntity != null ? hitEntity.getName() : "null") +
+                '}';
+    }
 }
