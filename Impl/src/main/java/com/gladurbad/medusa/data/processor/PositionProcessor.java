@@ -179,9 +179,9 @@ public final class PositionProcessor {
 
     public void handleServerPosition(final WrappedPacketOutPosition wrapper) {
         final Vector teleportVector = new Vector(
-                wrapper.getX(),
-                wrapper.getY(),
-                wrapper.getZ()
+                wrapper.getPosition().getX(),
+                wrapper.getPosition().getY(),
+                wrapper.getPosition().getZ()
         );
 
         teleports.add(teleportVector);
