@@ -1,5 +1,6 @@
 package com.gladurbad.medusa.packet.processor;
 
+import com.gladurbad.medusa.Medusa;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import io.github.retrooper.packetevents.packetwrappers.play.in.blockdig.WrappedPacketInBlockDig;
@@ -62,5 +63,6 @@ public final class ReceivingPacketProcessor  {
         if (!data.getPlayer().hasPermission("qatc.bypass") || data.getPlayer().isOp()) {
             data.getChecks().forEach(check -> check.handle(packet));
         }
+
     }
 }
