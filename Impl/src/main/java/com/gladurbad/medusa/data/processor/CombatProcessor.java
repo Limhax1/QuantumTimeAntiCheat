@@ -40,6 +40,10 @@ public final class CombatProcessor {
         }
     }
 
+    public boolean isInCombat() {
+        return hitTicks < 3;
+    }
+
     public void handleArmAnimation() {
         ++swings;
     }

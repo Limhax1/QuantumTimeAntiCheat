@@ -71,7 +71,8 @@ public final class CheckManager {
             ProtocolH.class,
             ProtocolI.class,
             ProtocolJ.class,
-            ProtocolK.class
+            ProtocolK.class,
+            ProtocolX.class
     };
 
     private static final List<Constructor<?>> CONSTRUCTORS = new ArrayList<>();

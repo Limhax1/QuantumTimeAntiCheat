@@ -10,6 +10,7 @@ import io.github.retrooper.packetevents.utils.server.ServerVersion;
 import lombok.Getter;
 import com.gladurbad.medusa.command.CommandManager;
 import com.gladurbad.medusa.config.Config;
+import com.gladurbad.medusa.data.processor.GlobalMovementProcessor;
 import com.gladurbad.medusa.packet.processor.ReceivingPacketProcessor;
 import com.gladurbad.medusa.packet.processor.SendingPacketProcessor;
 import org.bukkit.Bukkit;
@@ -32,6 +33,7 @@ public enum Medusa {
     private final PlayerDataManager playerDataManager = new PlayerDataManager();
     private final CommandManager commandManager = new CommandManager(this.getPlugin());
     private final ExecutorService packetExecutor = Executors.newSingleThreadExecutor();
+    private final GlobalMovementProcessor globalMovementProcessor = new GlobalMovementProcessor();
 
     public void start(final MedusaPlugin plugin) {
         this.plugin = plugin;

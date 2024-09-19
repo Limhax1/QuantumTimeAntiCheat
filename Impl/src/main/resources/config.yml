@@ -455,6 +455,10 @@ checks:
         enabled: true
         max-violations: 15
         punish-command: ''
+      x:
+        enabled: true
+        max-violations: 1
+        punish-command: ''
     # Scaffold Detections: Capable of detecting "auto-bridging" modules in various clients.
     scaffold:
       # Checks if the player turns their head suspiciously while bridging.

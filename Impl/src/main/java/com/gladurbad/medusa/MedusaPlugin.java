@@ -1,7 +1,6 @@
 package com.gladurbad.medusa;
 
 import io.github.retrooper.packetevents.PacketEvents;
-import io.github.retrooper.packetevents.utils.server.ServerVersion;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class MedusaPlugin extends JavaPlugin {

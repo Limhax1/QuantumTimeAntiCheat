@@ -1,14 +1,11 @@
 package com.gladurbad.medusa.data.processor;
 
-import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.util.PlayerUtil;
 import com.gladurbad.medusa.util.type.BoundingBox;
 import com.gladurbad.medusa.Medusa;
 import com.gladurbad.medusa.data.PlayerData;
-import io.github.retrooper.packetevents.packetwrappers.play.in.flying.WrappedPacketInFlying;
 import io.github.retrooper.packetevents.packetwrappers.play.out.position.WrappedPacketOutPosition;
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.material.Stairs;
