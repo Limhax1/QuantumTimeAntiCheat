@@ -36,6 +36,10 @@ public final class CheckManager {
     public static final Class<?>[] CHECKS = new Class[] {
             AimAssistA.class,
             AimAssistB.class,
+            AimAssistC.class,
+            AimAssistD.class,
+            AimAssistE.class,
+            AimAssistF.class,
             AutoClickerA.class,
             AutoClickerB.class,
             AutoClickerC.class,

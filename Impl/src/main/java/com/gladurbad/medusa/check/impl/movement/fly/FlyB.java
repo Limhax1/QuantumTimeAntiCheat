@@ -30,7 +30,7 @@ public final class FlyB extends Check {
     @Override
     public void handle(final Packet packet) {
         if (packet.isPosition()) {
-            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.LIQUID, ExemptType.FLYING, ExemptType.VELOCITY);
+            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.LIQUID, ExemptType.FLYING, ExemptType.VELOCITY, ExemptType.NEAR_VEHICLE);
 
             if (!exempt) {
                 final Location location = data.getPlayer().getLocation();
