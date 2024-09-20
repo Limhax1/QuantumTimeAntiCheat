@@ -31,6 +31,7 @@ public final class PlayerData {
     private final PositionProcessor positionProcessor = new PositionProcessor(this);
     private final RotationProcessor rotationProcessor = new RotationProcessor(this);
     private final VelocityProcessor velocityProcessor = new VelocityProcessor(this);
+    private final TransactionProcessor transactionProcessor = new TransactionProcessor(this);
 
     public PlayerData(final Player player) {
         this.player = player;

@@ -33,6 +33,7 @@ public final class TickManager implements Runnable {
 
         Medusa.INSTANCE.getPlayerDataManager().getAllData().parallelStream()
                 .forEach(data -> {
+                    data.getTransactionProcessor().handleTransaction();
                     final Entity target = data.getCombatProcessor().getTarget();
                     final Entity lastTarget = data.getCombatProcessor().getLastTarget();
                     if(target != null && lastTarget != null) {
