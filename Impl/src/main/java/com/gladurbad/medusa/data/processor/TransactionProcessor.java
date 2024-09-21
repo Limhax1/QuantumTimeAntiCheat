@@ -19,7 +19,6 @@ public class TransactionProcessor {
     private Short transactionId = Short.MIN_VALUE;
     private Long lastTransactionReceive = -1L;
     private Long lastTransactionSend = -1L;
-    private boolean received = true;
     private final Map<Short, Long> transactionMap = new HashMap<>();
 
     public TransactionProcessor(PlayerData data) {
@@ -30,12 +29,14 @@ public class TransactionProcessor {
         if (packet.getPacketId() != PacketType.Play.Client.TRANSACTION) return;
         WrappedPacketInTransaction wrapper = new WrappedPacketInTransaction(packet.getRawPacket());
         short id = wrapper.getActionNumber();
-
+        Long n = transactionMap.remove(id);
+        System.out.println("received " + id);
+        if (n == null) return;
         if (id == transactionId) {
-            received = true;
             lastTransactionReceive = System.currentTimeMillis();
         } else {
             Bukkit.broadcastMessage("Invalid transactionID " + id + " != " + transactionId + " " + data.getPlayer().getName());
+            data.getPlayer().kickPlayer(id + " != " + transactionId);
         }
         transactionId++;
     }
@@ -46,12 +47,12 @@ public class TransactionProcessor {
 
     public void handleTransaction() {
         Long n = System.currentTimeMillis();
-        if (n - lastTransactionSend < 500 && n - lastTransactionReceive > 30000) {
-            Bukkit.broadcastMessage("Transaction TimeOut " + data.getPlayer().getName());
+        long diff = n - lastTransactionReceive;
+        if (n - lastTransactionSend < 500 && diff > 5000 && lastTransactionReceive != -1 && lastTransactionSend != -1) {
+            data.getPlayer().kickPlayer("Timed out " + diff + "ms");
         } 
-        if (!received) return;
-        received = false;
         sendTransaction(transactionId);
+        System.out.println("sent: " + transactionId);
         lastTransactionSend = n;
         transactionMap.put(
             transactionId, lastTransactionSend);
