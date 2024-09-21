@@ -1,7 +1,7 @@
 package com.gladurbad.medusa.data.processor;
 
-import org.bukkit.Bukkit;
-
+import com.gladurbad.medusa.Medusa;
+import com.gladurbad.medusa.check.impl.player.protocol.ProtocolZ;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.packet.Packet;
 
@@ -20,9 +20,11 @@ public class TransactionProcessor {
     private Long lastTransactionReceive = -1L;
     private Long lastTransactionSend = -1L;
     private final Map<Short, Long> transactionMap = new HashMap<>();
+    private final ProtocolZ timeoutCheck;
 
     public TransactionProcessor(PlayerData data) {
         this.data = data;
+        this.timeoutCheck = (ProtocolZ) data.getCheckByName("Protocol (Z)");
     }
 
     public void handleIncoming(Packet packet) {
@@ -30,13 +32,12 @@ public class TransactionProcessor {
         WrappedPacketInTransaction wrapper = new WrappedPacketInTransaction(packet.getRawPacket());
         short id = wrapper.getActionNumber();
         Long n = transactionMap.remove(id);
-        System.out.println("received " + id);
         if (n == null) return;
+        timeoutCheck.debug("received " + id);
         if (id == transactionId) {
             lastTransactionReceive = System.currentTimeMillis();
         } else {
-            Bukkit.broadcastMessage("Invalid transactionID " + id + " != " + transactionId + " " + data.getPlayer().getName());
-            data.getPlayer().kickPlayer(id + " != " + transactionId);
+            Medusa.INSTANCE.getPacketExecutor().execute(() -> timeoutCheck.fail("Transaction id dismatch " + id + " != " + transactionId));
         }
         transactionId++;
     }
@@ -48,17 +49,18 @@ public class TransactionProcessor {
     public void handleTransaction() {
         Long n = System.currentTimeMillis();
         long diff = n - lastTransactionReceive;
-        if (n - lastTransactionSend < 500 && diff > 5000 && lastTransactionReceive != -1 && lastTransactionSend != -1) {
-            data.getPlayer().kickPlayer("Timed out " + diff + "ms");
+        if (n - lastTransactionSend < 500 && diff > 30000 && lastTransactionReceive != -1 && lastTransactionSend != -1) {
+            Medusa.INSTANCE.getPacketExecutor().execute(() -> timeoutCheck.fail("Timed out " + diff + "ms"));
         } 
         sendTransaction(transactionId);
-        System.out.println("sent: " + transactionId);
+        timeoutCheck.debug("sent: " + transactionId);
         lastTransactionSend = n;
         transactionMap.put(
             transactionId, lastTransactionSend);
         if (transactionId == Short.MAX_VALUE) {
             transactionId = Short.MIN_VALUE;
         }
+        
     }
 
     public void sendTransaction(short secret) {
