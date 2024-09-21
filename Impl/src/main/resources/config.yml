@@ -458,6 +458,10 @@ checks:
       x:
         enabled: true
         max-violations: 1
+        punish-command: '' 
+      z:
+        enabled: true
+        max-violations: 1
         punish-command: ''
     # Scaffold Detections: Capable of detecting "auto-bridging" modules in various clients.
     scaffold:

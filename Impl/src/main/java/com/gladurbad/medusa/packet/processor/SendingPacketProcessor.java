@@ -10,7 +10,8 @@ import io.github.retrooper.packetevents.packetwrappers.play.out.position.Wrapped
 public final class SendingPacketProcessor  {
 
     public void handle(final PlayerData data, final Packet packet) {
-        Medusa.INSTANCE.getGlobalMovementProcessor().handleOutgoingPacket(packet, data);
+        data.getPositionProcessor().handleOutgoingPacket(packet);
+        data.getTransactionProcessor().handleOutgoing(packet);
         if (packet.isVelocity()) {
             final WrappedPacketOutEntityVelocity wrapper = new WrappedPacketOutEntityVelocity(packet.getRawPacket());
             if (wrapper.getEntity() == data.getPlayer()) {

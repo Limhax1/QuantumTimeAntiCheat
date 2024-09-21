@@ -17,6 +17,7 @@ import org.bukkit.Bukkit;
 public final class ReceivingPacketProcessor  {
 
     public void handle(final PlayerData data, final Packet packet) {
+        data.getTransactionProcessor().handleIncoming(packet);
         if (packet.isEntityAction()) {
             final WrappedPacketInEntityAction wrapper = new WrappedPacketInEntityAction(packet.getRawPacket());
 

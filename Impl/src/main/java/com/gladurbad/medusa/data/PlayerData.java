@@ -2,7 +2,6 @@ package com.gladurbad.medusa.data;
 
 import com.gladurbad.medusa.check.Check;
 import com.gladurbad.medusa.data.processor.*;
-import com.gladurbad.medusa.util.type.CustomLocation;
 import com.gladurbad.medusa.util.type.EvictingList;
 import com.gladurbad.medusa.util.type.Pair;
 import lombok.Getter;
@@ -12,6 +11,7 @@ import com.gladurbad.medusa.manager.CheckManager;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -31,8 +31,14 @@ public final class PlayerData {
     private final PositionProcessor positionProcessor = new PositionProcessor(this);
     private final RotationProcessor rotationProcessor = new RotationProcessor(this);
     private final VelocityProcessor velocityProcessor = new VelocityProcessor(this);
+    private final TransactionProcessor transactionProcessor = new TransactionProcessor(this);
 
     public PlayerData(final Player player) {
         this.player = player;
+    }
+
+    public Check getCheckByName(String checkName) {
+        Optional<Check> check = checks.stream().filter(t -> t.getCheckInfo().name().equals(checkName)).findFirst();
+        return check.isPresent() ? check.get() : null;
     }
 }

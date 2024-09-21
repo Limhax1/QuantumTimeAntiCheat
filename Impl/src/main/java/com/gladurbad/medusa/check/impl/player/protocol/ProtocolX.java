@@ -7,8 +7,6 @@ import com.gladurbad.medusa.packet.Packet;
 
 import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
 
-import org.bukkit.Bukkit;
-
 /**
     * I came
  **/
