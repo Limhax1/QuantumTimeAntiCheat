@@ -403,6 +403,11 @@ checks:
         enabled: true
         max-violations: 15
         punish-command: ''
+    timer:
+      a:
+        enabled: true
+        max-violations: 20
+        punish-command: ''
     # Protocol Detections: Checks for various flaws in Minecraft's networking protocol hacked clients may have.
     protocol:
       # Checks if the player looks too far up or down.

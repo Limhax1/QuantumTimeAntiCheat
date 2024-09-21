@@ -6,7 +6,6 @@ import com.gladurbad.medusa.listener.NetworkListener;
 import com.gladurbad.medusa.listener.JoinQuitListener;
 import com.gladurbad.medusa.manager.*;
 import io.github.retrooper.packetevents.PacketEvents;
-import io.github.retrooper.packetevents.utils.server.ServerVersion;
 import lombok.Getter;
 import com.gladurbad.medusa.command.CommandManager;
 import com.gladurbad.medusa.config.Config;

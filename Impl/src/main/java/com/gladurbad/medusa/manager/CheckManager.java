@@ -6,7 +6,6 @@ import com.gladurbad.medusa.check.impl.combat.autoclicker.AutoClickerA;
 import com.gladurbad.medusa.check.impl.combat.autoclicker.AutoClickerB;
 import com.gladurbad.medusa.check.impl.combat.autoclicker.AutoClickerC;
 import com.gladurbad.medusa.check.impl.combat.autoclicker.AutoClickerD;
-import com.gladurbad.medusa.check.impl.combat.autoclicker.AutoClickerE;
 import com.gladurbad.medusa.check.impl.combat.hitbox.HitboxA;
 import com.gladurbad.medusa.check.impl.combat.killaura.KillAuraF;
 import com.gladurbad.medusa.check.impl.combat.reach.ReachA;
@@ -30,6 +29,7 @@ import com.gladurbad.medusa.check.impl.player.Scaffold.ScaffoldC;
 import com.gladurbad.medusa.check.impl.player.Scaffold.ScaffoldD;
 import com.gladurbad.medusa.check.impl.player.hand.HandA;
 import com.gladurbad.medusa.check.impl.player.protocol.*;
+import com.gladurbad.medusa.check.impl.player.timer.TimerA;
 import com.gladurbad.medusa.config.Config;
 import com.gladurbad.medusa.data.PlayerData;
 import org.bukkit.Bukkit;
@@ -51,7 +51,6 @@ public final class CheckManager {
             AutoClickerB.class,
             AutoClickerC.class,
             AutoClickerD.class,
-            AutoClickerE.class,
             KillAuraA.class,
             KillAuraB.class,
             KillAuraC.class,
@@ -91,7 +90,8 @@ public final class CheckManager {
             ProtocolJ.class,
             ProtocolK.class,
             ProtocolX.class,
-            ProtocolZ.class
+            ProtocolZ.class,
+            TimerA.class
     };
 
     private static final List<Constructor<?>> CONSTRUCTORS = new ArrayList<>();
