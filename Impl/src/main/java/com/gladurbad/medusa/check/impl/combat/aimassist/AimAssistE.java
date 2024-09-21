@@ -22,7 +22,7 @@ public class AimAssistE extends Check {
     private static final double MIN_ROTATION_THRESHOLD = 2.5;
     private static final double MAX_DISTANCE = 8.0;
     private static final double YAW_WEIGHT = 1;
-    private static final double PITCH_WEIGHT = 0.30;
+    private static final double PITCH_WEIGHT = 0.25;
 
     private final Deque<Double> rotationSpeeds = new ArrayDeque<>();
     private final Deque<Double> targetDistances = new ArrayDeque<>();

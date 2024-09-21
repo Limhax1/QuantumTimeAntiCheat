@@ -18,6 +18,9 @@ public final class FlyB extends Check {
     private final LinkedList<Double> verticalMoves = new LinkedList<>();
     private static final int MOVE_HISTORY_SIZE = 20;
 
+    double BUFFER;
+    double MAX_BUFFER = 2;
+    double BUFFER_DECAY = 0.02;
     private double lastY;
     private int violations;
     private int consistentUpwardMoveTicks;
@@ -60,7 +63,11 @@ public final class FlyB extends Check {
                     double prediction = (lastDeltaY -0.08 ) * 0.9800000190734863;
 
                     if(!(DY - prediction < 0.2) && lastDeltaY > 0 && DY != 0 && !isExempt(ExemptType.PISTON)) {
-                        fail("Gravity prediction " + (DY - prediction));
+                        if(BUFFER++ > MAX_BUFFER) {
+                            fail("Gravity prediction " + (DY - prediction));
+                        } else {
+                            BUFFER = Math.max(0, BUFFER - BUFFER_DECAY);
+                        }
                     }
                 }
                 lastDeltaY = DY;
@@ -72,7 +79,7 @@ public final class FlyB extends Check {
     private void checkConstantHeight(double deltaY, int airTicks) {
         if (Math.abs(deltaY) < 0.1 && airTicks > 15) {
             violations++;
-            if (violations > 3) {
+            if (violations > 6) {
                 fail("Constant height in air for " + airTicks + " ticks " + Math.abs(deltaY));
             }
         }
@@ -88,7 +95,7 @@ public final class FlyB extends Check {
             }
             if (ascendingMoves > MOVE_HISTORY_SIZE * 0.8) {
                 violations++;
-                if (violations > 2) {
+                if (violations > 1) {
                     fail("Continuous ascension for " + ascendingMoves + " out of " + MOVE_HISTORY_SIZE + " moves");
                 }
             }

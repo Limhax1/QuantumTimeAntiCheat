@@ -43,7 +43,7 @@ public final class ReachC extends Check {
                 Vector origin = player.getLocation().toVector();
                 Vector targetPos = target.getLocation().toVector();
 
-                double distance = origin.distance(targetPos) - 0.3; // Subtracting 0.3 to account for hitbox
+                double distance = origin.distance(targetPos) - 0.5; // Subtracting 0.3 to account for hitbox
 
                 boolean knockback = player.getInventory().getItemInHand().getEnchantmentLevel(Enchantment.KNOCKBACK) > 0;
                 boolean exempt = isExempt(ExemptType.INSIDE_VEHICLE);
