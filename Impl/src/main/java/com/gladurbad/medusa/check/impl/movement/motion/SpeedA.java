@@ -24,8 +24,8 @@ public final class SpeedA extends Check {
         if(packet.isPosition() || packet.isPosLook()) {
             final double speed = data.getPositionProcessor().getDeltaXZ();
             debug("Speed " + speed);
-            if(speed > 0.65 && !data.getPlayer().hasPotionEffect(PotionEffectType.SPEED) && !isExempt(ExemptType.FLYING, ExemptType.VELOCITY, ExemptType.TELEPORT, ExemptType.SLIME, ExemptType.PISTON)) {
-                fail("Goofy speed " + speed);
+            if(speed > 0.65 && !data.getPlayer().hasPotionEffect(PotionEffectType.SPEED) && !isExempt(ExemptType.FLYING, ExemptType.VELOCITY, ExemptType.TELEPORT, ExemptType.SLIME, ExemptType.PISTON, ExemptType.UNDER_BLOCK, ExemptType.ICE)) {
+                fail("Going too Quick " + speed);
             }
         }
     }

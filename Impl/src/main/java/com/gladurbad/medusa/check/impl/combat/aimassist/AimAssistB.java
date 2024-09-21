@@ -8,7 +8,7 @@ import com.gladurbad.medusa.packet.Packet;
 
 import java.util.function.Predicate;
 
-@CheckInfo(name = "AimAssist (B)", description = "Checks for killAura flaws.")
+@CheckInfo(name = "AimAssist (B)", description = "Checks for killAura flaws.", experimental = true)
 public final class AimAssistB extends Check {
 
     private final Predicate<Float> validRotation = rotation -> rotation > 3F && rotation < 35F;
@@ -22,7 +22,7 @@ public final class AimAssistB extends Check {
 
     @Override
     public void handle(final Packet packet) {
-        if (packet.isRotation()) {
+        if (packet.isRotation() && data.getCombatProcessor().isInCombat()) {
             final double deltaYaw = data.getRotationProcessor().getDeltaYaw();
             final double deltaPitch = data.getRotationProcessor().getDeltaPitch();
             final boolean invalid = deltaYaw >= 160 && deltaPitch <= 2;

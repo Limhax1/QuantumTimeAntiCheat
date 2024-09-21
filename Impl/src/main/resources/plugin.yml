@@ -1,13 +1,14 @@
-name: Medusa
+name: QuantumTimeAntiCheat
+
 version: 1.5.3
 main: com.gladurbad.medusa.MedusaPlugin
 authors: [GladUrBad]
-description: Medusa Anticheat
+description: Quantum Time AntiCheat
 
 commands:
-  medusa:
-    description: Commands for Medusa Anticheat.
-    usage: /medusa
+  qtac:
+    description: Commands for Quantum Time AntiCheat.
+    usage: /qtac
     aliases: [anticheat, ac]
     permission: medusa.commands
 

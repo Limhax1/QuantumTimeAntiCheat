@@ -45,7 +45,7 @@ public final class AlertUtil {
                 .replaceAll("%checkName%", check.getJustTheName())
                 .replaceAll("%ping%", Integer.toString(PlayerUtil.getPing(data.getPlayer())))
                 .replaceAll("%checkType%", Character.toString(check.getType()))
-                .replaceAll("%dev%", check.getCheckInfo().experimental() ? ColorUtil.translate("&7*") : "")
+                .replaceAll("%dev%", check.getCheckInfo().experimental() ? ColorUtil.translate("⚠") : "")
                 .replaceAll("%vl%", Integer.toString(check.getVl()))
                 .replaceAll("%maxvl%", Integer.toString(check.getMaxVl()))
                 .replaceAll("%ping%", Integer.toString(PlayerUtil.getPing(data.getPlayer())))

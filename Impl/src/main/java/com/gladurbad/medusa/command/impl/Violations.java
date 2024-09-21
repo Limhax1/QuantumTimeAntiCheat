@@ -24,7 +24,7 @@ public final class Violations extends MedusaCommand {
 
                 if (playerData != null) {
                     sendRetardedNewLine(sender);
-                    sendMessage(sender, Config.ACCENT_ONE + "Violations for &c" + playerData.getPlayer().getName() + Config.ACCENT_ONE + ".");
+                    sendMessage(sender, Config.ACCENT_ONE + "Violations for &c" + Config.ACCENT_TWO + playerData.getPlayer().getName() + Config.ACCENT_ONE + " in this session;");
                     sendRetardedNewLine(sender);
                     sendMessage(sender, Config.ACCENT_ONE + "Total check violations → " + Config.ACCENT_TWO + playerData.getTotalViolations());
                     sendMessage(sender, Config.ACCENT_ONE + "Combat check violations → " + Config.ACCENT_TWO + playerData.getCombatViolations());

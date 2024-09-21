@@ -33,7 +33,7 @@ public final class CommandManager implements CommandExecutor {
                     if (commandName.equals(args[0])) {
                         if (commandSender.hasPermission("medusa." + commandName)) {
                             if (!medusaCommand.handle(commandSender, command, string, args)) {
-                                commandSender.sendMessage(ColorUtil.translate(Config.ACCENT_ONE + "Usage: /medusa " +
+                                commandSender.sendMessage(ColorUtil.translate(Config.ACCENT_ONE + "Usage: /qtac " +
                                         medusaCommand.getCommandInfo().name() + " " +
                                         medusaCommand.getCommandInfo().syntax()));
                             }
@@ -45,9 +45,9 @@ public final class CommandManager implements CommandExecutor {
                 }
             } else {
                 commandSender.sendMessage("");
-                commandSender.sendMessage(ColorUtil.translate(Config.ACCENT_ONE + "Medusa AntiCheat Commands:\n" + " \n"));
+                commandSender.sendMessage(ColorUtil.translate(Config.ACCENT_ONE + "Quantum Time AntiCheat Commands:\n" + " \n"));
                 for (final MedusaCommand medusaCommand : commands) {
-                    commandSender.sendMessage(ColorUtil.translate( Config.ACCENT_ONE + "/medusa " +
+                    commandSender.sendMessage(ColorUtil.translate( Config.ACCENT_ONE + "/qtac " +
                             medusaCommand.getCommandInfo().name() + " " +
                             medusaCommand.getCommandInfo().syntax()));
                 }

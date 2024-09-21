@@ -10,12 +10,12 @@ import org.bukkit.entity.Player;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-@CheckInfo(name = "AimAssist (F)", description = "Detects suspicious aiming behavior based on GCD errors and aim patterns.")
+@CheckInfo(name = "AimAssist (F)", description = "Detects suspicious aiming behavior based on GCD errors and aim patterns.", experimental = true)
 public class AimAssistF extends Check {
 
-    private static final int SAMPLE_SIZE = 20;
-    private static final double GCD_THRESHOLD = 0.001;
-    private static final double PATTERN_THRESHOLD = 0.995;
+    private static final int SAMPLE_SIZE = 25;
+    private static final double GCD_THRESHOLD = 0.0036;
+    private static final double PATTERN_THRESHOLD = 1.150;
     private static final double BUFFER_LIMIT = 10.0;
 
     private final Deque<Float> yawChanges = new ArrayDeque<>();
@@ -30,7 +30,7 @@ public class AimAssistF extends Check {
 
     @Override
     public void handle(Packet packet) {
-        if (packet.isRotation()) {
+        if (packet.isRotation() && data.getCombatProcessor().isInCombat()) {
             Player player = data.getPlayer();
 
             float yaw = data.getRotationProcessor().getYaw();

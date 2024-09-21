@@ -2,6 +2,7 @@ package com.gladurbad.medusa.check.impl.movement.motion;
 
 import com.gladurbad.api.check.CheckInfo;
 import com.gladurbad.medusa.check.Check;
+import com.gladurbad.medusa.check.impl.combat.velocity.VelocityB;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
@@ -12,7 +13,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-@CheckInfo(name = "Speed (B)", description = "Checks for autistic flight modules.")
+@CheckInfo(name = "Speed (B)", description = "Checks for Going too quick.")
 public final class SpeedB extends Check {
 
     public SpeedB(final PlayerData data) {
@@ -46,13 +47,19 @@ public final class SpeedB extends Check {
 
             boolean isexempt = isExempt(ExemptType.VELOCITY, ExemptType.FLYING, ExemptType.TELEPORT, ExemptType.STAIRS, ExemptType.SLIME, ExemptType.ICE);
 
-            debug("" + speed + " " + speedLimit);
-
             if(!isexempt) {
                 if (speed > speedLimit && data.getPositionProcessor().isOnGround() && !data.getPlayer().hasPotionEffect(PotionEffectType.SPEED)) {
-                    fail("speed " + speed + " (limit: " + speedLimit + ")");
+                    if(BUFFER++ >MAX_BUFFER) {
+                        fail("Speed " + speed + " (limit: " + speedLimit + ")");
+                        BUFFER = 0;
+                    }
                 } else if (speed > airSpeedLimit && !data.getPlayer().hasPotionEffect(PotionEffectType.SPEED) && data.getPositionProcessor().isInAir()) {
-                    fail("airspeed " + speed + " (limit: " + airSpeedLimit + ")");
+                    if(BUFFER++ >MAX_BUFFER) {
+                        fail("Airspeed " + speed + " (limit: " + airSpeedLimit + ")");
+                        BUFFER = 0;
+                    }
+                } else {
+                    BUFFER = Math.max(0, BUFFER - 0.25);
                 }
             }
         }

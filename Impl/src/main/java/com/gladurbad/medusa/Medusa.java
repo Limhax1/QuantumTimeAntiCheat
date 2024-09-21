@@ -48,7 +48,7 @@ public enum Medusa {
         Bukkit.getOnlinePlayers().forEach(player -> this.getPlayerDataManager().add(player));
 
         getPlugin().saveDefaultConfig();
-        getPlugin().getCommand("medusa").setExecutor(commandManager);
+        getPlugin().getCommand("qtac").setExecutor(commandManager);
 
         tickManager.start();
 
@@ -66,7 +66,7 @@ public enum Medusa {
 
     public void stop(final MedusaPlugin plugin) {
         this.plugin = plugin;
-        assert plugin != null : "Error while shutting down Medusa.";
+        assert plugin != null : "Error while shutting down qtac.";
 
         tickManager.stop();
     }

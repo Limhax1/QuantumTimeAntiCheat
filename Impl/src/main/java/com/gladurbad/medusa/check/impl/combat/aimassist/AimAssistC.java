@@ -8,7 +8,7 @@ import com.gladurbad.medusa.packet.Packet;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-@CheckInfo(name = "AimAssist (C)", description = "Checks for constant rotation speeds.")
+@CheckInfo(name = "AimAssist (C)", description = "Checks for constant rotation speeds.", experimental = true)
 public class AimAssistC extends Check {
 
     private static final int SAMPLE_SIZE = 25;
@@ -33,7 +33,7 @@ public class AimAssistC extends Check {
 
     @Override
     public void handle(Packet packet) {
-        if (packet.isRotation()) {
+        if (packet.isRotation() && data.getCombatProcessor().isInCombat()) {
             float yaw = data.getRotationProcessor().getYaw();
             float pitch = data.getRotationProcessor().getPitch();
 

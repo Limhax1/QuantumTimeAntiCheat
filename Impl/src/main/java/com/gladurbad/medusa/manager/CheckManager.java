@@ -6,6 +6,7 @@ import com.gladurbad.medusa.check.impl.combat.autoclicker.AutoClickerA;
 import com.gladurbad.medusa.check.impl.combat.autoclicker.AutoClickerB;
 import com.gladurbad.medusa.check.impl.combat.autoclicker.AutoClickerC;
 import com.gladurbad.medusa.check.impl.combat.autoclicker.AutoClickerD;
+import com.gladurbad.medusa.check.impl.combat.autoclicker.AutoClickerE;
 import com.gladurbad.medusa.check.impl.combat.hitbox.HitboxA;
 import com.gladurbad.medusa.check.impl.combat.killaura.KillAuraF;
 import com.gladurbad.medusa.check.impl.combat.reach.ReachA;
@@ -13,14 +14,20 @@ import com.gladurbad.medusa.check.impl.combat.reach.ReachB;
 import com.gladurbad.medusa.check.impl.combat.killaura.*;
 import com.gladurbad.medusa.check.impl.combat.reach.ReachC;
 import com.gladurbad.medusa.check.impl.combat.velocity.VelocityA;
+import com.gladurbad.medusa.check.impl.combat.velocity.VelocityB;
 import com.gladurbad.medusa.check.impl.movement.fly.FlyA;
 import com.gladurbad.medusa.check.impl.movement.fly.FlyB;
 import com.gladurbad.medusa.check.impl.movement.fly.FlyC;
+import com.gladurbad.medusa.check.impl.movement.fly.FlyD;
 import com.gladurbad.medusa.check.impl.movement.jesus.JesusA;
 import com.gladurbad.medusa.check.impl.movement.jesus.JesusB;
 import com.gladurbad.medusa.check.impl.movement.motion.SpeedA;
 import com.gladurbad.medusa.check.impl.movement.motion.SpeedB;
 import com.gladurbad.medusa.check.impl.movement.phase.PhaseA;
+import com.gladurbad.medusa.check.impl.player.Scaffold.ScaffoldA;
+import com.gladurbad.medusa.check.impl.player.Scaffold.ScaffoldB;
+import com.gladurbad.medusa.check.impl.player.Scaffold.ScaffoldC;
+import com.gladurbad.medusa.check.impl.player.Scaffold.ScaffoldD;
 import com.gladurbad.medusa.check.impl.player.hand.HandA;
 import com.gladurbad.medusa.check.impl.player.protocol.*;
 import com.gladurbad.medusa.config.Config;
@@ -44,6 +51,7 @@ public final class CheckManager {
             AutoClickerB.class,
             AutoClickerC.class,
             AutoClickerD.class,
+            AutoClickerE.class,
             KillAuraA.class,
             KillAuraB.class,
             KillAuraC.class,
@@ -56,11 +64,17 @@ public final class CheckManager {
             ReachC.class,
             HitboxA.class,
             VelocityA.class,
+            VelocityB.class,
             FlyA.class,
             FlyB.class,
             FlyC.class,
+            FlyD.class,
             PhaseA.class,
             HandA.class,
+            ScaffoldA.class,
+            ScaffoldB.class,
+            ScaffoldC.class,
+            ScaffoldD.class,
             SpeedA.class,
             SpeedB.class,
             JesusA.class,

@@ -12,7 +12,7 @@ import org.bukkit.util.Vector;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-@CheckInfo(name = "AimAssist (D)", description = "Advanced aim analysis for killaura and aimbot detection.")
+@CheckInfo(name = "AimAssist (D)", description = "Advanced aim analysis for killaura and aimbot detection.", experimental = true)
 public class AimAssistD extends Check {
 
     private static final int SAMPLE_SIZE = 20;
@@ -33,7 +33,7 @@ public class AimAssistD extends Check {
 
     @Override
     public void handle(Packet packet) {
-        if (packet.isRotation()) {
+        if (packet.isRotation() && data.getCombatProcessor().isInCombat()) {
             float yaw = data.getRotationProcessor().getYaw();
             float pitch = data.getRotationProcessor().getPitch();
 
