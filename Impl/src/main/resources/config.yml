@@ -40,56 +40,62 @@ appearance:
       colors:
         - '&c'
         - '&4'
-    Sparky:
-      message: '&eMedusa &7> &6%player% &7has failed &6%checkName% (%checkType%) &cx%vl%'
+    sturkvturk:
+      message: |
+            &3&l[&b&lQ&f&lT&b&lA&3&lC&3&l] &f%player% &7failed &b%checkName%&3(&f%checkType%&3) &f%dev%
+            &8[&b&l!&8] &7VL: &f%vl%&7/&f%maxvl% &8| &7Ping: &f%ping%ms &8| &7TPS: &f%tps%
       colors:
-        - '&6'
-        - '&e'
-    Karhu:
-      message: '&8[&b&lMedusa&r&8] &3%player% &8- &3%checkName% %checkType% &f%dev% &3(&bx%vl%&3)'
+            - '&b'
+            - '&b'
+    svzold:
+      message: |
+            &2&l[&a&lQ&e&lT&a&lA&2&lC&2&l] &f%player% &7failed &a%checkName%&2(&e%checkType%&2) &e%dev%
+            &8[&a&l!&8] &7VL: &f%vl%&7/&f%maxvl% &8| &7Ping: &f%ping%ms &8| &7TPS: &f%tps%
       colors:
-        - '&b'
-        - '&3'
-    Rock:
-      message: '&8[&c!&8] &f%player% &7may be using &f%checkName% &c(%vl%)'
+            - '&a'
+            - '&2'
+    szfeher:
+      message: |
+            &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &f%player% &7failed &f%checkName%&8(&7%checkType%&8) &7%dev%
+            &8[&f&l!&8] &7VL: &f%vl%&7/&f%maxvl% &8| &7Ping: &f%ping%ms &8| &7TPS: &f%tps%
       colors:
-        - '&c'
-        - '&c'
-    Vulcan:
-      message: '&8[&c&l!&8] &c%player% &7failed &b%checkName% (Type %checkType%) &7[VL: &c%vl%&7]'
+            - '&f'
+            - '&8'
+    svkek:
+      message: |
+            &1&l[&9&lQ&b&lT&9&lA&1&lC&1&l] &f%player% &7failed &9%checkName%&1(&b%checkType%&1) &b%dev%
+            &8[&9&l!&8] &7VL: &f%vl%&7/&f%maxvl% &8| &7Ping: &f%ping%ms &8| &7TPS: &f%tps%
       colors:
-        - '&c'
-        - '&7'
-    VulcanNew:
-      message: '&cMedusa &8/ &c%player% &7failed &b%checkName% &7(&bType %checkType%&7) (%vl%/%maxvl%)'
+            - '&9'
+            - '&1'
+    pirarany:
+      message: |
+            &4&l[&c&lQ&6&lT&c&lA&4&lC&4&l] &f%player% &7failed &c%checkName%&4(&6%checkType%&4) &6%dev%
+            &8[&c&l!&8] &7VL: &f%vl%&7/&f%maxvl% &8| &7Ping: &f%ping%ms &8| &7TPS: &f%tps%
       colors:
-        - '&b'
-        - '&3'
-    AAC:
-      message: '&7[&6MEDUSA&7] &2[CONSOLE] &f%player% is suspected of using %checkName% (%ping%ms, %tps%TPS)'
+            - '&c'
+            - '&4'
+    narsarg:
+      message: |
+            &6&l[&e&lQ&c&lT&e&lA&6&lC&6&l] &f%player% &7failed &e%checkName%&6(&c%checkType%&6) &c%dev%
+            &8[&e&l!&8] &7VL: &f%vl%&7/&f%maxvl% &8| &7Ping: &f%ping%ms &8| &7TPS: &f%tps%
       colors:
-        - '&f'
-        - '&6'
-    Spartan:
-      message: '&8[&2Medusa&8] &c%player% failed %checkName% (VL: %vl%) &8(&fPing: %ping%ms&8) (&fTPS: %tps%&8) (&freason: type %checkType%, hover for more info.&8)'
+            - '&e'
+            - '&6'
+    lilrozs:
+      message: |
+            &5&l[&d&lQ&e&lT&d&lA&5&lC&5&l] &f%player% &7failed &d%checkName%&5(&e%checkType%&5) &e%dev%
+            &8[&d&l!&8] &7VL: &f%vl%&7/&f%maxvl% &8| &7Ping: &f%ping%ms &8| &7TPS: &f%tps%
       colors:
-        - '&a'
-        - '&2'
-    GodsEye:
-      message: '&6Medusa >> &c%player% &7failed &c%checkName% &8[&fType%checkType%&8] [&fx%vl%&8]'
+            - '&d'
+            - '&5'
+    kekaqua:
+      message: |
+            &1&l[&b&lQ&3&lT&b&lA&1&lC&1&l] &f%player% &7failed &b%checkName%&1(&3%checkType%&1) &3%dev%
+            &8[&b&l!&8] &7VL: &f%vl%&7/&f%maxvl% &8| &7Ping: &f%ping%ms &8| &7TPS: &f%tps%
       colors:
-        - '&6'
-        - '&c'
-    Reflex:
-      message: '&5Medusa &8» &7%player% &f%checkName% %checkType% &d%vl%/%maxvl% &7| ping: %ping% | tps: %tps%'
-      colors:
-        - '&d'
-        - '&5'
-    Iris:
-      message: '&8[&b&lMedusa&r&8] &f%player% &7has failed &f%checkName% (%checkType%) &c(x%vl%)'
-      colors:
-        - '&7'
-        - '&b'
+            - '&7'
+            - '&b'
 
   # Accent colours. Changes color look of aspects of Medusa.
   accents:
