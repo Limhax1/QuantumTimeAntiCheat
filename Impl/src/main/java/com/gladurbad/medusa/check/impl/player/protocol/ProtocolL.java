@@ -41,7 +41,7 @@ public final class ProtocolL extends Check {
 
         if (spoofedGround != realGround && buffer++ > 3) {
             buffer = 0;
-            setback();
+            setbackLastGround();
             fail(info);
         }
     }

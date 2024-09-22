@@ -69,9 +69,6 @@ public final class PositionProcessor {
 
     private final List<Block> blocks = new ArrayList<>();
 
-    private long setbackTime = 0;
-    private static final long SETBACK_DURATION = 100;
-
     public PositionProcessor(final PlayerData data) {
         this.data = data;
     }
@@ -81,17 +78,49 @@ public final class PositionProcessor {
         World playerWorld = data.getPlayer().getWorld();
         Vector3d postision = wrapper.getPosition();
         Location bukkitLocation = new Location(playerWorld, postision.getX(), postision.getY(), postision.getZ());
-        Pair<Boolean, Location> pair = new Pair<Boolean,Location>(mathematicallyOnGround, bukkitLocation);
+
+        Pair<Boolean, Location> pair = new Pair<Boolean,Location>( postision.getY() % 0.015625 == 0.0 && groundTicks > 2, bukkitLocation);
         recentPositions.put(tick, pair);
     }
 
+    public void setback(int ticks) {
+        int currentTick = Medusa.INSTANCE.getTickManager().getTicks();
+        int targetTick = currentTick - ticks;
+
+        if (!recentPositions.containsKey(targetTick)) return;
+
+        Pair<Boolean, Location> pair = recentPositions.get(targetTick);
+        Location loc = pair.getY();
+        if (loc.getWorld() != data.getPlayer().getWorld()) return;
+
+        float yaw = data.getRotationProcessor().getYaw();
+        float pitch = data.getRotationProcessor().getPitch();
+
+        loc.setYaw(yaw);
+        loc.setPitch(pitch);
+
+        data.getPlayer().teleport(loc);
+    }
+
     public void setback() {
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - setbackTime < SETBACK_DURATION) {
-            return;
+        int maxTicks = 100;
+        int currentTick = Medusa.INSTANCE.getTickManager().getTicks();
+        for (int targetTick = currentTick - 5; targetTick >= currentTick - maxTicks; targetTick--) {
+            if (recentPositions.containsKey(targetTick)) {
+                Pair<Boolean, Location> pair = recentPositions.get(targetTick);
+                if (!pair.getX()) continue;
+                Location loc = pair.getY();
+                if (loc.getWorld() != data.getPlayer().getWorld()) return;
+        
+                float yaw = data.getRotationProcessor().getYaw();
+                float pitch = data.getRotationProcessor().getPitch();
+        
+                loc.setYaw(yaw);
+                loc.setPitch(pitch);
+                data.getPlayer().teleport(loc);
+                return;
+            }
         }
-        setbackTime = currentTime;
-        data.getPlayer().teleport(data.getPlayer().getLocation());
     }
 
     public void handle(final double x, final double y, final double z, final boolean onGround) {

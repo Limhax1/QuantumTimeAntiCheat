@@ -115,11 +115,15 @@ public abstract class Check implements MedusaCheck {
         return null;
     }
 
-    public void setback(int ticks) {
-        data.getPositionProcessor().setback();
+    public void setback(int i) {
+        data.getPositionProcessor().setback(i);
     }
 
     public void setback() {
+        data.getPositionProcessor().setback(5);
+    }
+
+    public void setbackLastGround() {
         data.getPositionProcessor().setback();
     }
 
