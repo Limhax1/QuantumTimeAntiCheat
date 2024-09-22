@@ -46,6 +46,7 @@ public final class ReceivingPacketProcessor  {
             data.getActionProcessor().handleFlying();
             data.getVelocityProcessor().handleFlying();
             data.getCombatProcessor().handleFlying();
+            data.getPositionProcessor().handleFlying(wrapper);
 
             if (wrapper.isPosition()) {
                 data.getPositionProcessor().handle(wrapper.getX(), wrapper.getY(), wrapper.getZ(), wrapper.isOnGround());

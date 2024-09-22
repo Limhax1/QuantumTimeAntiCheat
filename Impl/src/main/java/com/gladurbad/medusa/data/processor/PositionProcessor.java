@@ -4,17 +4,21 @@ import com.gladurbad.medusa.util.JavaV;
 import com.gladurbad.medusa.util.PlayerUtil;
 import com.gladurbad.medusa.util.type.BoundingBox;
 import com.gladurbad.medusa.util.type.LocationVector;
+import com.gladurbad.medusa.util.type.Pair;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.Maps;
 import com.gladurbad.medusa.Medusa;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.packet.Packet;
 
 import io.github.retrooper.packetevents.packettype.PacketType;
+import io.github.retrooper.packetevents.packetwrappers.play.in.flying.WrappedPacketInFlying;
 import io.github.retrooper.packetevents.packetwrappers.play.out.entity.WrappedPacketOutEntity;
 import io.github.retrooper.packetevents.packetwrappers.play.out.entityteleport.WrappedPacketOutEntityTeleport;
 import io.github.retrooper.packetevents.packetwrappers.play.out.namedentityspawn.WrappedPacketOutNamedEntitySpawn;
 import io.github.retrooper.packetevents.packetwrappers.play.out.position.WrappedPacketOutPosition;
 import io.github.retrooper.packetevents.utils.server.ServerVersion;
+import io.github.retrooper.packetevents.utils.vector.Vector3d;
 import lombok.Getter;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -38,6 +42,9 @@ public final class PositionProcessor {
     private final PlayerData data;
 
     private Map<Integer, Deque<LocationVector>> recentPlayerMoves = createCache(TimeUnit.HOURS.toMillis(1L), null);   
+
+    private Map<Integer, Pair<Boolean, Location>> recentPositions = createCache(null, TimeUnit.MINUTES.toMillis(10L));   
+
     private final double divider = ServerVersion.getVersion().isNewerThan(ServerVersion.v_1_8_3) ? 4096.0 : 32.0;
 
     private double x, y, z,
@@ -64,6 +71,51 @@ public final class PositionProcessor {
 
     public PositionProcessor(final PlayerData data) {
         this.data = data;
+    }
+
+    public void handleFlying(final WrappedPacketInFlying wrapper) {
+        int tick = Medusa.INSTANCE.getTickManager().getTicks();
+        World playerWorld = data.getPlayer().getWorld();
+        Vector3d postision = wrapper.getPosition();
+        Location bukkitLocation = new Location(playerWorld, postision.getX(), postision.getY(), postision.getZ());
+        Pair<Boolean, Location> pair = new Pair<Boolean,Location>(mathematicallyOnGround, bukkitLocation);
+        recentPositions.put(tick, pair);
+    }
+
+    public void setback(int ticks) {
+        int currentTick = Medusa.INSTANCE.getTickManager().getTicks();
+        int targetTick = currentTick - ticks;
+
+        if (!recentPositions.containsKey(targetTick)) return;
+
+        Pair<Boolean, Location> pair = recentPositions.get(targetTick);
+        Location loc = pair.getY();
+        if (loc.getWorld() != data.getPlayer().getWorld()) return;
+
+        float yaw = data.getRotationProcessor().getYaw();
+        float pitch = data.getRotationProcessor().getPitch();
+
+        loc.setYaw(yaw);
+        loc.setPitch(pitch);
+
+        data.getPlayer().teleport(loc);
+    }
+
+    public void setback() {
+        int currentTick = Medusa.INSTANCE.getTickManager().getTicks();
+        int targetTick = currentTick - 2;
+
+        while (targetTick >= 0) {
+            if (recentPositions.containsKey(targetTick)) {
+                Pair<Boolean, Location> pair = recentPositions.get(targetTick);
+                Location loc = pair.getY();
+                if (loc.getWorld() == data.getPlayer().getWorld()) {
+                    data.getPlayer().teleport(loc);
+                    return;
+                }
+            }
+            targetTick--;
+        }
     }
 
     public void handle(final double x, final double y, final double z, final boolean onGround) {

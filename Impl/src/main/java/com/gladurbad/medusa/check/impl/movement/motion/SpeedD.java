@@ -33,6 +33,7 @@ public class SpeedD extends Check {
                     
                     if (deltaY < expectedMaxFallSpeed && data.getPositionProcessor().getAirTicks() < 5) {
                         if (++buffer > BUFFER_LIMIT) {
+                            setback();
                             fail("Falling too quick. DeltaY: " + deltaY + ", Expected max: " + expectedMaxFallSpeed);
                         }
                     } else {

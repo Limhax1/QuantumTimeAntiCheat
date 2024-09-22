@@ -67,6 +67,7 @@ public final class SpeedB extends Check {
                 }
 
                 if (buffer > MAX_BUFFER && !Exempt) {
+                    setback();
                     fail(String.format("Going too quick - deltaXZ=%.2f, expectedSpeed=%.2f, buffer=%.2f",
                             deltaXZ, expectedSpeed, buffer));
                     buffer = 0;
