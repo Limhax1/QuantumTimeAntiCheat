@@ -7,6 +7,7 @@ import com.gladurbad.medusa.data.processor.PositionProcessor;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -15,7 +16,7 @@ import org.bukkit.potion.PotionEffectType;
 public class SpeedC extends Check {
 
     private static final int JUMP_THRESHOLD = 2;
-    private static final double EPSILON = 1E-6;
+    private static final double EPSILON = 1E-13;
 
     private double lastMaxYMotion = 0.0;
     private int sameMotionCount = 0;
@@ -33,21 +34,23 @@ public class SpeedC extends Check {
             boolean onGround = positionProcessor.isOnGround();
             boolean lastOnGround = positionProcessor.isLastOnGround();
             double deltaY = positionProcessor.getDeltaY();
-            double deltaXZ = Math.hypot(positionProcessor.getDeltaX(), positionProcessor.getDeltaZ());
-            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.VELOCITY, ExemptType.SLIME, ExemptType.FLYING, ExemptType.UNDER_BLOCK);
+            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.VELOCITY, ExemptType.SLIME, ExemptType.FLYING, ExemptType.UNDER_BLOCK, ExemptType.LIQUID);
 
-            if (!onGround && lastOnGround && deltaY > 0) {
-                // Hump
-                isAscending = true;
+            if (!onGround && lastOnGround && deltaY > 0 && !exempt) {
+                // A játékos éppen ugrott
                 double expectedYMotion = getExpectedYMotion(data.getPlayer());
+                
+                if (deltaY > expectedYMotion && isNearStairOrSlab(data.getPlayer())) {
+                    expectedYMotion += 0.5;
+                }
 
                 if (Math.abs(deltaY - expectedYMotion) < EPSILON) {
                     buffer = Math.max(0, buffer - 1);
-                } else if (Math.abs(deltaY - lastMaxYMotion) < EPSILON && !exempt) {
+                } else if (Math.abs(deltaY - lastMaxYMotion) < EPSILON) {
                     sameMotionCount++;
                     if (sameMotionCount >= JUMP_THRESHOLD) {
                         if (++buffer > 3) {
-                            fail("Invalid Y motion. DY " + deltaY  + " Expected " + expectedYMotion + " Times Repeated " + sameMotionCount);
+                            fail("Repeated Y motion, DY " + deltaY  + " Expected " + expectedYMotion + " Times Repeated " + sameMotionCount);
                             buffer = 0;
                         }
                     }
@@ -55,26 +58,21 @@ public class SpeedC extends Check {
                     sameMotionCount = 0;
                 }
 
-                if(deltaY > 0.63 && !isExempt(ExemptType.SLIME)) {
-                    fail("Jumped too high: " + deltaY);
-                }
-
                 lastMaxYMotion = Math.max(lastMaxYMotion, deltaY);
 
-                debug("Y motion: %.4f, Expected: %.4f, Times Repeated: %d, Buffer: %d", deltaY, expectedYMotion, sameMotionCount, buffer);
-            } else if (!onGround && deltaY <= 0 && isAscending) {
-                isAscending = false;
-                if (checkHorizontalCollision(positionProcessor)) {
-                    buffer = 0;
-                    sameMotionCount = 0;
-                    debug("Collided vertically. Buffer reset.");
+                debug("Y motion: %.4f, Várt: %.4f, Számláló: %d, Buffer: %d", deltaY, expectedYMotion, sameMotionCount, buffer);
+                
+                if (deltaY > expectedYMotion && !isExempt(ExemptType.SLIME)) {
+                    fail("Jumped too high: " + deltaY + ", Expected: " + expectedYMotion);
+                } else if (deltaY < expectedYMotion * 0.99 && !isExempt(ExemptType.SLIME, ExemptType.VELOCITY)) {
+                    fail("Jumped too low: " + deltaY + ", Expected: " + expectedYMotion);
                 }
             } else if (onGround) {
+                // Alaphelyzetbe állítjuk az értékeket, ha a játékos a földön van
                 if (deltaY == 0) {
                     lastMaxYMotion = 0.0;
                     sameMotionCount = 0;
                     buffer = 0;
-                    isAscending = false;
                 }
             }
         }
@@ -94,5 +92,21 @@ public class SpeedC extends Check {
             }
         }
         return 0.41999998688697815;
+    }
+
+    private boolean isNearStairOrSlab(Player player) {
+        int radius = 1; // Ellenőrzési sugár (blokkok száma)
+        for (int x = -radius; x <= radius; x++) {
+            for (int y = -1; y <= 1; y++) { // Ellenőrizzük a játékos alatt és felett is
+                for (int z = -radius; z <= radius; z++) {
+                    Block block = player.getLocation().add(x, y, z).getBlock();
+                    Material type = block.getType();
+                    if (type.name().contains("STAIRS") || type.name().contains("SLAB") || type.name().contains("STEP")) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
