@@ -63,8 +63,10 @@ public class SpeedC extends Check {
                 debug("Y motion: %.4f, Várt: %.4f, Számláló: %d, Buffer: %d", deltaY, expectedYMotion, sameMotionCount, buffer);
                 
                 if (deltaY > expectedYMotion && !isExempt(ExemptType.SLIME)) {
+                    setback();
                     fail("Jumped too high: " + deltaY + ", Expected: " + expectedYMotion);
                 } else if (deltaY < expectedYMotion * 0.99 && !isExempt(ExemptType.SLIME, ExemptType.VELOCITY)) {
+                    setback();
                     fail("Jumped too low: " + deltaY + ", Expected: " + expectedYMotion);
                 }
             } else if (onGround) {
