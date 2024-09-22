@@ -466,6 +466,10 @@ checks:
         enabled: true
         max-violations: 15
         punish-command: ''
+      l:
+        enabled: true
+        max-violations: 15
+        punish-command: ''
       x:
         enabled: true
         max-violations: 1

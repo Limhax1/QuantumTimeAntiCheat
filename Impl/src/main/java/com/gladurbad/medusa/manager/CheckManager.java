@@ -93,6 +93,7 @@ public final class CheckManager {
             ProtocolI.class,
             ProtocolJ.class,
             ProtocolK.class,
+            ProtocolL.class,
             ProtocolX.class,
             ProtocolZ.class,
             TimerA.class
