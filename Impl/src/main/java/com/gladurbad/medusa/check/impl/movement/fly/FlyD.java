@@ -20,6 +20,7 @@ public class FlyD extends Check {
             boolean Exempt = isExempt(ExemptType.TELEPORT, ExemptType.JOINED);
 
             if(data.getPositionProcessor().getDeltaY() > 3) {
+                setback();
                 fail("Attempted Vclip " + data.getPositionProcessor().getDeltaY());
             }
         }

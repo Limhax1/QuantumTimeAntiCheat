@@ -31,7 +31,7 @@ public class SpeedD extends Check {
                 if (wasInAir && deltaY < 0) {
                     double expectedMaxFallSpeed = getExpectedMaxFallSpeed();
                     
-                    if (deltaY < expectedMaxFallSpeed && data.getPositionProcessor().getAirTicks() < 5) {
+                    if (deltaY < expectedMaxFallSpeed && data.getPositionProcessor().getAirTicks() < 4) {
                         if (++buffer > BUFFER_LIMIT) {
                             setback();
                             fail("Falling too quick. DeltaY: " + deltaY + ", Expected max: " + expectedMaxFallSpeed);
