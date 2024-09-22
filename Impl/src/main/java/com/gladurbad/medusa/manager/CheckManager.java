@@ -49,6 +49,7 @@ public final class CheckManager {
             AimAssistD.class,
             AimAssistE.class,
             AimAssistF.class,
+            AimAssistG.class,
             AutoClickerA.class,
             AutoClickerB.class,
             AutoClickerC.class,

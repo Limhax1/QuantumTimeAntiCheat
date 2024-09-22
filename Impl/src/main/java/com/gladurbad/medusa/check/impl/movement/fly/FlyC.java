@@ -40,6 +40,7 @@ public final class FlyC extends Check {
             if (invalid) {
                 buffer += buffer < 50 ? 10 : 0;
                 if (buffer > 20) {
+                    setback();
                     fail(String.format("diff=%.4f, buffer=%.2f, at=%o", difference, buffer, data.getPositionProcessor().getAirTicks()));
                 }
             } else {

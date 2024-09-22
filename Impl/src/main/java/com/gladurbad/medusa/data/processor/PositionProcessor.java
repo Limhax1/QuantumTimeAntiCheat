@@ -69,6 +69,9 @@ public final class PositionProcessor {
 
     private final List<Block> blocks = new ArrayList<>();
 
+    private long setbackTime = 0;
+    private static final long SETBACK_DURATION = 100;
+
     public PositionProcessor(final PlayerData data) {
         this.data = data;
     }
@@ -82,40 +85,13 @@ public final class PositionProcessor {
         recentPositions.put(tick, pair);
     }
 
-    public void setback(int ticks) {
-        int currentTick = Medusa.INSTANCE.getTickManager().getTicks();
-        int targetTick = currentTick - ticks;
-
-        if (!recentPositions.containsKey(targetTick)) return;
-
-        Pair<Boolean, Location> pair = recentPositions.get(targetTick);
-        Location loc = pair.getY();
-        if (loc.getWorld() != data.getPlayer().getWorld()) return;
-
-        float yaw = data.getRotationProcessor().getYaw();
-        float pitch = data.getRotationProcessor().getPitch();
-
-        loc.setYaw(yaw);
-        loc.setPitch(pitch);
-
-        data.getPlayer().teleport(loc);
-    }
-
     public void setback() {
-        int currentTick = Medusa.INSTANCE.getTickManager().getTicks();
-        int targetTick = currentTick - 2;
-
-        while (targetTick >= 0) {
-            if (recentPositions.containsKey(targetTick)) {
-                Pair<Boolean, Location> pair = recentPositions.get(targetTick);
-                Location loc = pair.getY();
-                if (loc.getWorld() == data.getPlayer().getWorld()) {
-                    data.getPlayer().teleport(loc);
-                    return;
-                }
-            }
-            targetTick--;
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - setbackTime < SETBACK_DURATION) {
+            return;
         }
+        setbackTime = currentTime;
+        data.getPlayer().teleport(data.getPlayer().getLocation());
     }
 
     public void handle(final double x, final double y, final double z, final boolean onGround) {

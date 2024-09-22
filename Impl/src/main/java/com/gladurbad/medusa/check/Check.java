@@ -116,7 +116,7 @@ public abstract class Check implements MedusaCheck {
     }
 
     public void setback(int ticks) {
-        data.getPositionProcessor().setback(ticks);
+        data.getPositionProcessor().setback();
     }
 
     public void setback() {

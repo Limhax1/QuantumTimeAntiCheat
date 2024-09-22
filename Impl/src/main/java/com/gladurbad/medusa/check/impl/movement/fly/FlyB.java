@@ -64,6 +64,7 @@ public final class FlyB extends Check {
 
                     if(!(DY - prediction < 0.2) && lastDeltaY > 0 && DY != 0 && !isExempt(ExemptType.PISTON)) {
                         if(BUFFER++ > MAX_BUFFER) {
+                            setback();
                             fail("Gravity prediction " + (DY - prediction));
                         } else {
                             BUFFER = Math.max(0, BUFFER - BUFFER_DECAY);
