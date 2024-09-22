@@ -5,6 +5,7 @@ import com.gladurbad.medusa.check.Check;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
+import com.gladurbad.medusa.util.raytrace.RayTrace;
 import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -33,38 +34,6 @@ public final class ReachC extends Check {
                 return;
             }
 
-            Player player = data.getPlayer();
-            Player target = (Player) wrapper.getEntity();
-
-            long now = System.currentTimeMillis();
-            long timeSinceLastAttack = now - lastAttackTime;
-
-            if (timeSinceLastAttack > ATTACK_RESET_TIME) {
-                Vector origin = player.getLocation().toVector();
-                Vector targetPos = target.getLocation().toVector();
-
-                double distance = origin.distance(targetPos) - 0.5; // Subtracting 0.3 to account for hitbox
-
-                boolean knockback = player.getInventory().getItemInHand().getEnchantmentLevel(Enchantment.KNOCKBACK) > 0;
-                boolean exempt = isExempt(ExemptType.INSIDE_VEHICLE);
-                boolean targetExempt = isExempt(ExemptType.INSIDE_VEHICLE);
-
-                debug("dist=" + String.format("%.2f", distance) + 
-                      " max=" + String.format("%.2f", MAX_REACH) + 
-                      " buffer=" + String.format("%.2f", buffer));
-
-                if (distance > MAX_REACH && distance < 6.0 && !knockback && !exempt && !targetExempt) {
-                    buffer += 1.0;
-                    if (buffer > 3) {
-                        fail("distance=" + String.format("%.2f", distance));
-                        buffer = 3;
-                    }
-                } else {
-                    buffer = Math.max(0, buffer - 0.5);
-                }
-            }
-
-            lastAttackTime = now;
         }
     }
 }

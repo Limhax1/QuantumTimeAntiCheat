@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-@CheckInfo(name = "Speed (B)", description = "Detects various speed hacks including lowhop and yport")
+@CheckInfo(name = "Speed (B)", description = "Checks for Speed.")
 public final class SpeedB extends Check {
 
 	private static final double MAX_BUFFER = 5.0;
@@ -44,7 +44,7 @@ public final class SpeedB extends Check {
 				Player player = data.getPlayer();
 				double speedCorrection = getSpeedPotionCorrection(player);
 				expectedSpeed *= speedCorrection;
-				boolean Exempt = isExempt(ExemptType.TELEPORT, ExemptType.SLIME, ExemptType.UNDER_BLOCK, ExemptType.JOINED, ExemptType.ICE);
+				boolean Exempt = isExempt(ExemptType.TELEPORT, ExemptType.SLIME, ExemptType.UNDER_BLOCK, ExemptType.JOINED, ExemptType.ICE, ExemptType.VELOCITY, ExemptType.FLYING);
 
 				if (!onGround && lastOnGround && Math.abs(deltaY - JUMP_BOOST) < 1E-5) {
 

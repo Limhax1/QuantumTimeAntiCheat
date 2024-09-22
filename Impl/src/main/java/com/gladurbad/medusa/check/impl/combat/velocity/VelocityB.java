@@ -24,7 +24,7 @@ public class VelocityB extends Check {
     public boolean isSelfDamageDetected = false;
     private Location lastSafeLocation;
     private long setbackTime = 0;
-    private static final long SETBACK_DURATION = 500; // 0.5 másodperc setback
+    private static final long SETBACK_DURATION = 800;
 
     public VelocityB(PlayerData data) {
         super(data);

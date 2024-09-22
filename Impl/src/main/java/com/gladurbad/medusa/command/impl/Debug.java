@@ -4,6 +4,7 @@ import com.gladurbad.medusa.Medusa;
 import com.gladurbad.medusa.check.Check;
 import com.gladurbad.medusa.command.CommandInfo;
 import com.gladurbad.medusa.command.MedusaCommand;
+import com.gladurbad.medusa.config.Config;
 import com.gladurbad.medusa.data.PlayerData;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -24,7 +25,7 @@ public class Debug extends MedusaCommand {
                     for (Check check : data.getChecks()) {
                         if (check.getCheckInfo().name().equals(checkName)) {
                             check.setDebugging(true);
-                            sender.sendMessage(ChatColor.GREEN + "Debugging " + checkName + "!");
+                            sender.sendMessage(ChatColor.RED + "Debugging " + checkName + "!");
                         } else {
                             check.setDebugging(false);
                         }

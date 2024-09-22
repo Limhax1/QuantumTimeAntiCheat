@@ -4,14 +4,14 @@ import com.gladurbad.medusa.check.Check;
 import com.gladurbad.api.check.CheckInfo;
 import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
+import com.gladurbad.medusa.data.processor.PositionProcessor;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
 import io.github.retrooper.packetevents.PacketEvents;
 import org.bukkit.craftbukkit.v1_8_R3.block.CraftBlock;
 
-/**
- * Created on 11/23/2020 Package com.gladurbad.medusa.check.impl.combat.velocity by GladUrBad
- */
+
+
 @CheckInfo(name = "Velocity (A)", experimental = true, description = "Checks for vertical velocity.")
 public final class VelocityA extends Check {
 
@@ -48,11 +48,15 @@ public final class VelocityA extends Check {
                     final boolean invalid = !exempt
                             && (percentage < minVelPct.getInt() || percentage > maxVelPct.getInt());
 
-                    if (invalid) {
+                    if (invalid && !checkHorizontalCollision(data.getPositionProcessor())){
 
                     }
                 }
             }
         }
+    }
+    private boolean checkHorizontalCollision(PositionProcessor positionProcessor) {
+        double deltaXZ = Math.hypot(positionProcessor.getDeltaX(), positionProcessor.getDeltaZ());
+        return deltaXZ < 0.01;
     }
 }

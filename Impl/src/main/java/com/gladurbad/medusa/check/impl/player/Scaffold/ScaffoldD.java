@@ -10,17 +10,18 @@ import com.gladurbad.medusa.util.raytrace.RayTraceResult;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-@CheckInfo(name = "Scaffold (D)", description = "Detects impossible block placements using ray tracing.")
+@CheckInfo(name = "Scaffold (D)", description = "Fejlett sugárkövetéses ellenőrzés lehetetlen blokk elhelyezések észlelésére.")
 public class ScaffoldD extends Check {
 
-    private static final double MAX_REACH = 5.0;
-    private static final double BUFFER_LIMIT = 5.0;
-    private static final double POINT_SCALE = 0.1;
+    private static final double MAX_REACH = 5.5;
+    private static final int BUFFER_LIMIT = 5;
+    private static final double POINT_SCALE = 0.01;
 
-    private double buffer = 0.0;
+    private int buffer = 0;
     private Block lastPlacedBlock = null;
 
     public ScaffoldD(PlayerData data) {
@@ -29,51 +30,64 @@ public class ScaffoldD extends Check {
 
     @Override
     public void handle(Packet packet) {
-        Player player = data.getPlayer();
-
         if (packet.isBlockPlace()) {
+            Player player = data.getPlayer();
             Location eyeLocation = player.getEyeLocation();
             Vector direction = eyeLocation.getDirection();
             
             RayTrace rayTrace = new RayTrace(player, eyeLocation, direction, MAX_REACH, POINT_SCALE);
             RayTraceResult result = rayTrace.trace();
 
-            if (lastPlacedBlock != null && lastPlacedBlock.getType() != Material.AIR) {
-                Location blockLocation = lastPlacedBlock.getLocation();
-                
-                boolean validPlacement = false;
+            Block placedBlock = getTargetBlock(player, MAX_REACH);
 
-                if (result.getHitType() == RayTraceResult.HitType.BLOCK) {
-                    Location hitLocation = result.getHitLocation();
-                    if (hitLocation.getBlock().equals(lastPlacedBlock)) {
-                        validPlacement = true;
-                    }
-                } else {
-                    validPlacement = false;
-                }
+            if (placedBlock != null && placedBlock.getType() != Material.AIR) {
+                Location blockLocation = placedBlock.getLocation();
+                
+                boolean validPlacement = checkValidPlacement(result, placedBlock);
 
                 if (!validPlacement && !isExempt(ExemptType.TELEPORT, ExemptType.INSIDE_VEHICLE)) {
-                    buffer += 1.0;
+                    buffer++;
 
                     if (buffer > BUFFER_LIMIT) {
-                        fail(String.format("Impossible block placement. Block: %s, RayTrace: %s", 
-                                           blockLocation.toVector(), result.getHitLocation() != null ? result.getHitLocation().toVector() : "No hit"));
+                        Location hitLoc = result.getHitLocation();
+                        fail("Lehetetlen blokk elhelyezés.");
                         buffer = BUFFER_LIMIT / 2;
                     }
                 } else {
-                    buffer = Math.max(0, buffer - 0.5);
+                    buffer = Math.max(0, buffer - 1);
                 }
 
-                debug(String.format("Block: %s, RayTrace: %s, Valid: %b, Buffer: %.2f", 
-                                    blockLocation.toVector(), 
-                                    result.getHitLocation() != null ? result.getHitLocation().toVector() : "No hit", 
-                                    validPlacement, 
-                                    buffer));
+                Location hitLoc = result.getHitLocation();
+                debug("Blokk: %.2f, %.2f, %.2f, Sugárkövetés: %.2f, %.2f, %.2f, Érvényes: %b, Buffer: %d", 
+                      blockLocation.getX(), blockLocation.getY(), blockLocation.getZ(),
+                      hitLoc != null ? hitLoc.getX() : 0, 
+                      hitLoc != null ? hitLoc.getY() : 0, 
+                      hitLoc != null ? hitLoc.getZ() : 0,
+                      validPlacement, 
+                      buffer);
             }
 
-            // Store the placed block for the next check
-            lastPlacedBlock = getTargetBlock(player, MAX_REACH);
+            lastPlacedBlock = placedBlock;
         }
+    }
+
+    private boolean checkValidPlacement(RayTraceResult result, Block placedBlock) {
+        if (result.getHitType() == RayTraceResult.HitType.BLOCK) {
+            Location hitLocation = result.getHitLocation();
+            Block hitBlock = hitLocation.getBlock();
+            
+            return hitBlock.equals(placedBlock) || isNeighbor(hitBlock, placedBlock);
+        }
+        return false;
+    }
+
+    private boolean isNeighbor(Block block1, Block block2) {
+        for (BlockFace face : BlockFace.values()) {
+            if (block1.getRelative(face).equals(block2)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private Block getTargetBlock(Player player, double maxDistance) {

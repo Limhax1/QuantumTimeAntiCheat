@@ -12,7 +12,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-@CheckInfo(name = "Speed (A)", description = "Backup check to avoid being bypassed by damage, etc.")
+@CheckInfo(name = "Speed (A)", description = "Checks for Speed.")
 public final class SpeedA extends Check {
 
     public SpeedA(final PlayerData data) {
@@ -25,6 +25,10 @@ public final class SpeedA extends Check {
             final double speed = data.getPositionProcessor().getDeltaXZ();
             debug("Speed " + speed);
             if(speed > 0.65 && !data.getPlayer().hasPotionEffect(PotionEffectType.SPEED) && !isExempt(ExemptType.FLYING, ExemptType.VELOCITY, ExemptType.TELEPORT, ExemptType.SLIME, ExemptType.PISTON, ExemptType.UNDER_BLOCK, ExemptType.ICE)) {
+                fail("Going too Quick " + speed);
+            }
+
+            if(speed > 1.5) {
                 fail("Going too Quick " + speed);
             }
         }
