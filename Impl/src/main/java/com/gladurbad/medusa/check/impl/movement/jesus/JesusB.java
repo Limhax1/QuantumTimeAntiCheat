@@ -2,46 +2,74 @@ package com.gladurbad.medusa.check.impl.movement.jesus;
 
 import com.gladurbad.api.check.CheckInfo;
 import com.gladurbad.medusa.check.Check;
+import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
-import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 
-@CheckInfo(name = "Jesus (B)", description = "Checks for going too quick in water / lava")
+@CheckInfo(name = "Jesus (B)", description = "Checks for abnormal jumps and speed over water", experimental = true)
 public class JesusB extends Check {
+
+    private static final double MAX_JUMP_HEIGHT = 0.12;
+    private static final double MAX_WATER_SPEED = 0.16;
+    private static final int WATER_CHECK_DEPTH = 4;
+    private double buffer;
+    private static final double MAX_BUFFER = 1;
+    private static final double BUFFER_DECREMENT = 0;
+    private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
 
     public JesusB(final PlayerData data) {
         super(data);
     }
 
-    double BUFFER;
-    double MAX_BUFFER = 3;
-
     @Override
     public void handle(Packet packet) {
-        if(packet.isPosition() || packet.isPosLook()) {
-            final double speed = data.getPositionProcessor().getDeltaXZ();
-            boolean posAir = data.getPlayer().getLocation().getBlock().isEmpty();
-            boolean isExempt = isExempt(ExemptType.VELOCITY);
+        if (packet.isFlying()) {
+            final Location location = data.getPlayer().getLocation();
+            final double deltaY = data.getPositionProcessor().getDeltaY();
+            final double deltaXZ = data.getPositionProcessor().getDeltaXZ();
 
-            debug("Speed: " + speed);
-
-            if(data.getPlayer().getLocation().getBlock().isLiquid() && speed > 0.2 && !isExempt) {
-                if(BUFFER++ > MAX_BUFFER) {
-                    fail("Going too quick in liquids; " + speed);
-                    BUFFER = 0;
+            if (isOverWater(location) && !isNearSolidBlock(location)) {
+                if (deltaY > MAX_JUMP_HEIGHT || deltaY < -0.7 || deltaXZ > MAX_WATER_SPEED) {
+                    if ((buffer += 1) >= MAX_BUFFER) {
+                        if(setback.getBoolean()) {
+                            setback();
+                        }
+                        fail("Abnormal movement over liquids: DY=" + deltaY + ", DXZ=" + deltaXZ);
+                        buffer = 0;
+                    }
+                } else {
+                    buffer = Math.max(0, buffer - BUFFER_DECREMENT);
                 }
             } else {
-                BUFFER = Math.max(0, BUFFER - 1);
+                buffer = Math.max(0, buffer - BUFFER_DECREMENT);
             }
 
-            if(data.getPlayer().getLocation().add(0, -1, 0).getBlock().isLiquid() && posAir && speed > 0.2 && !isExempt) {
-                if(BUFFER++ > MAX_BUFFER) {
-                    fail("Going too quick on liquids; " + speed);
-                    BUFFER = 0;
-                } else {
-                    BUFFER = Math.max(0, BUFFER - 8);
+            debug("DY: " + deltaY + " DXZ: " + deltaXZ + " Buffer: " + buffer);
+        }
+    }
+
+    private boolean isOverWater(Location location) {
+        for (int i = 0; i < WATER_CHECK_DEPTH; i++) {
+            Block block = location.clone().subtract(0, i, 0).getBlock();
+            if (block.getType() != Material.WATER && block.getType() != Material.STATIONARY_WATER) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isNearSolidBlock(Location location) {
+        for (double x = -0.3; x <= 0.3; x += 0.3) {
+            for (double z = -0.3; z <= 0.3; z += 0.3) {
+                Block block = location.clone().add(x, -0.1, z).getBlock();
+                if (block.getType().isSolid()) {
+                    return true;
                 }
             }
         }
+        return false;
     }
 }
