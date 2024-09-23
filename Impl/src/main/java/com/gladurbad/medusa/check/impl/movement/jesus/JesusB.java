@@ -12,12 +12,13 @@ import org.bukkit.block.Block;
 @CheckInfo(name = "Jesus (B)", description = "Checks for abnormal jumps and speed over water", experimental = true)
 public class JesusB extends Check {
 
-    private static final double MAX_JUMP_HEIGHT = 0.12;
-    private static final double MAX_WATER_SPEED = 0.16;
+    private static double MAX_JUMP_HEIGHT = 0.12;
+    private static final double MAX_WATER_SPEED = 0.26;
     private static final int WATER_CHECK_DEPTH = 4;
-    private double buffer;
-    private static final double MAX_BUFFER = 1;
-    private static final double BUFFER_DECREMENT = 0;
+    private double speedBuffer;
+    private double verticalBuffer;
+    private static final double MAX_BUFFER = 2;
+    private static final double BUFFER_DECREMENT = 0.25;
     private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
 
     public JesusB(final PlayerData data) {
@@ -31,23 +32,44 @@ public class JesusB extends Check {
             final double deltaY = data.getPositionProcessor().getDeltaY();
             final double deltaXZ = data.getPositionProcessor().getDeltaXZ();
 
+            if(isNearSolidBlock(location)) {
+                MAX_JUMP_HEIGHT = 0.42;
+            } else {
+                MAX_JUMP_HEIGHT = 0.12;
+            }
+
             if (isOverWater(location) && !isNearSolidBlock(location)) {
-                if (deltaY > MAX_JUMP_HEIGHT || deltaY < -0.7 || deltaXZ > MAX_WATER_SPEED) {
-                    if ((buffer += 1) >= MAX_BUFFER) {
+                if (deltaY > MAX_JUMP_HEIGHT || deltaY < -0.7) {
+                    if ((verticalBuffer += 1) > MAX_BUFFER) {
                         if(setback.getBoolean()) {
                             setback();
                         }
-                        fail("Abnormal movement over liquids: DY=" + deltaY + ", DXZ=" + deltaXZ);
-                        buffer = 0;
+                        fail("Abnormal vertical movement over liquids: DY=" + deltaY);
+                        verticalBuffer = 0;
                     }
                 } else {
-                    buffer = Math.max(0, buffer - BUFFER_DECREMENT);
+                    verticalBuffer = Math.max(0, verticalBuffer - BUFFER_DECREMENT);
+                }
+
+                if (deltaXZ > MAX_WATER_SPEED) {
+                    if ((speedBuffer += 1) > MAX_BUFFER) {
+                        if(setback.getBoolean()) {
+                            setback();
+                        }
+                        fail("Abnormal horizontal movement over liquids: DXZ=" + deltaXZ);
+                        speedBuffer = 0;
+                    }
+                } else {
+                    speedBuffer = Math.max(0, speedBuffer - BUFFER_DECREMENT);
                 }
             } else {
-                buffer = Math.max(0, buffer - BUFFER_DECREMENT);
+                verticalBuffer = Math.max(0, verticalBuffer - BUFFER_DECREMENT);
+                speedBuffer = Math.max(0, speedBuffer - BUFFER_DECREMENT);
             }
 
-            debug("DY: " + deltaY + " DXZ: " + deltaXZ + " Buffer: " + buffer);
+            debug("DY: " + deltaY + " DXZ: " + deltaXZ + 
+                  " VerticalBuffer: " + verticalBuffer + 
+                  " SpeedBuffer: " + speedBuffer);
         }
     }
 
