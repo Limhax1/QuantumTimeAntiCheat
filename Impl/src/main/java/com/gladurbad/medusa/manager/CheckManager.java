@@ -14,16 +14,10 @@ import com.gladurbad.medusa.check.impl.combat.killaura.*;
 import com.gladurbad.medusa.check.impl.combat.reach.ReachC;
 import com.gladurbad.medusa.check.impl.combat.velocity.VelocityA;
 import com.gladurbad.medusa.check.impl.combat.velocity.VelocityB;
-import com.gladurbad.medusa.check.impl.movement.fly.FlyA;
-import com.gladurbad.medusa.check.impl.movement.fly.FlyB;
-import com.gladurbad.medusa.check.impl.movement.fly.FlyC;
-import com.gladurbad.medusa.check.impl.movement.fly.FlyD;
+import com.gladurbad.medusa.check.impl.movement.fly.*;
 import com.gladurbad.medusa.check.impl.movement.jesus.JesusA;
 import com.gladurbad.medusa.check.impl.movement.jesus.JesusB;
-import com.gladurbad.medusa.check.impl.movement.motion.SpeedA;
-import com.gladurbad.medusa.check.impl.movement.motion.SpeedB;
-import com.gladurbad.medusa.check.impl.movement.motion.SpeedC;
-import com.gladurbad.medusa.check.impl.movement.motion.SpeedD;
+import com.gladurbad.medusa.check.impl.movement.motion.*;
 import com.gladurbad.medusa.check.impl.movement.phase.PhaseA;
 import com.gladurbad.medusa.check.impl.player.Scaffold.ScaffoldA;
 import com.gladurbad.medusa.check.impl.player.Scaffold.ScaffoldB;
@@ -71,6 +65,7 @@ public final class CheckManager {
             FlyB.class,
             FlyC.class,
             FlyD.class,
+            FlyE.class,
             PhaseA.class,
             HandA.class,
             ScaffoldA.class,

@@ -2,6 +2,7 @@ package com.gladurbad.medusa.check.impl.movement.motion;
 
 import com.gladurbad.api.check.CheckInfo;
 import com.gladurbad.medusa.check.Check;
+import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.data.processor.PositionProcessor;
 import com.gladurbad.medusa.exempt.type.ExemptType;
@@ -14,7 +15,7 @@ import org.bukkit.potion.PotionEffectType;
 
 @CheckInfo(name = "Speed (C)", description = "Checks for invalid Y motions.", experimental = true)
 public class SpeedC extends Check {
-
+    private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
     private static final int JUMP_THRESHOLD = 2;
     private static final double EPSILON = 1E-13;
 
@@ -34,14 +35,14 @@ public class SpeedC extends Check {
             boolean onGround = positionProcessor.isOnGround();
             boolean lastOnGround = positionProcessor.isLastOnGround();
             double deltaY = positionProcessor.getDeltaY();
-            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.VELOCITY, ExemptType.SLIME, ExemptType.FLYING, ExemptType.UNDER_BLOCK, ExemptType.LIQUID);
+            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.VELOCITY, ExemptType.SLIME, ExemptType.FLYING, ExemptType.UNDER_BLOCK, ExemptType.LIQUID, ExemptType.PISTON);
 
             if (!onGround && lastOnGround && deltaY > 0 && !exempt) {
                 // A játékos éppen ugrott
                 double expectedYMotion = getExpectedYMotion(data.getPlayer());
                 
                 if (deltaY > expectedYMotion && isNearStairOrSlab(data.getPlayer())) {
-                    expectedYMotion += 0.5;
+                    expectedYMotion = deltaY;
                 }
 
                 if (Math.abs(deltaY - expectedYMotion) < EPSILON) {
@@ -50,6 +51,9 @@ public class SpeedC extends Check {
                     sameMotionCount++;
                     if (sameMotionCount >= JUMP_THRESHOLD) {
                         if (++buffer > 3) {
+                            if(setback.getBoolean()) {
+                                setback();
+                            }
                             fail("Repeated Y motion, DY " + deltaY  + " Expected " + expectedYMotion + " Times Repeated " + sameMotionCount);
                             buffer = 0;
                         }
@@ -63,10 +67,14 @@ public class SpeedC extends Check {
                 debug("Y motion: %.4f, Várt: %.4f, Számláló: %d, Buffer: %d", deltaY, expectedYMotion, sameMotionCount, buffer);
                 
                 if (deltaY > expectedYMotion && !isExempt(ExemptType.SLIME)) {
-                    setback();
+                    if(setback.getBoolean()) {
+                        setback();
+                    }
                     fail("Jumped too high: " + deltaY + ", Expected: " + expectedYMotion);
                 } else if (deltaY < expectedYMotion * 0.99 && !isExempt(ExemptType.SLIME, ExemptType.VELOCITY)) {
-                    setback();
+                    if(setback.getBoolean()) {
+                        setback();
+                    }
                     fail("Jumped too low: " + deltaY + ", Expected: " + expectedYMotion);
                 }
             } else if (onGround) {

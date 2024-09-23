@@ -12,7 +12,7 @@ import org.bukkit.util.Vector;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-@CheckInfo(name = "AimAssist (D)", description = "Advanced aim analysis for killaura and aimbot detection.", experimental = true)
+@CheckInfo(name = "AimAssist (D)", description = "Checks for consistent aiming.", experimental = true)
 public class AimAssistD extends Check {
 
     private static final int SAMPLE_SIZE = 20;

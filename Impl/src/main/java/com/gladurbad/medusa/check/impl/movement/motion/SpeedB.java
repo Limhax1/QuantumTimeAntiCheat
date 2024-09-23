@@ -2,6 +2,7 @@ package com.gladurbad.medusa.check.impl.movement.motion;
 
 import com.gladurbad.api.check.CheckInfo;
 import com.gladurbad.medusa.check.Check;
+import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
@@ -13,7 +14,7 @@ import org.bukkit.potion.PotionEffectType;
 
 @CheckInfo(name = "Speed (B)", description = "Checks for Speed.")
 public final class SpeedB extends Check {
-
+    private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
     private static final double MAX_BUFFER = 5.0;
     private static final double BUFFER_DECAY = 0.25;
     private static final double JUMP_BOOST = 0.42;
@@ -67,7 +68,9 @@ public final class SpeedB extends Check {
                 }
 
                 if (buffer > MAX_BUFFER && !Exempt) {
-                    setback();
+                    if(setback.getBoolean()) {
+                        setback();
+                    }
                     fail(String.format("Going too quick - deltaXZ=%.2f, expectedSpeed=%.2f, buffer=%.2f",
                             deltaXZ, expectedSpeed, buffer));
                     buffer = 0;
@@ -101,9 +104,9 @@ public final class SpeedB extends Check {
     }
 
     private boolean isNearStairOrSlab(Player player) {
-        int radius = 1; // Ellenőrzési sugár (blokkok száma)
+        int radius = 1;
         for (int x = -radius; x <= radius; x++) {
-            for (int y = -1; y <= 1; y++) { // Ellenőrizzük a játékos alatt és felett is
+            for (int y = -1; y <= 1; y++) {
                 for (int z = -radius; z <= radius; z++) {
                     Block block = player.getLocation().add(x, y, z).getBlock();
                     Material type = block.getType();

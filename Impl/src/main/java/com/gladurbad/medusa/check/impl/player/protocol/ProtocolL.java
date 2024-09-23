@@ -27,7 +27,7 @@ public final class ProtocolL extends Check {
             return;
         }
 
-        boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.NEAR_VEHICLE, ExemptType.JOINED);
+        boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.NEAR_VEHICLE, ExemptType.JOINED, ExemptType.PISTON, ExemptType.SLIME);
 
         if (exempt) return;
 

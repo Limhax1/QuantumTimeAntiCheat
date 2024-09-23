@@ -2,6 +2,7 @@ package com.gladurbad.medusa.check.impl.player.Scaffold;
 
 import com.gladurbad.api.check.CheckInfo;
 import com.gladurbad.medusa.check.Check;
+import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
@@ -17,6 +18,7 @@ import java.util.LinkedList;
 
 @CheckInfo(name = "Scaffold (A)", description = "Detects suspicious block placement patterns and timings.")
 public class ScaffoldA extends Check {
+    private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
 
     private final Deque<Long> placeTimes = new LinkedList<>();
     private final int SAMPLE_SIZE = 20;
@@ -53,6 +55,9 @@ public class ScaffoldA extends Check {
                 if (timeDiff < MIN_PLACE_DELAY) {
                     buffer += 0.5;
                     if (buffer > 5) {
+                        if(setback.getBoolean()) {
+                            setback();
+                        }
                         fail("Suspicious block placement timing. TimeDiff: " + timeDiff);
                     }
                 } else {

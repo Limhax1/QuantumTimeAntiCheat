@@ -2,6 +2,7 @@ package com.gladurbad.medusa.check.impl.movement.fly;
 
 import com.gladurbad.medusa.check.Check;
 import com.gladurbad.api.check.CheckInfo;
+import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
@@ -17,6 +18,7 @@ public final class FlyB extends Check {
     private double lastAcceleration;
     private final LinkedList<Double> verticalMoves = new LinkedList<>();
     private static final int MOVE_HISTORY_SIZE = 20;
+    private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
 
     double BUFFER;
     double MAX_BUFFER = 2;
@@ -64,7 +66,9 @@ public final class FlyB extends Check {
 
                     if(!(DY - prediction < 0.2) && lastDeltaY > 0 && DY != 0 && !isExempt(ExemptType.PISTON)) {
                         if(BUFFER++ > MAX_BUFFER) {
-                            setback();
+                            if(setback.getBoolean()) {
+                                setback();
+                            }
                             fail("Gravity prediction " + (DY - prediction));
                         } else {
                             BUFFER = Math.max(0, BUFFER - BUFFER_DECAY);
@@ -81,6 +85,9 @@ public final class FlyB extends Check {
         if (Math.abs(deltaY) < 0.1 && airTicks > 15) {
             violations++;
             if (violations > 6) {
+                if(setback.getBoolean()) {
+                    setback();
+                }
                 fail("Constant height in air for " + airTicks + " ticks " + Math.abs(deltaY));
             }
         }
@@ -97,6 +104,9 @@ public final class FlyB extends Check {
             if (ascendingMoves > MOVE_HISTORY_SIZE * 0.8) {
                 violations++;
                 if (violations > 1) {
+                    if(setback.getBoolean()) {
+                        setback();
+                    }
                     fail("Continuous ascension for " + ascendingMoves + " out of " + MOVE_HISTORY_SIZE + " moves");
                 }
             }

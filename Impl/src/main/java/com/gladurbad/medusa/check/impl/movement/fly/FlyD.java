@@ -2,6 +2,7 @@ package com.gladurbad.medusa.check.impl.movement.fly;
 
 import com.gladurbad.api.check.CheckInfo;
 import com.gladurbad.medusa.check.Check;
+import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
@@ -12,6 +13,7 @@ public class FlyD extends Check {
     public FlyD(PlayerData data) {
         super(data);
     }
+    private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
 
     @Override
     public void handle(Packet packet) {
@@ -19,8 +21,10 @@ public class FlyD extends Check {
 
             boolean Exempt = isExempt(ExemptType.TELEPORT, ExemptType.JOINED);
 
-            if(data.getPositionProcessor().getDeltaY() > 3) {
-                setback();
+            if(data.getPositionProcessor().getDeltaY() > 4 && !Exempt) {
+                if(setback.getBoolean()) {
+                    setback();
+                }
                 fail("Attempted Vclip " + data.getPositionProcessor().getDeltaY());
             }
         }

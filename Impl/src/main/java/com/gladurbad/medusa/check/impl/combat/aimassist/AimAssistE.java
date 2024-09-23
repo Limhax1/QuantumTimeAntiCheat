@@ -13,13 +13,13 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-@CheckInfo(name = "AimAssist (E)", description = "Detects aimbots that adjust rotation speed based on target distance." , experimental = true)
+@CheckInfo(name = "AimAssist (E)", description = "Checks for Rotation speed flaws." , experimental = true)
 public class AimAssistE extends Check {
 
-    private static final int SAMPLE_SIZE = 35;
-    private static final double SPEED_DISTANCE_RATIO_THRESHOLD = 1.48;
-    private static final double BUFFER_LIMIT = 10;
-    private static final double MIN_ROTATION_THRESHOLD = 2.5;
+    private static final int SAMPLE_SIZE = 80;
+    private static final double SPEED_DISTANCE_RATIO_THRESHOLD = 1.495;
+    private static final double BUFFER_LIMIT = 35;
+    private static final double MIN_ROTATION_THRESHOLD = 3;
     private static final double MAX_DISTANCE = 8.0;
     private static final double YAW_WEIGHT = 1;
     private static final double PITCH_WEIGHT = 0.25;
@@ -79,6 +79,7 @@ public class AimAssistE extends Check {
                         if (buffer > BUFFER_LIMIT) {
                             fail(String.format("Suspicious rotation pattern. Ratio: %.2f, ConsistentPatterns: %d", speedDistanceRatio, consistentPatternCount));
                             buffer = 0;
+                            rotationSpeeds.clear();
                         }
                     } else {
                         buffer = Math.max(0, buffer - 0.75);

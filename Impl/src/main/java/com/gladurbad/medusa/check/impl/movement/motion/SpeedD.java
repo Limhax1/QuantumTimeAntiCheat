@@ -2,6 +2,7 @@ package com.gladurbad.medusa.check.impl.movement.motion;
 
 import com.gladurbad.api.check.CheckInfo;
 import com.gladurbad.medusa.check.Check;
+import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
@@ -19,6 +20,7 @@ public class SpeedD extends Check {
     public SpeedD(PlayerData data) {
         super(data);
     }
+    private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
 
     @Override
     public void handle(Packet packet) {
@@ -33,7 +35,9 @@ public class SpeedD extends Check {
                     
                     if (deltaY < expectedMaxFallSpeed && data.getPositionProcessor().getAirTicks() < 4) {
                         if (++buffer > BUFFER_LIMIT) {
-                            setback();
+                            if(setback.getBoolean()) {
+                                setback();
+                            }
                             fail("Falling too quick. DeltaY: " + deltaY + ", Expected max: " + expectedMaxFallSpeed);
                         }
                     } else {

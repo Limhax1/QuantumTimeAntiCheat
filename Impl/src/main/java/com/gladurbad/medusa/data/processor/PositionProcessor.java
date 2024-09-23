@@ -22,17 +22,15 @@ import io.github.retrooper.packetevents.utils.vector.Vector3d;
 import lombok.Getter;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.material.Stairs;
 import org.bukkit.material.Step;
 import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
-import java.util.Deque;
-import java.util.Map;
+
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.FutureTask;
 import java.util.function.Predicate;
 
@@ -41,9 +39,9 @@ public final class PositionProcessor {
 
     private final PlayerData data;
 
-    private Map<Integer, Deque<LocationVector>> recentPlayerMoves = createCache(TimeUnit.HOURS.toMillis(1L), null);   
+    private Map<Integer, Deque<LocationVector>> recentPlayerMoves = createCache(TimeUnit.HOURS.toMillis(1L), null);
 
-    private Map<Integer, Pair<Boolean, Location>> recentPositions = createCache(null, TimeUnit.MINUTES.toMillis(10L));   
+    private Map<Integer, Pair<Boolean, Location>> recentPositions = createCache(null, TimeUnit.MINUTES.toMillis(10L));
 
     private final double divider = ServerVersion.getVersion().isNewerThan(ServerVersion.v_1_8_3) ? 4096.0 : 32.0;
 
@@ -69,8 +67,10 @@ public final class PositionProcessor {
 
     private final List<Block> blocks = new ArrayList<>();
 
+    private LinkedList<Location> recentGroundLocations = new LinkedList<>();
+    private static final int MAX_GROUND_LOCATIONS = 200;
+    private static final long SETBACK_DURATION = 50; // 50ms
     private long setbackTime = 0;
-    private static final long SETBACK_DURATION = 100;
 
     public PositionProcessor(final PlayerData data) {
         this.data = data;
@@ -81,7 +81,8 @@ public final class PositionProcessor {
         World playerWorld = data.getPlayer().getWorld();
         Vector3d postision = wrapper.getPosition();
         Location bukkitLocation = new Location(playerWorld, postision.getX(), postision.getY(), postision.getZ());
-        Pair<Boolean, Location> pair = new Pair<Boolean,Location>(mathematicallyOnGround, bukkitLocation);
+
+        Pair<Boolean, Location> pair = new Pair<Boolean,Location>( postision.getY() % 0.015625 == 0.0 && groundTicks > 2, bukkitLocation);
         recentPositions.put(tick, pair);
     }
 
@@ -91,7 +92,34 @@ public final class PositionProcessor {
             return;
         }
         setbackTime = currentTime;
-        data.getPlayer().teleport(data.getPlayer().getLocation());
+
+        Location playerLocation = data.getPlayer().getLocation();
+        Location bestLocation = null;
+        double shortestDistance = Double.MAX_VALUE;
+
+        for (Location location : recentGroundLocations) {
+            double distance = location.distanceSquared(playerLocation);
+            if (distance < shortestDistance && isValidGroundLocation(location)) {
+                shortestDistance = distance;
+                bestLocation = location;
+            }
+        }
+
+        if (bestLocation != null) {
+
+            float yaw = data.getRotationProcessor().getYaw();
+            float pitch = data.getRotationProcessor().getPitch();
+            bestLocation.setYaw(yaw);
+            bestLocation.setPitch(pitch);
+            data.getPlayer().teleport(bestLocation);
+        } else {
+            float yaw = data.getRotationProcessor().getYaw();
+            float pitch = data.getRotationProcessor().getPitch();
+            Location loc = data.getPlayer().getLocation();
+            loc.setYaw(yaw);
+            loc.setPitch(pitch);
+            data.getPlayer().teleport(loc);
+        }
     }
 
     public void handle(final double x, final double y, final double z, final boolean onGround) {
@@ -144,6 +172,16 @@ public final class PositionProcessor {
         }
 
         mathematicallyOnGround = y % 0.015625 == 0.0;
+
+        if (onGround && mathematicallyOnGround) {
+            Location currentLocation = new Location(data.getPlayer().getWorld(), x, y, z);
+            if (isValidGroundLocation(currentLocation)) {
+                recentGroundLocations.addFirst(currentLocation);
+                if (recentGroundLocations.size() > MAX_GROUND_LOCATIONS) {
+                    recentGroundLocations.removeLast();
+                }
+            }
+        }
     }
 
     public void handleTicks() {
@@ -215,7 +253,12 @@ public final class PositionProcessor {
 
 
     public void handleVehicle() {
-        nearVehicle = PlayerUtil.isNearVehicle(data.getPlayer());
+        try {
+            nearVehicle = PlayerUtil.isNearVehicle(data.getPlayer());
+        } catch (NoSuchElementException e) {
+            // Kezeljük a kivételt, és állítsuk be a nearVehicle értékét false-ra
+            nearVehicle = false;
+        }
     }
 
     public void handleServerPosition(final WrappedPacketOutPosition wrapper) {
@@ -269,7 +312,7 @@ public final class PositionProcessor {
         }
     }
 
-    
+
     public void handleOutgoingPacket(final Packet packet) {
         long currentTimeMillis = System.currentTimeMillis();
         if (packet.getPacketId() == PacketType.Play.Server.NAMED_ENTITY_SPAWN) {
@@ -298,7 +341,7 @@ public final class PositionProcessor {
         }
     }
 
-        
+
     public LocationVector move(final LocationVector customLocation, final LocationVector origin) {
         return customLocation.add(new LocationVector(origin.getX() / this.divider, origin.getY() / this.divider, origin.getZ() / this.divider));
     }
@@ -313,6 +356,12 @@ public final class PositionProcessor {
             cacheBuilder.expireAfterWrite(l2.longValue(), TimeUnit.MILLISECONDS);
         }
         return cacheBuilder.build().asMap();
+    }
+
+    private boolean isValidGroundLocation(Location location) {
+        return location.getBlock().getRelative(BlockFace.DOWN).getType().isSolid() &&
+               location.getBlock().getType().isTransparent() &&
+               location.getBlock().getRelative(BlockFace.UP).getType().isTransparent();
     }
 
     public enum CollisionType {

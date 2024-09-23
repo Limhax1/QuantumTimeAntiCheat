@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-@CheckInfo(name = "AimAssist (F)", description = "Detects suspicious aiming behavior based on GCD errors and aim patterns.", experimental = true)
+@CheckInfo(name = "AimAssist (F)", description = "Checks for invalid GCD.", experimental = true)
 public class AimAssistF extends Check {
 
     private static final int SAMPLE_SIZE = 25;
