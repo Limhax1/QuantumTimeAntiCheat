@@ -71,6 +71,7 @@ public final class CheckManager {
             SpeedC.class,
             SpeedD.class,
             SpeedE.class,
+            SpeedF.class,
             JesusA.class,
             JesusB.class,
             ProtocolA.class,

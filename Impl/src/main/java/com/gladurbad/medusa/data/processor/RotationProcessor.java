@@ -4,6 +4,7 @@ import com.gladurbad.medusa.util.MathUtil;
 import lombok.Getter;
 import com.gladurbad.medusa.Medusa;
 import com.gladurbad.medusa.data.PlayerData;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayDeque;
 import java.util.Collection;
@@ -101,5 +102,13 @@ public final class RotationProcessor {
 
             sensitivitySamples.clear();
         }
+    }
+
+    public float getMovementAngle() {
+        final double deltaX = this.data.getPositionProcessor().getDeltaX();
+        final double deltaZ = this.data.getPositionProcessor().getDeltaZ();
+        final Vector movement = new Vector(deltaX, 0.0, deltaZ);
+        final Vector direction = new Vector(-Math.sin(this.yaw * 3.1415927f / 180.0f) * 1.0 * 0.5, 0.0, Math.cos(this.yaw * 3.1415927f / 180.0f) * 1.0 * 0.5);
+        return movement.angle(direction);
     }
 }

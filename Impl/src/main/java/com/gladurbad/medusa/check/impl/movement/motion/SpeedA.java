@@ -33,7 +33,7 @@ public final class SpeedA extends Check {
                 fail("Going too Quick " + speed);
             }
 
-            if(speed > 1.5 && !isExempt(ExemptType.FLYING, ExemptType.TELEPORT, ExemptType.SLIME, ExemptType.PISTON, ExemptType.UNDER_BLOCK, ExemptType.ICE, ExemptType.JOINED)) {
+            if(speed > 1.2 && !isExempt(ExemptType.FLYING, ExemptType.TELEPORT, ExemptType.SLIME, ExemptType.PISTON, ExemptType.UNDER_BLOCK, ExemptType.ICE, ExemptType.JOINED)) {
                 if(setback.getBoolean()) {
                     setback();
                 }

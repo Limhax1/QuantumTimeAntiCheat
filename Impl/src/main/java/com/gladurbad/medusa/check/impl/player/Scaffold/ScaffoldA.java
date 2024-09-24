@@ -4,40 +4,28 @@ import com.gladurbad.api.check.CheckInfo;
 import com.gladurbad.medusa.check.Check;
 import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
-import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
+import com.gladurbad.medusa.util.raytrace.RayTrace;
+import com.gladurbad.medusa.util.raytrace.RayTraceResult;
+import io.github.retrooper.packetevents.packetwrappers.play.in.blockplace.WrappedPacketInBlockPlace;
+import io.github.retrooper.packetevents.utils.vector.Vector3i;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.Set;
 
-@CheckInfo(name = "Scaffold (A)", description = "Detects suspicious block placement patterns and timings.")
+@CheckInfo(name = "Scaffold (A)", description = "Checks for Invalid yaw/pitch when bridging.")
 public class ScaffoldA extends Check {
     private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
-
-    private final Deque<Long> placeTimes = new LinkedList<>();
-    private final Deque<Double> yawChanges = new LinkedList<>();
-    private final Deque<Double> pitchChanges = new LinkedList<>();
-
-    private static final int SAMPLE_SIZE = 15;
-    private static final double MAX_YAW_CHANGE = 18.0; // Csökkentve 20.0-ról
-    private static final double MAX_PITCH_CHANGE = 18.0; // Csökkentve 20.0-ról
-    private static final long MIN_PLACE_DELAY = 35; // Csökkentve 40-ről
-    private static final double MAX_REACH = 4.5;
-
-    private long lastPlaceTime = 0;
-    private float lastYaw = 0;
-    private float lastPitch = 0;
-    private double buffer = 0;
-    private int consistentPlacements = 0;
-
     public boolean placedBlock;
+    private long lastSwingTime;
+    private static final long SWING_TIMEOUT = 500;
+    private static final double MAX_PLACE_DISTANCE = 4.5;
+    private Location lastPlacedBlockLocation;
 
     public ScaffoldA(PlayerData data) {
         super(data);
@@ -46,49 +34,46 @@ public class ScaffoldA extends Check {
     @Override
     public void handle(final Packet packet) {
         if (packet.isFlying()) {
-            if (placedBlock && isBridging()) {
-                long now = System.currentTimeMillis();
-                long delay = now - lastPlaceTime;
-
-                float yaw = data.getPlayer().getLocation().getYaw();
-                float pitch = data.getPlayer().getLocation().getPitch();
-
-                double yawChange = Math.abs(yaw - lastYaw);
-                double pitchChange = Math.abs(pitch - lastPitch);
-
-                placeTimes.addLast(delay);
-                yawChanges.addLast(yawChange);
-                pitchChanges.addLast(pitchChange);
-
-                if (placeTimes.size() > SAMPLE_SIZE) {
-                    placeTimes.removeFirst();
-                    yawChanges.removeFirst();
-                    pitchChanges.removeFirst();
-                }
-
-                if (delay < MIN_PLACE_DELAY && yawChange < MAX_YAW_CHANGE && pitchChange < MAX_PITCH_CHANGE) {
-                    consistentPlacements++;
-                } else {
-                    consistentPlacements = 0;
-                }
-
-                if (consistentPlacements > SAMPLE_SIZE) {
-                    fail("Scaffold detected: consistent block placements with minimal yaw/pitch changes.");
-                    if (setback.getBoolean()) {
-                        setback();
-                    }
-                    consistentPlacements = 0;
-                }
-
-                lastPlaceTime = now;
-                lastYaw = yaw;
-                lastPitch = pitch;
-            }
             placedBlock = false;
+            lastPlacedBlockLocation = null;
         } else if (packet.isBlockPlace()) {
-            if (data.getPlayer().getItemInHand().getType().isBlock()) {
-                placedBlock = true;
+            WrappedPacketInBlockPlace wrappedPacket = new WrappedPacketInBlockPlace(packet.getRawPacket());
+            Vector3i blockPosition = wrappedPacket.getBlockPosition();
+            Block placedBlock = data.getPlayer().getWorld().getBlockAt(blockPosition.getX(), blockPosition.getY(), blockPosition.getZ());
+            Player player = data.getPlayer();
+
+            if (player.getItemInHand().getType().isBlock()) {
+                Material handMaterial = player.getItemInHand().getType();
+                Material blockMaterial = placedBlock.getType();
+
+                boolean recentSwing = (System.currentTimeMillis() - lastSwingTime) <= SWING_TIMEOUT;
+                if (blockMaterial == handMaterial && recentSwing) {
+                    this.placedBlock = true;
+                    lastPlacedBlockLocation = placedBlock.getLocation();
+
+                    Location eyeLocation = player.getEyeLocation();
+                    Vector direction = eyeLocation.getDirection();
+                    RayTrace rayTrace = new RayTrace(player, eyeLocation, direction, MAX_PLACE_DISTANCE, 0.05);
+                    RayTraceResult result = rayTrace.trace();
+
+                    if (result.getHitType() == RayTraceResult.HitType.BLOCK &&
+                        result.getHitLocation().getBlock().equals(placedBlock)) {
+                        debug("Block placed legitimately at: " + lastPlacedBlockLocation + ", Material: " + blockMaterial);
+                    } else {
+                        fail("RayTrace fail (distance: " +
+                             String.format("%.2f", result.getDistance()) + ")");
+                        if (setback.getBoolean()) {
+                            player.teleport(player.getLocation().subtract(0, 1, 0));
+                        }
+                    }
+                } else {
+                    //debug("Block interaction detected, but not placed or no recent swing. Hand: " + handMaterial +
+                          //", Block: " + blockMaterial + ", Recent swing: " + recentSwing);
+                }
             }
+        } else if (packet.isArmAnimation()) {
+            lastSwingTime = System.currentTimeMillis();
+            //debug("Swing detected at: " + lastSwingTime);
         }
     }
 }
