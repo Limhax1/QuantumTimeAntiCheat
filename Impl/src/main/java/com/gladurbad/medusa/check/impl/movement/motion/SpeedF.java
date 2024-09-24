@@ -43,7 +43,7 @@ public class SpeedF extends Check {
                 double yDifference = currentY - lastY;
                 
                 if (jumpTicks <= 2) {
-                    if (Math.abs(yDifference) < expectedJumpHeight * 0.9 && !exempt) {
+                    if (Math.abs(yDifference) < expectedJumpHeight * 0.6 && !exempt) {
                         fail("Abnormal jumping. Expected DeltaY: " + expectedJumpHeight +
                              ", Real DeltaY: " + yDifference +
                              ", Tick: " + jumpTicks);
