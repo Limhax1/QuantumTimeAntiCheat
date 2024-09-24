@@ -21,7 +21,7 @@ public class SpeedC extends Check {
 
     private double lastMaxYMotion = 0.0;
     private int sameMotionCount = 0;
-    private int buffer = 0;
+    private int buffer = 2;
     private boolean isAscending = false;
 
     public SpeedC(PlayerData data) {

@@ -6,6 +6,7 @@ import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -13,98 +14,81 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.Deque;
-import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 
 @CheckInfo(name = "Scaffold (A)", description = "Detects suspicious block placement patterns and timings.")
 public class ScaffoldA extends Check {
     private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
 
     private final Deque<Long> placeTimes = new LinkedList<>();
-    private final int SAMPLE_SIZE = 20;
-    private final double MAX_ANGLE_CHANGE = 30.0;
-    private final long MIN_PLACE_DELAY = 40L; // milliseconds
+    private final Deque<Double> yawChanges = new LinkedList<>();
+    private final Deque<Double> pitchChanges = new LinkedList<>();
 
-    private Vector lastPlaceDirection;
-    private long lastPlaceTime;
+    private static final int SAMPLE_SIZE = 15;
+    private static final double MAX_YAW_CHANGE = 18.0; // Csökkentve 20.0-ról
+    private static final double MAX_PITCH_CHANGE = 18.0; // Csökkentve 20.0-ról
+    private static final long MIN_PLACE_DELAY = 35; // Csökkentve 40-ről
+    private static final double MAX_REACH = 4.5;
+
+    private long lastPlaceTime = 0;
+    private float lastYaw = 0;
+    private float lastPitch = 0;
+    private double buffer = 0;
+    private int consistentPlacements = 0;
+
+    public boolean placedBlock;
 
     public ScaffoldA(PlayerData data) {
         super(data);
     }
 
     @Override
-    public void handle(Packet packet) {
-        if (packet.isBlockPlace()) {
-            Player player = data.getPlayer();
-            Block placedBlock = player.getTargetBlock((HashSet<Byte>) null, 5);
+    public void handle(final Packet packet) {
+        if (packet.isFlying()) {
+            if (placedBlock && isBridging()) {
+                long now = System.currentTimeMillis();
+                long delay = now - lastPlaceTime;
 
-            if (placedBlock == null || placedBlock.getType() == Material.AIR) return;
+                float yaw = data.getPlayer().getLocation().getYaw();
+                float pitch = data.getPlayer().getLocation().getPitch();
 
-            long currentTime = System.currentTimeMillis();
-            Vector placeDirection = placedBlock.getLocation().toVector().subtract(player.getLocation().toVector());
+                double yawChange = Math.abs(yaw - lastYaw);
+                double pitchChange = Math.abs(pitch - lastPitch);
 
-            // Check placement timing
-            if (lastPlaceTime != 0) {
-                long timeDiff = currentTime - lastPlaceTime;
-                placeTimes.addLast(timeDiff);
+                placeTimes.addLast(delay);
+                yawChanges.addLast(yawChange);
+                pitchChanges.addLast(pitchChange);
 
                 if (placeTimes.size() > SAMPLE_SIZE) {
                     placeTimes.removeFirst();
+                    yawChanges.removeFirst();
+                    pitchChanges.removeFirst();
                 }
 
-                if (timeDiff < MIN_PLACE_DELAY) {
-                    buffer += 0.5;
-                    if (buffer > 5) {
-                        if(setback.getBoolean()) {
-                            setback();
-                        }
-                        fail("Suspicious block placement timing. TimeDiff: " + timeDiff);
-                    }
+                if (delay < MIN_PLACE_DELAY && yawChange < MAX_YAW_CHANGE && pitchChange < MAX_PITCH_CHANGE) {
+                    consistentPlacements++;
                 } else {
-                    buffer = Math.max(0, buffer - 0.1);
+                    consistentPlacements = 0;
                 }
-            }
 
-            // Check placement angle
-            if (lastPlaceDirection != null) {
-                double angle = placeDirection.angle(lastPlaceDirection);
-                if (angle > Math.toRadians(MAX_ANGLE_CHANGE) && !isExempt(ExemptType.TELEPORT, ExemptType.VELOCITY)) {
-                    buffer += 1;
-                    if (buffer > 3) {
-                        fail("Suspicious block placement angle. Angle: " + Math.toDegrees(angle));
+                if (consistentPlacements > SAMPLE_SIZE) {
+                    fail("Scaffold detected: consistent block placements with minimal yaw/pitch changes.");
+                    if (setback.getBoolean()) {
+                        setback();
                     }
-                } else {
-                    buffer = Math.max(0, buffer - 0.5);
+                    consistentPlacements = 0;
                 }
+
+                lastPlaceTime = now;
+                lastYaw = yaw;
+                lastPitch = pitch;
             }
-
-            // Check consistency of placement timings
-            if (placeTimes.size() == SAMPLE_SIZE) {
-                double average = placeTimes.stream().mapToLong(Long::longValue).average().orElse(0);
-                double variance = placeTimes.stream().mapToDouble(time -> Math.pow(time - average, 2)).average().orElse(0);
-                double stdDev = Math.sqrt(variance);
-
-                if (stdDev < 10) {
-                    buffer += 1;
-                    if (buffer > 5) {
-                        fail("Suspiciously consistent block placement timings. StdDev: " + stdDev);
-                    }
-                } else {
-                    buffer = Math.max(0, buffer - 0.5);
-                }
+            placedBlock = false;
+        } else if (packet.isBlockPlace()) {
+            if (data.getPlayer().getItemInHand().getType().isBlock()) {
+                placedBlock = true;
             }
-
-            // Check if player is placing blocks below them (typical scaffold behavior)
-            Block blockBelow = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
-            if (blockBelow.getType() == Material.AIR && placedBlock.equals(blockBelow)) {
-                buffer += 1;
-                if (buffer > 3) {
-                    fail("Suspicious downward block placement");
-                }
-            }
-
-            lastPlaceDirection = placeDirection;
-            lastPlaceTime = currentTime;
         }
     }
 }
