@@ -4,9 +4,10 @@ import com.gladurbad.api.check.CheckInfo;
 import com.gladurbad.medusa.check.Check;
 import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
+import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
 
-@CheckInfo(name = "Speed (F)", description = "Checks for invalid Y changes when jumping.")
+@CheckInfo(name = "Speed (F)", description = "Checks for invalid Y changes when jumping.", experimental = true)
 public class SpeedF extends Check {
 
     private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
@@ -29,6 +30,8 @@ public class SpeedF extends Check {
             double deltaY = data.getPositionProcessor().getDeltaY();
             double currentY = data.getPositionProcessor().getY();
 
+            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.FLYING, ExemptType.SLIME, ExemptType.STAIRS, ExemptType.PISTON);
+
             if (isJumpHeight(deltaY)) {
                 expectedJumpHeight = deltaY;
                 jumpTicks = 0;
@@ -40,7 +43,7 @@ public class SpeedF extends Check {
                 double yDifference = currentY - lastY;
                 
                 if (jumpTicks <= 2) {
-                    if (Math.abs(yDifference) < expectedJumpHeight * 0.5) {
+                    if (Math.abs(yDifference) < expectedJumpHeight * 0.9 && !exempt) {
                         fail("Abnormal jumping. Expected DeltaY: " + expectedJumpHeight +
                              ", Real DeltaY: " + yDifference +
                              ", Tick: " + jumpTicks);
