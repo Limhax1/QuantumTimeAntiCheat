@@ -1,5 +1,7 @@
 # Quantum Time Anticheat
 
+![QTAC2](https://github.com/user-attachments/assets/9840a29c-0f6c-4303-9c80-ddd97d6b60e3)
+
 A fork of [Medusa](https://www.spigotmc.org/resources/medusa-anticheat-fast-and-reliable-detections-3-2-reach-detection.83345/) with many stability and performance improvements, and brand new checks.
 
 > Why does this project exist?
@@ -17,4 +19,3 @@ Our test server is now open, join with the ip 213.181.206.22:8350
 # Contribution
 
   Start by cloning this repository, then add `java 1.8` in your environment and execute `mvn build` in the project directory to build the anticheat. 
-![QTAC2](https://github.com/user-attachments/assets/63eaed02-97dc-44b5-b0d4-7b339ba46ae0)
