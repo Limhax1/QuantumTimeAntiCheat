@@ -6,16 +6,17 @@ import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
+import org.bukkit.Bukkit;
 
 @CheckInfo(name = "Speed (F)", description = "Checks for invalid Y changes when jumping.", experimental = true)
 public class SpeedF extends Check {
 
     private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
-    
+
     private static final double JUMP_HEIGHT = 0.41999998688697815;
     private static final double JUMP_BOOST_1_HEIGHT = 0.5199999883770943;
     private static final double JUMP_BOOST_2_HEIGHT = 0.6199999898672104;
-    
+
     private double lastY = 0.0;
     private double expectedJumpHeight = 0.0;
     private int jumpTicks = 0;
@@ -41,13 +42,13 @@ public class SpeedF extends Check {
             if (expectedJumpHeight > 0) {
                 jumpTicks++;
                 double yDifference = currentY - lastY;
-                
+
                 if (jumpTicks <= 2) {
                     if (Math.abs(yDifference) < expectedJumpHeight * 0.6 && !exempt) {
                         fail("Abnormal jumping. Expected DeltaY: " + expectedJumpHeight +
-                             ", Real DeltaY: " + yDifference +
-                             ", Tick: " + jumpTicks);
-                        
+                                ", Real DeltaY: " + yDifference +
+                                ", Tick: " + jumpTicks);
+
                         if (setback.getBoolean()) {
                             setback();
                         }
@@ -64,7 +65,7 @@ public class SpeedF extends Check {
 
     private boolean isJumpHeight(double deltaY) {
         return Math.abs(deltaY - JUMP_HEIGHT) < 0.001 ||
-               Math.abs(deltaY - JUMP_BOOST_1_HEIGHT) < 0.001 ||
-               Math.abs(deltaY - JUMP_BOOST_2_HEIGHT) < 0.001;
+                Math.abs(deltaY - JUMP_BOOST_1_HEIGHT) < 0.001 ||
+                Math.abs(deltaY - JUMP_BOOST_2_HEIGHT) < 0.001;
     }
 }

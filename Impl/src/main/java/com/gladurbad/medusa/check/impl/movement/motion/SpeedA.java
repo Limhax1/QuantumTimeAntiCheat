@@ -16,7 +16,6 @@ import org.bukkit.util.Vector;
 @CheckInfo(name = "Speed (A)", description = "Checks for Speed.")
 public final class SpeedA extends Check {
     private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
-
     public SpeedA(final PlayerData data) {
         super(data);
     }
@@ -29,15 +28,23 @@ public final class SpeedA extends Check {
             if(speed > 0.65 && !data.getPlayer().hasPotionEffect(PotionEffectType.SPEED) && !isExempt(ExemptType.FLYING, ExemptType.VELOCITY, ExemptType.TELEPORT, ExemptType.SLIME, ExemptType.PISTON, ExemptType.UNDER_BLOCK, ExemptType.ICE, ExemptType.JOINED)) {
                 if(setback.getBoolean()) {
                     setback();
+                    buffer++;
                 }
-                fail("Going too Quick " + speed);
+                if(buffer >= 5) {
+                    fail("Going too Quick " + speed);
+                }
+            } else {
+                buffer = buffer- 0.1;
             }
 
-            if(speed > 1.2 && !isExempt(ExemptType.FLYING, ExemptType.TELEPORT, ExemptType.SLIME, ExemptType.PISTON, ExemptType.ICE, ExemptType.JOINED)) {
+            if(speed > 1.2 && !isExempt(ExemptType.FLYING, ExemptType.SLIME, ExemptType.PISTON, ExemptType.ICE, ExemptType.JOINED)) {
                 if(setback.getBoolean()) {
                     setback();
+                    buffer++;
                 }
-                fail("Going too Quick " + speed);
+                if(buffer >= 5) {
+                    fail("Going too Quick " + speed);
+                }
             }
         }
     }

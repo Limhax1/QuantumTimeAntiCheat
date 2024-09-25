@@ -6,6 +6,7 @@ import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
+import org.bukkit.Bukkit;
 
 @CheckInfo(name = "Speed (D)", description = "Checks for falling too fast")
 public class SpeedD extends Check {
@@ -34,10 +35,10 @@ public class SpeedD extends Check {
                     double expectedMaxFallSpeed = getExpectedMaxFallSpeed();
                     
                     if (deltaY < expectedMaxFallSpeed && data.getPositionProcessor().getAirTicks() < 4) {
+                        if(setback.getBoolean()) {
+                            setback();
+                        }
                         if (++buffer > BUFFER_LIMIT) {
-                            if(setback.getBoolean()) {
-                                setback();
-                            }
                             fail("Falling too quick. DeltaY: " + deltaY + ", Expected max: " + expectedMaxFallSpeed);
                         }
                     } else {

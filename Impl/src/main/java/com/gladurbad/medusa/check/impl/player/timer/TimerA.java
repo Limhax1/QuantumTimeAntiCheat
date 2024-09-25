@@ -36,7 +36,8 @@ public class TimerA extends Check {
                 if (speed >= 1.05) {
                     if (buffer++ > 35) {
                         this.fail("speed=" + scaled + "% delay=" + delay);
-                        buffer = 17;
+                        setback();
+                        buffer = 0;
                     }
                 }
                 else {

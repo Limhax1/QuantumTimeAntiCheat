@@ -7,6 +7,7 @@ import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.data.processor.PositionProcessor;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -50,10 +51,10 @@ public class SpeedC extends Check {
                 } else if (Math.abs(deltaY - lastMaxYMotion) < EPSILON) {
                     sameMotionCount++;
                     if (sameMotionCount >= JUMP_THRESHOLD) {
+                        if(setback.getBoolean()) {
+                            setback();
+                        }
                         if (++buffer > 3) {
-                            if(setback.getBoolean()) {
-                                setback();
-                            }
                             fail("Repeated Y motion, DY " + deltaY  + " Expected " + expectedYMotion + " Times Repeated " + sameMotionCount);
                             buffer = 0;
                         }
@@ -67,15 +68,25 @@ public class SpeedC extends Check {
                 debug("Y motion: %.4f, Várt: %.4f, Számláló: %d, Buffer: %d", deltaY, expectedYMotion, sameMotionCount, buffer);
                 
                 if (deltaY > expectedYMotion && !isExempt(ExemptType.SLIME)) {
+                    buffer++;
                     if(setback.getBoolean()) {
                         setback();
+                        Bukkit.broadcastMessage("SetC1");
                     }
-                    fail("Jumped too high: " + deltaY + ", Expected: " + expectedYMotion);
+                    if(buffer++ > 3) {
+                        fail("Jumped too high: " + deltaY + ", Expected: " + expectedYMotion);
+                        buffer = 0;
+                    }
                 } else if (deltaY < expectedYMotion * 0.99 && !isExempt(ExemptType.SLIME, ExemptType.VELOCITY)) {
+                    buffer++;
                     if(setback.getBoolean()) {
                         setback();
+                        Bukkit.broadcastMessage("SetC");
                     }
-                    fail("Jumped too low: " + deltaY + ", Expected: " + expectedYMotion);
+                    if(buffer++ > 3) {
+                        fail("Jumped too low: " + deltaY + ", Expected: " + expectedYMotion);
+                        buffer = 0;
+                    }
                 }
             } else if (onGround) {
                 // Alaphelyzetbe állítjuk az értékeket, ha a játékos a földön van

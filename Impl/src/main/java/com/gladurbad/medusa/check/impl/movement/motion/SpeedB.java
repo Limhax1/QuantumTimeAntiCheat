@@ -21,7 +21,7 @@ public final class SpeedB extends Check {
     private static final double LANDING_LENIENCY = 0.1;
 
     private static final double WALK_SPEED = 0.221;
-    private static final double SPRINT_SPEED = 0.29;
+    private static final double SPRINT_SPEED = 0.296;
     private static final double AIR_SPEED = 0.36;
 
     private double buffer = 0.0;

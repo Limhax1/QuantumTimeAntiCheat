@@ -41,11 +41,14 @@ public final class FlyC extends Check {
 
             if (invalid) {
                 buffer += buffer < 50 ? 10 : 0;
-                if (buffer > 20) {
+                if (buffer % 10 == 0) {
                     if(setback.getBoolean()) {
                         setback();
                     }
-                    fail(String.format("diff=%.4f, buffer=%.2f, at=%o", difference, buffer, data.getPositionProcessor().getAirTicks()));
+                    if(buffer > 50) {
+                        fail(String.format("diff=%.4f, buffer=%.2f, at=%o", difference, buffer, data.getPositionProcessor().getAirTicks()));
+                        buffer = 0;
+                    }
                 }
             } else {
                 buffer = Math.max(buffer - 0.75, 0);
