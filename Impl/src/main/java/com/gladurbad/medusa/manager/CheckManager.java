@@ -20,6 +20,7 @@ import com.gladurbad.medusa.check.impl.movement.jesus.JesusB;
 import com.gladurbad.medusa.check.impl.movement.motion.*;
 import com.gladurbad.medusa.check.impl.movement.phase.PhaseA;
 import com.gladurbad.medusa.check.impl.player.Scaffold.ScaffoldA;
+import com.gladurbad.medusa.check.impl.player.Scaffold.ScaffoldB;
 import com.gladurbad.medusa.check.impl.player.hand.HandA;
 import com.gladurbad.medusa.check.impl.player.protocol.*;
 import com.gladurbad.medusa.check.impl.player.timer.TimerA;
@@ -66,6 +67,7 @@ public final class CheckManager {
             PhaseA.class,
             HandA.class,
             ScaffoldA.class,
+            ScaffoldB.class,
             SpeedA.class,
             SpeedB.class,
             SpeedC.class,
