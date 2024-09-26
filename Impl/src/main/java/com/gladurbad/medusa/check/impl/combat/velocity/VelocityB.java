@@ -55,7 +55,7 @@ public class VelocityB extends Check {
                     if (++buffer > BUFFER_LIMIT) {
                         isSelfDamageDetected = true;
                         fail(String.format("Attempted Self damage: %.4f %.4f", recentDeltaY.getFirst(), recentDeltaY.getLast()));
-                        setback();
+                        setbackPlayer(data.getPlayer());
                         buffer = 0;
                     }
                 } else {

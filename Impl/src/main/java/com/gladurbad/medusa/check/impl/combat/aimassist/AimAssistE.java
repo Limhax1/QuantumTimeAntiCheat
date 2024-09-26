@@ -77,7 +77,7 @@ public class AimAssistE extends Check {
                         buffer += 1;
 
                         if (buffer > BUFFER_LIMIT) {
-                            fail(String.format("Suspicious rotation pattern. Ratio: %.2f, ConsistentPatterns: %d", speedDistanceRatio, consistentPatternCount));
+                            fail(String.format("PatternE. Ratio: %.2f, ConsistentPatterns: %d", speedDistanceRatio, consistentPatternCount));
                             buffer = 0;
                             rotationSpeeds.clear();
                         }

@@ -75,7 +75,7 @@ public class AimAssistG extends Check {
                         buffer += 1;
 
                         if (buffer > BUFFER_LIMIT) {
-                            fail(String.format("Suspicious aiming pattern detected. CS: %.2f, SS: %.2f, AV: %.2f", 
+                            fail(String.format("PatternG. CS: %.2f, SS: %.2f, AV: %.2f",
                                                consistencyScore, snapScore, angleVariation));
                             buffer = 0;
                         }
