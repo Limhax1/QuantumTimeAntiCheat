@@ -1,5 +1,7 @@
 # Quantum Time Anticheat
 
+![QTAC2](https://github.com/user-attachments/assets/9840a29c-0f6c-4303-9c80-ddd97d6b60e3)
+
 A fork of [Medusa](https://www.spigotmc.org/resources/medusa-anticheat-fast-and-reliable-detections-3-2-reach-detection.83345/) with many stability and performance improvements, and brand new checks.
 
 > Why does this project exist?
