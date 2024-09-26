@@ -15,7 +15,7 @@ public class ScaffoldB extends Check {
     }
 
     private int ticks, cps;
-    private final int[] cpsHistory = new int[3];
+    private final int[] cpsHistory = new int[5];
     private int historyIndex = 0;
 
     @Override
@@ -23,7 +23,7 @@ public class ScaffoldB extends Check {
         if(packet.isFlying()) {
             if (++ticks >= 20) {
                 cpsHistory[historyIndex] = cps;
-                historyIndex = (historyIndex + 1) % 3;
+                historyIndex = (historyIndex + 1) % 5;
 
                 debug("RCps " + cps);
 

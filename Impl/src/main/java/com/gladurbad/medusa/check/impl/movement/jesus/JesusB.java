@@ -39,13 +39,23 @@ public class JesusB extends Check {
             }
 
             if (isOverWater(location) && !isNearSolidBlock(location)) {
-                if (deltaY > MAX_JUMP_HEIGHT || deltaY < -0.7) {
+                if (deltaY > MAX_JUMP_HEIGHT) {
                     if ((verticalBuffer += 1) > MAX_BUFFER) {
                         if(setback.getBoolean()) {
                             setback();
                         }
                         fail("Abnormal vertical movement over liquids: DY=" + deltaY);
                         verticalBuffer = 0;
+                    }
+
+                    if(deltaY < -0.7 && data.getPlayer().getFallDistance() <= 2) {
+                        if ((verticalBuffer += 1) > MAX_BUFFER) {
+                            if(setback.getBoolean()) {
+                                setback();
+                            }
+                            fail("Descending too quick in liquids: DY=" + deltaY);
+                            verticalBuffer = 0;
+                        }
                     }
                 } else {
                     verticalBuffer = Math.max(0, verticalBuffer - BUFFER_DECREMENT);
@@ -67,9 +77,9 @@ public class JesusB extends Check {
                 speedBuffer = Math.max(0, speedBuffer - BUFFER_DECREMENT);
             }
 
-            debug("DY: " + deltaY + " DXZ: " + deltaXZ + 
-                  " VerticalBuffer: " + verticalBuffer + 
-                  " SpeedBuffer: " + speedBuffer);
+            debug("DY: " + deltaY + " DXZ: " + deltaXZ +
+                    " VerticalBuffer: " + verticalBuffer +
+                    " SpeedBuffer: " + speedBuffer);
         }
     }
 

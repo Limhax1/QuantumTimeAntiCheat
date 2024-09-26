@@ -26,8 +26,6 @@ public class SpeedE extends Check {
     public void handle(Packet packet) {
         if (packet.isPosLook() || packet.isPosition()) {
 
-            //soonTM
-
         }
     }
 }

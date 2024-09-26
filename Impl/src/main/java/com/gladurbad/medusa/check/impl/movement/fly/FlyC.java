@@ -6,6 +6,7 @@ import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
+import org.bukkit.Bukkit;
 
 
 @CheckInfo(name = "Fly (C)", description = "Checks for gravity.")
@@ -14,6 +15,7 @@ public final class FlyC extends Check {
     public FlyC(final PlayerData data) {
         super(data);
     }
+
     private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
 
     @Override
@@ -29,7 +31,7 @@ public final class FlyC extends Check {
 
             final boolean exempt = isExempt(
                     ExemptType.TELEPORT, ExemptType.NEAR_VEHICLE, ExemptType.FLYING,
-                    ExemptType.INSIDE_VEHICLE, ExemptType.VELOCITY, ExemptType.PISTON
+                    ExemptType.INSIDE_VEHICLE, ExemptType.VELOCITY
             );
 
             final boolean invalid = !exempt
@@ -41,14 +43,12 @@ public final class FlyC extends Check {
 
             if (invalid) {
                 buffer += buffer < 50 ? 10 : 0;
-                if (buffer % 10 == 0) {
+                if (buffer > 30) {
                     if(setback.getBoolean()) {
                         setback();
                     }
-                    if(buffer > 50) {
-                        fail(String.format("diff=%.4f, buffer=%.2f, at=%o", difference, buffer, data.getPositionProcessor().getAirTicks()));
-                        buffer = 0;
-                    }
+
+                    fail(String.format("diff=%.4f, buffer=%.2f, at=%o", difference, buffer, data.getPositionProcessor().getAirTicks()));
                 }
             } else {
                 buffer = Math.max(buffer - 0.75, 0);

@@ -22,7 +22,7 @@ public class SpeedC extends Check {
 
     private double lastMaxYMotion = 0.0;
     private int sameMotionCount = 0;
-    private int buffer = 2;
+    private double buffer = 0;
     private boolean isAscending = false;
 
     public SpeedC(PlayerData data) {
@@ -54,7 +54,7 @@ public class SpeedC extends Check {
                         if(setback.getBoolean()) {
                             setback();
                         }
-                        if (++buffer > 3) {
+                        if (++buffer > 2) {
                             fail("Repeated Y motion, DY " + deltaY  + " Expected " + expectedYMotion + " Times Repeated " + sameMotionCount);
                             buffer = 0;
                         }
@@ -65,25 +65,22 @@ public class SpeedC extends Check {
 
                 lastMaxYMotion = Math.max(lastMaxYMotion, deltaY);
 
-                debug("Y motion: %.4f, Várt: %.4f, Számláló: %d, Buffer: %d", deltaY, expectedYMotion, sameMotionCount, buffer);
+                debug("Y motion: %.4f, Expected: %.4f, Count: %d, Buffer: %d", deltaY, expectedYMotion, sameMotionCount, buffer);
                 
                 if (deltaY > expectedYMotion && !isExempt(ExemptType.SLIME)) {
-                    buffer++;
                     if(setback.getBoolean()) {
                         setback();
                         Bukkit.broadcastMessage("SetC1");
                     }
-                    if(buffer++ > 3) {
+                    if(buffer++ > 2) {
                         fail("Jumped too high: " + deltaY + ", Expected: " + expectedYMotion);
                         buffer = 0;
                     }
                 } else if (deltaY < expectedYMotion * 0.99 && !isExempt(ExemptType.SLIME, ExemptType.VELOCITY)) {
-                    buffer++;
                     if(setback.getBoolean()) {
                         setback();
-                        Bukkit.broadcastMessage("SetC");
                     }
-                    if(buffer++ > 3) {
+                    if(buffer++ > 2) {
                         fail("Jumped too low: " + deltaY + ", Expected: " + expectedYMotion);
                         buffer = 0;
                     }
@@ -93,7 +90,7 @@ public class SpeedC extends Check {
                 if (deltaY == 0) {
                     lastMaxYMotion = 0.0;
                     sameMotionCount = 0;
-                    buffer = 0;
+                    buffer = Math.max(0, buffer - 0.01);
                 }
             }
         }
