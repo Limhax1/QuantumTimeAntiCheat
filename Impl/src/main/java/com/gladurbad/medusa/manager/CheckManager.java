@@ -64,6 +64,7 @@ public final class CheckManager {
             FlyC.class,
             FlyD.class,
             FlyE.class,
+            FastClimbA.class,
             PhaseA.class,
             HandA.class,
             ScaffoldA.class,

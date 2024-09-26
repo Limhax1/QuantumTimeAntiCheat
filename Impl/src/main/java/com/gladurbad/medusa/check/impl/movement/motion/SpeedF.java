@@ -4,6 +4,7 @@ import com.gladurbad.api.check.CheckInfo;
 import com.gladurbad.medusa.check.Check;
 import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
+import com.gladurbad.medusa.data.processor.PositionProcessor;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
 import org.bukkit.Bukkit;
@@ -43,7 +44,7 @@ public class SpeedF extends Check {
                 jumpTicks++;
                 double yDifference = currentY - lastY;
 
-                if (jumpTicks <= 2) {
+                if (jumpTicks <= 2 && !checkHorizontalCollision(data.getPositionProcessor())) {
                     if (Math.abs(yDifference) < expectedJumpHeight * 0.79 && !exempt) {
                         fail("Abnormal jumping. Expected DeltaY: " + expectedJumpHeight +
                                 ", Real DeltaY: " + yDifference +
@@ -61,6 +62,11 @@ public class SpeedF extends Check {
 
             lastY = currentY;
         }
+    }
+
+    private boolean checkHorizontalCollision(PositionProcessor positionProcessor) {
+        double deltaXZ = Math.hypot(positionProcessor.getDeltaX(), positionProcessor.getDeltaZ());
+        return deltaXZ < 0.01;
     }
 
     private boolean isJumpHeight(double deltaY) {

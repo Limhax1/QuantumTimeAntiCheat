@@ -23,7 +23,6 @@ public class SpeedC extends Check {
     private double lastMaxYMotion = 0.0;
     private int sameMotionCount = 0;
     private double buffer = 0;
-    private boolean isAscending = false;
 
     public SpeedC(PlayerData data) {
         super(data);
@@ -36,10 +35,9 @@ public class SpeedC extends Check {
             boolean onGround = positionProcessor.isOnGround();
             boolean lastOnGround = positionProcessor.isLastOnGround();
             double deltaY = positionProcessor.getDeltaY();
-            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.VELOCITY, ExemptType.SLIME, ExemptType.FLYING, ExemptType.UNDER_BLOCK, ExemptType.LIQUID, ExemptType.PISTON);
+            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.VELOCITY, ExemptType.SLIME, ExemptType.FLYING, ExemptType.UNDER_BLOCK, ExemptType.LIQUID, ExemptType.PISTON, ExemptType.CLIMBABLE);
 
             if (!onGround && lastOnGround && deltaY > 0 && !exempt) {
-                // A játékos éppen ugrott
                 double expectedYMotion = getExpectedYMotion(data.getPlayer());
                 
                 if (deltaY > expectedYMotion && isNearStairOrSlab(data.getPlayer())) {
@@ -70,7 +68,6 @@ public class SpeedC extends Check {
                 if (deltaY > expectedYMotion && !isExempt(ExemptType.SLIME)) {
                     if(setback.getBoolean()) {
                         setback();
-                        Bukkit.broadcastMessage("SetC1");
                     }
                     if(buffer++ > 2) {
                         fail("Jumped too high: " + deltaY + ", Expected: " + expectedYMotion);
@@ -86,7 +83,6 @@ public class SpeedC extends Check {
                     }
                 }
             } else if (onGround) {
-                // Alaphelyzetbe állítjuk az értékeket, ha a játékos a földön van
                 if (deltaY == 0) {
                     lastMaxYMotion = 0.0;
                     sameMotionCount = 0;
@@ -113,9 +109,9 @@ public class SpeedC extends Check {
     }
 
     private boolean isNearStairOrSlab(Player player) {
-        int radius = 1; // Ellenőrzési sugár (blokkok száma)
+        int radius = 1;
         for (int x = -radius; x <= radius; x++) {
-            for (int y = -1; y <= 1; y++) { // Ellenőrizzük a játékos alatt és felett is
+            for (int y = -1; y <= 1; y++) {
                 for (int z = -radius; z <= radius; z++) {
                     Block block = player.getLocation().add(x, y, z).getBlock();
                     Material type = block.getType();

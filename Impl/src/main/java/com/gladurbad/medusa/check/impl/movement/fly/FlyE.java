@@ -31,9 +31,9 @@ public class FlyE extends Check {
     public void handle(Packet packet) {
         if (packet.isFlying()) {
             final double deltaY = data.getPositionProcessor().getDeltaY();
-            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.FLYING, ExemptType.STEPPED, ExemptType.STAIRS, ExemptType.PISTON);
+            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.FLYING, ExemptType.STEPPED, ExemptType.STAIRS, ExemptType.PISTON, ExemptType.LIQUID, ExemptType.CLIMBABLE);
 
-            if (deltaY > DELTA_Y_THRESHOLD && deltaY == lastDeltaY && !nearClimbable(data.getPlayer().getLocation()) && !exempt) {
+            if (deltaY > DELTA_Y_THRESHOLD && deltaY == lastDeltaY && !exempt) {
                 consecutiveSameDeltaYCount++;
                 if (consecutiveSameDeltaYCount > MAX_CONSECUTIVE_SAME_DELTA_Y) {
                     if(setback.getBoolean()) {
@@ -50,20 +50,5 @@ public class FlyE extends Check {
             debug(info);
             lastDeltaY = deltaY;
         }
-    }
-
-    private boolean nearClimbable(Location location) {
-        for (int x = -1; x <= 1; x++) {
-            for (int y = -1; y <= 1; y++) {
-                for (int z = -1; z <= 1; z++) {
-                    Block block = location.getBlock().getRelative(x, y, z);
-                    Material type = block.getType();
-                    if (type == Material.LADDER || type == Material.VINE) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
     }
 }
