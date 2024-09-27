@@ -11,7 +11,8 @@ import java.util.Collection;
 
 @Getter
 public final class RotationProcessor {
-
+    private float lastFuckedPredictedYaw;
+    private float fuckedPredictedYaw;
     private final PlayerData data;
 
     private float yaw, pitch, lastYaw, lastPitch,
@@ -50,7 +51,10 @@ public final class RotationProcessor {
         joltPitch = Math.abs(deltaPitch - lastDeltaPitch);
 
         processCinematic();
-
+        final float expectedYaw = this.deltaYaw * 1.073742f + (float)(this.deltaYaw + 0.15);
+        final float yawDiff = Math.abs(this.deltaYaw - expectedYaw);
+        fuckedPredictedYaw = Math.abs(this.deltaYaw - yawDiff);
+        this.lastFuckedPredictedYaw = this.fuckedPredictedYaw;
         if (deltaPitch > 0 && deltaPitch < 30) {
             processSensitivity();
         }
@@ -103,6 +107,16 @@ public final class RotationProcessor {
             sensitivitySamples.clear();
         }
     }
+
+    public boolean hasTooLowSensitivity() {
+        return this.sensitivity >= 0 && this.sensitivity < 50;
+    }
+
+    public float getLastFuckedPredictedYaw() {
+        return this.lastFuckedPredictedYaw;
+    }
+
+
 
     public float getMovementAngle() {
         final double deltaX = this.data.getPositionProcessor().getDeltaX();

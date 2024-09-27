@@ -21,7 +21,7 @@ public class FlyD extends Check {
 
             boolean Exempt = isExempt(ExemptType.TELEPORT, ExemptType.JOINED);
 
-            if(data.getPositionProcessor().getDeltaY() > 4 && !Exempt) {
+            if(data.getPositionProcessor().getDeltaY() > 2.89 && !Exempt) {
                 if(setback.getBoolean()) {
                     setback();
                 }

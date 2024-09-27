@@ -25,7 +25,7 @@ public class ScaffoldA extends Check {
     private long lastSwingTime;
     private static final long SWING_TIMEOUT = 500;
     private double BUFFER;
-    private double MAX_BUFFER = 6;
+    private double MAX_BUFFER = 15;
     private static final double MAX_PLACE_DISTANCE = 4.5;
     private Location lastPlacedBlockLocation;
 
@@ -55,7 +55,7 @@ public class ScaffoldA extends Check {
 
                     Location eyeLocation = player.getEyeLocation();
                     Vector direction = eyeLocation.getDirection();
-                    RayTrace rayTrace = new RayTrace(player, eyeLocation, direction, MAX_PLACE_DISTANCE, 0.05);
+                    RayTrace rayTrace = new RayTrace(player, eyeLocation, direction, MAX_PLACE_DISTANCE, 0.01);
                     RayTraceResult result = rayTrace.trace();
 
                     if (result.getHitType() == RayTraceResult.HitType.BLOCK &&
@@ -69,7 +69,7 @@ public class ScaffoldA extends Check {
                                 player.teleport(player.getLocation().subtract(0, 1, 0));
                             }
                         } else {
-                            BUFFER = Math.max(0, BUFFER - 0.15);
+                            BUFFER = Math.max(0, BUFFER - 0.2);
                         }
                     }
                 } else {
