@@ -36,7 +36,7 @@ import java.util.function.Predicate;
 
 @Getter
 public final class PositionProcessor {
-
+    private int sinceSpeedTicks;
     private final PlayerData data;
 
     private Map<Integer, Deque<LocationVector>> recentPlayerMoves = createCache(TimeUnit.HOURS.toMillis(1L), null);
@@ -73,8 +73,10 @@ public final class PositionProcessor {
     private long setbackTime = 0;
 
     public PositionProcessor(final PlayerData data) {
+        this.sinceSpeedTicks = 100;
         this.data = data;
     }
+
 
     public void handleFlying(final WrappedPacketInFlying wrapper) {
         int tick = Medusa.INSTANCE.getTickManager().getTicks();
@@ -330,6 +332,13 @@ public final class PositionProcessor {
         }
     }
 
+    public int getSinceSpeedTicks() {
+        return this.sinceSpeedTicks;
+    }
+
+    public void setSinceSpeedTicks(final int sinceSpeedTicks) {
+        this.sinceSpeedTicks = sinceSpeedTicks;
+    }
 
     public void handleOutgoingPacket(final Packet packet) {
         long currentTimeMillis = System.currentTimeMillis();
@@ -385,4 +394,5 @@ public final class PositionProcessor {
     public enum CollisionType {
         ANY, ALL
     }
+
 }

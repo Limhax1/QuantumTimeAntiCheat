@@ -25,7 +25,7 @@ public final class SpeedA extends Check {
         if(packet.isPosition() || packet.isPosLook()) {
             final double speed = data.getPositionProcessor().getDeltaXZ();
             debug("Speed " + speed);
-            if(speed > 0.65 && !data.getPlayer().hasPotionEffect(PotionEffectType.SPEED) && !isExempt(ExemptType.FLYING, ExemptType.VELOCITY, ExemptType.TELEPORT, ExemptType.SLIME, ExemptType.PISTON, ExemptType.UNDER_BLOCK, ExemptType.ICE, ExemptType.JOINED)) {
+            if(speed > 0.65 && !data.getPlayer().hasPotionEffect(PotionEffectType.SPEED) && !isExempt(ExemptType.FLYING, ExemptType.VELOCITY, ExemptType.TELEPORT, ExemptType.SLIME, ExemptType.PISTON, ExemptType.UNDER_BLOCK, ExemptType.ICE, ExemptType.JOINED, ExemptType.NEAR_VEHICLE)) {
                 if(setback.getBoolean()) {
                     setback();
                     buffer++;
@@ -37,7 +37,7 @@ public final class SpeedA extends Check {
                 buffer = buffer- 0.1;
             }
 
-            if(speed > 1.2 && !isExempt(ExemptType.FLYING, ExemptType.SLIME, ExemptType.PISTON, ExemptType.ICE, ExemptType.JOINED)) {
+            if(speed > 1.2 && !isExempt(ExemptType.FLYING, ExemptType.SLIME, ExemptType.PISTON, ExemptType.ICE, ExemptType.JOINED, ExemptType.NEAR_VEHICLE)) {
                 if(setback.getBoolean()) {
                     setback();
                     buffer++;

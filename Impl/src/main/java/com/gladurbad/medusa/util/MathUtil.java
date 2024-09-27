@@ -11,6 +11,14 @@ public final class MathUtil {
 
     public final double EXPANDER = Math.pow(2, 24);
 
+    public static double hypot(final double x, final double z) {
+        return Math.sqrt(x * x + z * z);
+    }
+
+    public static double magnitude(final double x, final double y, final double z) {
+        return Math.sqrt(x * x + y * y + z * z);
+    }
+
     public double getVariance(final Collection<? extends Number> data) {
         int count = 0;
 
