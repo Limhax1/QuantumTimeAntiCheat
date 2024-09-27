@@ -41,7 +41,7 @@ public class ScaffoldA extends Check {
         } else if (packet.isBlockPlace()) {
             WrappedPacketInBlockPlace wrappedPacket = new WrappedPacketInBlockPlace(packet.getRawPacket());
             Vector3i blockPosition = wrappedPacket.getBlockPosition();
-            Block placedBlock = data.getPlayer().getWorld().getBlockAt(blockPosition.getX(), blockPosition.getY(), blockPosition.getZ());
+            Block placedBlock = data.getPositionProcessor().getBlockat(data.getPlayer().getWorld(), blockPosition.getX(), blockPosition.getY(), blockPosition.getZ());
             Player player = data.getPlayer();
 
             if (player.getItemInHand().getType().isBlock()) {

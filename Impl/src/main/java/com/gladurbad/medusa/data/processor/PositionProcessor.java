@@ -312,6 +312,24 @@ public final class PositionProcessor {
         }
     }
 
+    public  Block getBlockat(final World world, final int x, final int y, final int z) {
+        if (world.isChunkLoaded(x >> 4, z >> 4)) {
+            return world.getBlockAt(x, y, z);
+        } else {
+            FutureTask<Block> futureTask = new FutureTask<>(() -> {
+                world.loadChunk(x >> 4, z >> 4);
+                return world.getBlockAt(x, y, z);
+            });
+            Bukkit.getScheduler().runTask(Medusa.INSTANCE.getPlugin(), futureTask);
+            try {
+                return futureTask.get();
+            } catch (final Exception exception) {
+                exception.printStackTrace();
+            }
+            return null;
+        }
+    }
+
 
     public void handleOutgoingPacket(final Packet packet) {
         long currentTimeMillis = System.currentTimeMillis();
