@@ -1,4 +1,4 @@
-package com.gladurbad.medusa.check.impl.movement.motion;
+package com.gladurbad.medusa.check.impl.movement.speed;
 
 import com.gladurbad.api.check.CheckInfo;
 import com.gladurbad.medusa.check.Check;
@@ -14,9 +14,11 @@ import org.bukkit.potion.PotionEffectType;
 
 @CheckInfo(name = "Speed (B)", description = "Checks for Speed.")
 public final class SpeedB extends Check {
+
+    private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");
+    private static final ConfigValue buffer_decay = new ConfigValue(ConfigValue.ValueType.DOUBLE, "buffer_decay");
     private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
-    private static final double MAX_BUFFER = 5.0;
-    private static final double BUFFER_DECAY = 0.25;
+
     private static final double JUMP_BOOST = 0.42;
     private static final double LANDING_LENIENCY = 0.1;
 
@@ -64,10 +66,14 @@ public final class SpeedB extends Check {
                 if (deltaXZ > expectedSpeed * 1.001 && !Exempt) {
                     buffer += 1;
                 } else {
-                    buffer = Math.max(buffer - BUFFER_DECAY, 0);
+                    buffer = Math.max(buffer - buffer_decay.getDouble(), 0);
                 }
 
-                if (buffer > MAX_BUFFER && !Exempt) {
+                if(expectedSpeed > 0.49 && data.getActionProcessor().isSprinting() && data.getPositionProcessor().isInAir() && getSpeedPotionCorrection(data.getPlayer()) > 1) {
+                    expectedSpeed = 0.37;
+                }
+
+                if (buffer > max_buffer.getDouble() && !Exempt) {
                     if(setback.getBoolean()) {
                         setback();
                     }

@@ -14,8 +14,10 @@ import com.gladurbad.medusa.check.impl.combat.velocity.VelocityB;
 import com.gladurbad.medusa.check.impl.movement.fly.*;
 import com.gladurbad.medusa.check.impl.movement.jesus.JesusA;
 import com.gladurbad.medusa.check.impl.movement.jesus.JesusB;
-import com.gladurbad.medusa.check.impl.movement.motion.*;
+import com.gladurbad.medusa.check.impl.movement.misc.FastClimbA;
+import com.gladurbad.medusa.check.impl.movement.speed.*;
 import com.gladurbad.medusa.check.impl.movement.phase.PhaseA;
+import com.gladurbad.medusa.check.impl.movement.strafe.StrafeA;
 import com.gladurbad.medusa.check.impl.player.Scaffold.ScaffoldA;
 import com.gladurbad.medusa.check.impl.player.Scaffold.ScaffoldB;
 import com.gladurbad.medusa.check.impl.player.hand.HandA;
@@ -44,6 +46,8 @@ public final class CheckManager {
             AimAssistJ.class,
             AimAssistK.class,
             AimAssistΣ.class,
+            AimAssistN.class,
+            AimAssistO.class,
             AutoClickerA.class,
             AutoClickerB.class,
             AutoClickerC.class,
@@ -78,6 +82,7 @@ public final class CheckManager {
             SpeedD.class,
             SpeedE.class,
             SpeedF.class,
+            StrafeA.class,
             JesusA.class,
             JesusB.class,
             ProtocolA.class,

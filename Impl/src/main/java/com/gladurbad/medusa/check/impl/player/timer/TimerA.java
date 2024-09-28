@@ -2,6 +2,7 @@ package com.gladurbad.medusa.check.impl.player.timer;
 
 import com.gladurbad.api.check.CheckInfo;
 import com.gladurbad.medusa.check.Check;
+import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
@@ -14,6 +15,10 @@ public class TimerA extends Check {
     private final EvictingList<Long> samples;
     private long lastFlying;
     private double buffer = 0d;
+
+    private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
+    private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");
+    private static final ConfigValue buffer_decay = new ConfigValue(ConfigValue.ValueType.DOUBLE, "buffer_decay");
     
     public TimerA(final PlayerData data) {
         super(data);
@@ -25,7 +30,7 @@ public class TimerA extends Check {
         if (packet.isFlying()) {
             debug("b=" + buffer);
             final long delay = System.currentTimeMillis() - this.lastFlying;
-            final boolean exempt = this.isExempt(ExemptType.JOINED, ExemptType.TPS, ExemptType.INSIDE_VEHICLE);
+            final boolean exempt = this.isExempt(ExemptType.JOINED, ExemptType.TPS, ExemptType.INSIDE_VEHICLE, ExemptType.PISTON);
             if (delay > 4L && !exempt) {
                 this.samples.add(delay);
             }
@@ -34,14 +39,14 @@ public class TimerA extends Check {
                 final double speed = 50.0 / average;
                 final double scaled = speed * 100.0;
                 if (speed >= 1.05) {
-                    if (buffer++ > 35) {
+                    if (buffer++ > max_buffer.getDouble()) {
                         this.fail("speed=" + scaled + "% delay=" + delay);
                         setback();
                         buffer = 0;
                     }
                 }
                 else {
-                    if (buffer > 0) buffer -= 1.85; else buffer = 0;
+                    if (buffer > 0) buffer -= 1.85; else buffer = 0; // math.max exists burr
                 }
             }
             this.lastFlying = System.currentTimeMillis();

@@ -12,10 +12,13 @@ import org.bukkit.block.Block;
 @CheckInfo(name = "Jesus (A)", description = "Checks for Jesus hacks", experimental = true)
 public class JesusA extends Check {
 
+    private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");
+    private static final ConfigValue buffer_decay = new ConfigValue(ConfigValue.ValueType.DOUBLE, "buffer_decay");
+    private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
+
     public JesusA(final PlayerData data) {
         super(data);
     }
-    private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
     private double speedBuffer;
     private double verticalBuffer;
     private static final double MAX_BUFFER = 2;
@@ -50,7 +53,7 @@ public class JesusA extends Check {
                 }
 
                 if (deltaXZ > MAX_WATER_SPEED) {
-                    if ((speedBuffer += 1) > MAX_BUFFER) {
+                    if ((speedBuffer += 1) > max_buffer.getDouble()) {
                         if(setback.getBoolean()) {
                             setback();
                         }
@@ -58,11 +61,11 @@ public class JesusA extends Check {
                         speedBuffer = 0;
                     }
                 } else {
-                    speedBuffer = Math.max(0, speedBuffer - BUFFER_DECREMENT);
+                    speedBuffer = Math.max(0, speedBuffer - buffer_decay.getDouble());
                 }
             } else {
-                verticalBuffer = Math.max(0, verticalBuffer - BUFFER_DECREMENT);
-                speedBuffer = Math.max(0, speedBuffer - BUFFER_DECREMENT);
+                verticalBuffer = Math.max(0, verticalBuffer - buffer_decay.getDouble());
+                speedBuffer = Math.max(0, speedBuffer - buffer_decay.getDouble());
             }
 
             debug("DY: " + data.getPositionProcessor().getDeltaY() + 

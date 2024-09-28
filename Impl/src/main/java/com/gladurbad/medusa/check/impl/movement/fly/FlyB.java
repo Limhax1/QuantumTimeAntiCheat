@@ -6,6 +6,7 @@ import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -15,14 +16,14 @@ import java.util.LinkedList;
 @CheckInfo(name = "Fly (B)", description = "Checks for jumping mid-air.")
 public final class FlyB extends Check {
 
+    private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");
+    private static final ConfigValue buffer_decay = new ConfigValue(ConfigValue.ValueType.DOUBLE, "buffer_decay");
+    private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
+
     private double lastAcceleration;
     private final LinkedList<Double> verticalMoves = new LinkedList<>();
     private static final int MOVE_HISTORY_SIZE = 20;
-    private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
-
     double BUFFER;
-    double MAX_BUFFER = 2;
-    double BUFFER_DECAY = 0.02;
     private double lastY;
     private int violations;
     private int consistentUpwardMoveTicks;
@@ -34,8 +35,9 @@ public final class FlyB extends Check {
 
     @Override
     public void handle(final Packet packet) {
+        boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.LIQUID, ExemptType.FLYING, ExemptType.VELOCITY, ExemptType.NEAR_VEHICLE, ExemptType.PISTON);
+
         if (packet.isPosition()) {
-            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.LIQUID, ExemptType.FLYING, ExemptType.VELOCITY, ExemptType.NEAR_VEHICLE);
 
             if (!exempt) {
                 final Location location = data.getPlayer().getLocation();
@@ -64,14 +66,14 @@ public final class FlyB extends Check {
                 if(!onGround && !nearClimbable(location)) {
                     double prediction = (lastDeltaY -0.08 ) * 0.9800000190734863;
 
-                    if(!(DY - prediction < 0.2) && lastDeltaY > 0 && DY != 0 && !isExempt(ExemptType.PISTON)) {
-                        if(BUFFER++ > MAX_BUFFER) {
+                    if(!(DY - prediction < 0.2) && lastDeltaY > 0 && DY != 0) {
+                        if(BUFFER++ > max_buffer.getDouble()) {
                             if(setback.getBoolean()) {
                                 setback();
                             }
                             fail("Gravity prediction " + (DY - prediction));
                         } else {
-                            BUFFER = Math.max(0, BUFFER - BUFFER_DECAY);
+                            BUFFER = Math.max(0, BUFFER - buffer_decay.getDouble());
                         }
                     }
                 }
@@ -82,7 +84,7 @@ public final class FlyB extends Check {
     }
 
     private void checkConstantHeight(double deltaY, int airTicks) {
-        if (Math.abs(deltaY) < 0.1 && airTicks > 15) {
+        if (Math.abs(deltaY) < 0.1 && airTicks > 15 && !isExempt(ExemptType.TELEPORT, ExemptType.LIQUID, ExemptType.FLYING, ExemptType.VELOCITY, ExemptType.NEAR_VEHICLE)) {
             violations++;
             if (violations > 6) {
                 if(setback.getBoolean()) {
@@ -101,7 +103,7 @@ public final class FlyB extends Check {
                     ascendingMoves++;
                 }
             }
-            if (ascendingMoves > MOVE_HISTORY_SIZE * 0.8) {
+            if (ascendingMoves > MOVE_HISTORY_SIZE * 0.8 && !isExempt(ExemptType.TELEPORT, ExemptType.LIQUID, ExemptType.FLYING, ExemptType.VELOCITY, ExemptType.NEAR_VEHICLE)) {
                 violations++;
                 if (violations > 1) {
                     if(setback.getBoolean()) {

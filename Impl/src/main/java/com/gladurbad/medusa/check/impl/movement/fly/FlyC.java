@@ -12,11 +12,13 @@ import org.bukkit.Bukkit;
 @CheckInfo(name = "Fly (C)", description = "Checks for gravity.")
 public final class FlyC extends Check {
 
+    private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");
+    private static final ConfigValue buffer_decay = new ConfigValue(ConfigValue.ValueType.DOUBLE, "buffer_decay");
+    private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
+
     public FlyC(final PlayerData data) {
         super(data);
     }
-
-    private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
 
     @Override
     public void handle(final Packet packet) {
@@ -43,7 +45,7 @@ public final class FlyC extends Check {
 
             if (invalid) {
                 buffer += buffer < 50 ? 10 : 0;
-                if (buffer > 30) {
+                if (buffer > max_buffer.getDouble()) {
                     if(setback.getBoolean()) {
                         setback();
                     }
@@ -51,7 +53,7 @@ public final class FlyC extends Check {
                     fail(String.format("diff=%.4f, buffer=%.2f, at=%o", difference, buffer, data.getPositionProcessor().getAirTicks()));
                 }
             } else {
-                buffer = Math.max(buffer - 0.75, 0);
+                buffer = Math.max(buffer - buffer_decay.getDouble(), 0);
             }
         }
     }

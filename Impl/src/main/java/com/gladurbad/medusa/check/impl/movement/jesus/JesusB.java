@@ -12,6 +12,10 @@ import org.bukkit.block.Block;
 @CheckInfo(name = "Jesus (B)", description = "Checks for abnormal jumps and speed over water", experimental = true)
 public class JesusB extends Check {
 
+    private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");
+    private static final ConfigValue buffer_decay = new ConfigValue(ConfigValue.ValueType.DOUBLE, "buffer_decay");
+    private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
+
     private static double MAX_JUMP_HEIGHT = 0.12;
     private static final double MAX_WATER_SPEED = 0.26;
     private static final int WATER_CHECK_DEPTH = 4;
@@ -19,7 +23,6 @@ public class JesusB extends Check {
     private double verticalBuffer;
     private static final double MAX_BUFFER = 2;
     private static final double BUFFER_DECREMENT = 0.25;
-    private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
 
     public JesusB(final PlayerData data) {
         super(data);
@@ -40,7 +43,7 @@ public class JesusB extends Check {
 
             if (isOverWater(location) && !isNearSolidBlock(location)) {
                 if (deltaY > MAX_JUMP_HEIGHT) {
-                    if ((verticalBuffer += 1) > MAX_BUFFER) {
+                    if ((verticalBuffer += 1) > max_buffer.getDouble()) {
                         if(setback.getBoolean()) {
                             setback();
                         }
@@ -49,7 +52,7 @@ public class JesusB extends Check {
                     }
 
                     if(deltaY < -0.7 && data.getPlayer().getFallDistance() <= 2) {
-                        if ((verticalBuffer += 1) > MAX_BUFFER) {
+                        if ((verticalBuffer += 1) > max_buffer.getDouble()) {
                             if(setback.getBoolean()) {
                                 setback();
                             }
@@ -58,11 +61,11 @@ public class JesusB extends Check {
                         }
                     }
                 } else {
-                    verticalBuffer = Math.max(0, verticalBuffer - BUFFER_DECREMENT);
+                    verticalBuffer = Math.max(0, verticalBuffer - buffer_decay.getDouble());
                 }
 
                 if (deltaXZ > MAX_WATER_SPEED) {
-                    if ((speedBuffer += 1) > MAX_BUFFER) {
+                    if ((speedBuffer += 1) > max_buffer.getDouble()) {
                         if(setback.getBoolean()) {
                             setback();
                         }
@@ -70,11 +73,11 @@ public class JesusB extends Check {
                         speedBuffer = 0;
                     }
                 } else {
-                    speedBuffer = Math.max(0, speedBuffer - BUFFER_DECREMENT);
+                    speedBuffer = Math.max(0, speedBuffer - buffer_decay.getDouble());
                 }
             } else {
-                verticalBuffer = Math.max(0, verticalBuffer - BUFFER_DECREMENT);
-                speedBuffer = Math.max(0, speedBuffer - BUFFER_DECREMENT);
+                verticalBuffer = Math.max(0, verticalBuffer -  buffer_decay.getDouble());
+                speedBuffer = Math.max(0, speedBuffer -  buffer_decay.getDouble());
             }
 
             debug("DY: " + deltaY + " DXZ: " + deltaXZ +

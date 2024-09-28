@@ -20,7 +20,11 @@ import java.util.LinkedList;
 
 @CheckInfo(name = "Scaffold (A)", description = "Checks for Invalid yaw/pitch when bridging.")
 public class ScaffoldA extends Check {
+
     private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
+    private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");
+    private static final ConfigValue buffer_decay = new ConfigValue(ConfigValue.ValueType.DOUBLE, "buffer_decay");
+
     public boolean placedBlock;
     private long lastSwingTime;
     private static final long SWING_TIMEOUT = 500;
@@ -62,14 +66,14 @@ public class ScaffoldA extends Check {
                         result.getHitLocation().getBlock().equals(placedBlock)) {
                         debug("Block placed legitimately at: " + lastPlacedBlockLocation + ", Material: " + blockMaterial);
                     } else {
-                        if(BUFFER++ > MAX_BUFFER) {
+                        if(BUFFER++ > max_buffer.getDouble()) {
                             fail("RayTrace fail (distance: " +
                                     String.format("%.2f", result.getDistance()) + ")");
                             if (setback.getBoolean()) {
                                 player.teleport(player.getLocation().subtract(0, 1, 0));
                             }
                         } else {
-                            BUFFER = Math.max(0, BUFFER - 0.2);
+                            BUFFER = Math.max(0, BUFFER - buffer_decay.getDouble());
                         }
                     }
                 } else {

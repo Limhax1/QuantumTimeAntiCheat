@@ -1,4 +1,4 @@
-package com.gladurbad.medusa.check.impl.movement.motion;
+package com.gladurbad.medusa.check.impl.movement.speed;
 
 import com.gladurbad.api.check.CheckInfo;
 import com.gladurbad.medusa.check.Check;
@@ -6,12 +6,15 @@ import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
-import org.bukkit.Bukkit;
 
 @CheckInfo(name = "Speed (D)", description = "Checks for falling too fast")
 public class SpeedD extends Check {
 
-    private static final double MAX_FALL_SPEED = -0.377;
+    private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");
+    private static final ConfigValue buffer_decay = new ConfigValue(ConfigValue.ValueType.DOUBLE, "buffer_decay");
+    private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
+
+    private static final double MAX_FALL_SPEED = -0.399;
     private static final int BUFFER_LIMIT = 3;
 
     private double lastDeltaY = 0.0;
@@ -21,7 +24,6 @@ public class SpeedD extends Check {
     public SpeedD(PlayerData data) {
         super(data);
     }
-    private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
 
     @Override
     public void handle(Packet packet) {
@@ -34,15 +36,15 @@ public class SpeedD extends Check {
                 if (wasInAir && deltaY < 0) {
                     double expectedMaxFallSpeed = getExpectedMaxFallSpeed();
                     
-                    if (deltaY < expectedMaxFallSpeed && data.getPositionProcessor().getAirTicks() < 4) {
+                    if (deltaY < expectedMaxFallSpeed && data.getPositionProcessor().getAirTicks() <= 2) {
                         if(setback.getBoolean()) {
                             setback();
                         }
-                        if (++buffer > BUFFER_LIMIT) {
+                        if (++buffer > max_buffer.getDouble()) {
                             fail("Falling too quick. DeltaY: " + deltaY + ", Expected max: " + expectedMaxFallSpeed);
                         }
                     } else {
-                        buffer = Math.max(0, buffer - 0.25);
+                        buffer = Math.max(0, buffer - buffer_decay.getDouble());
                     }
 
                     debug("DeltaY: " + deltaY + ", Expected max: " + expectedMaxFallSpeed + ", Buffer: " + buffer);

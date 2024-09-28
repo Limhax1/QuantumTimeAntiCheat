@@ -3,17 +3,17 @@
 ##############################
 
 # Appearance configuration.
-# If you want to change how Medusa looks, you can do it here.
+# If you want to change how QTAC looks, you can do it here.
 appearance:
 
   # Theme system.
   # How to make theme:
   # Split the string with dollar sign symbol ($)
-  # First, put the name of the Theme (Ex: Medusa)
-  # Then, put $ and space after it (Ex: Medusa$ )
+  # First, put the name of the Theme (Ex: QTAC)
+  # Then, put $ and space after it (Ex: QTAC$ )
   #
   # After this, put the alert format and a $ after it,
-  # followed by a space (Ex: &aMedusa » &f%player% &7failed &f%checkName% &7(x%vl%)$ )
+  # followed by a space (Ex: &QTAC » &f%player% &7failed &f%checkName% &7(x%vl%)$ )
   #
   # Then, put TWO (no more, no less, can be the same)
   # accent colours you want using the Minecraft colour code symbols (Ex: &a &c)
@@ -30,11 +30,13 @@ appearance:
   # %tps% - TPS of the server.
 
   themes:
-    Medusa:
-      message: 'Medusa » &f%player% &7failed &f%checkName% (%checkType%) &7(x%vl%) &c%dev%'
+    QuantumTime:
+      message: |
+        &f&l[&b&lQ&3&lT&b&lAC&f&l] &f%player% &7failed &b%checkName%&f(&3%checkType%&f) &3%dev%
+        &8[&b&l!&8] &7VL: &f%vl%&7/&f%maxvl% &8| &7Ping: &f%ping%ms &8| &7TPS: &f%tps%
       colors:
-        - '&a'
-        - '&2'
+        - '&b'
+        - '&1'
     Overflow:
       message: '&7[&cMedusa&7] %player% flagged &c%checkName% (type %checkType%) VL: &c%vl% %dev%'
       colors:
@@ -98,10 +100,10 @@ appearance:
         - '&b'
 
 
-  # Accent colours. Changes color look of aspects of Medusa.
+  # Accent colours. Changes might change time itself.
   accents:
-    accentOne: '&c'
-    accentTwo: '&4'
+    accentOne: '&b'
+    accentTwo: '&1'
 
 # Violation configuration section.
 # Placeholders:
@@ -117,8 +119,8 @@ appearance:
 # (VL = Violation Level = How many times a player has flagged the check)
 violations:
   alert-format: |
-    &4&l[&c&lQ&6&lT&c&lA&4&lC&4&l] &f%player% &7failed &c%checkName%&4(&6%checkType%&4) &6%dev%
-    &8[&c&l!&8] &7VL: &f%vl%&7/&f%maxvl% &8| &7Ping: &f%ping%ms &8| &7TPS: &f%tps%
+     &f&l[&b&lQ&3&lT&b&lAC&f&l] &f%player% &7failed &b%checkName%&f(&3%checkType%&f) &3%dev%
+     &8[&b&l!&8] &7VL: &f%vl%&7/&f%maxvl% &8| &7Ping: &f%ping%ms &8| &7TPS: &f%tps%
   alert-cooldown: 0
   minimum-vl-to-alert: 1
   clear-violations-delay: 5
@@ -128,111 +130,233 @@ checks:
     aimassist:
       a:
         enabled: true
-        max-violations: 20
+        max-violations: 10
         punish-command: ''
       b:
         enabled: true
-        max-violations: 18
+        max-violations: 10
         punish-command: ''
       c:
         enabled: true
-        max-violations: 22
+        max-violations: 10
         punish-command: ''
       d:
         enabled: true
-        max-violations: 25
+        max-violations: 0
         punish-command: ''
       e:
         enabled: true
-        max-violations: 19
+        max-violations: 10
         punish-command: ''
       f:
         enabled: true
-        max-violations: 23
+        max-violations: 1
         punish-command: ''
       g:
         enabled: true
-        max-violations: 27
+        max-violations: 25
         punish-command: ''
       h:
         enabled: true
-        max-violations: 26
+        max-violations: 25
         punish-command: ''
       i:
         enabled: true
-        max-violations: 28
+        max-violations: 25
         punish-command: ''
+        setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
+      j:
+        enabled: true
+        max-violations: 27
+        punish-command: ''
+        setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
+      k:
+        enabled: true
+        max-violations: 20
+        punish-command: ''
+        setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
+      l:
+        enabled: true
+        max-violations: 22
+        punish-command: ''
+        setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
+      m:
+        enabled: true
+        max-violations: 25
+        punish-command: ''
+        setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
+      n:
+        enabled: true
+        max-violations: 27
+        punish-command: ''
+        setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
+      o:
+        enabled: true
+        max-violations: 20
+        punish-command: ''
+        setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
+      p:
+        enabled: true
+        max-violations: 22
+        punish-command: ''
+        setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
+      q:
+        enabled: true
+        max-violations: 25
+        punish-command: ''
+        setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
+      r:
+        enabled: true
+        max-violations: 27
+        punish-command: ''
+        setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
+      s:
+        enabled: true
+        max-violations: 20
+        punish-command: ''
+        setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
+      t:
+        enabled: true
+        max-violations: 22
+        punish-command: ''
+        setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
+      u:
+        enabled: true
+        max-violations: 25
+        punish-command: ''
+        setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
+      v:
+        enabled: true
+        max-violations: 27
+        punish-command: ''
+        setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
+      w:
+        enabled: true
+        max-violations: 20
+        punish-command: ''
+        setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
+      x:
+        enabled: true
+        max-violations: 22
+        punish-command: ''
+        setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
     autoclicker:
       a:
         enabled: true
-        max-violations: 24
+        max-violations: 10
         punish-command: ''
         max-cps: 24
       b:
         enabled: true
-        max-violations: 21
+        max-violations: 0
         punish-command: ''
       c:
         enabled: true
-        max-violations: 23
+        max-violations: 0
         punish-command: ''
       d:
         enabled: true
-        max-violations: 26
-        punish-command: ''
-      e:
-        enabled: true
-        max-violations: 22
+        max-violations: 0
         punish-command: ''
     hitbox:
       a:
-        enabled: true
+        enabled: false
         max-violations: 25
         punish-command: ''
         raytrace-sensitivity-level: 2
         max-latency: -1
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
       b:
         enabled: true
         max-violations: 27
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
     killaura:
       a:
         enabled: true
         max-violations: 20
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
       b:
         enabled: true
         max-violations: 22
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
       c:
         enabled: true
         max-violations: 24
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
       d:
         enabled: true
         max-violations: 26
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
       e:
         enabled: true
         max-violations: 28
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
       f:
         enabled: true
         max-violations: 30
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
       g:
         enabled: true
         max-violations: 29
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
     reach:
       a:
         enabled: false
@@ -243,12 +367,16 @@ checks:
         threshold-decay: 0.1
         max-latency: -1
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
       b:
         enabled: false
         max-violations: 27
         punish-command: ''
         max-latency: -1
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
       c:
         enabled: true
         max-violations: 26
@@ -256,6 +384,8 @@ checks:
         max-reachDev: 3.0
         max-latencyDev: -1
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
     velocity:
       a:
         enabled: true
@@ -264,11 +394,15 @@ checks:
         minimum-velocity-percentage: 100
         maximum-velocity-percentage: 100
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
       b:
         enabled: true
         max-violations: 25
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
   movement:
     fastclimb:
       a:
@@ -276,202 +410,322 @@ checks:
         max-violations: 20
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
     fly:
       a:
         enabled: true
         max-violations: 28
         punish-command: ''
         setback: true
+        max_buffer: 2
+        buffer_decay: 0.5
       b:
         enabled: true
         max-violations: 26
         punish-command: ''
         setback: true
+        max_buffer: 4
+        buffer_decay: 0.5
       c:
         enabled: true
         max-violations: 24
         punish-command: ''
         setback: true
+        max_buffer: 20
+        buffer_decay: 0.5
       d:
         enabled: true
         max-violations: 22
         punish-command: ''
         setback: true
+        max_buffer: 0
+        buffer_decay: 0.5
+      e:
+        enabled: true
+        max-violations: 22
+        punish-command: ''
+        setback: true
+        max_buffer: 1
+        buffer_decay: 0.5
     selfdamage:
       a:
         enabled: true
         max-violations: 30
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
     jesus:
       a:
         enabled: true
         max-violations: 25
         punish-command: ''
         setback: true
+        max_buffer: 2
+        buffer_decay: 0.1
       b:
         enabled: true
         max-violations: 27
         punish-command: ''
         setback: true
+        max_buffer: 3
+        buffer_decay: 0.1
     motion:
       a:
         enabled: true
         max-violations: 21
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
       b:
         enabled: true
         max-violations: 23
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
       c:
         enabled: true
         max-violations: 25
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
       d:
         enabled: true
         max-violations: 27
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
       e:
         enabled: true
         max-violations: 29
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
     noslow:
       a:
         enabled: true
         max-violations: 26
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
     phase:
       a:
         enabled: false
         max-violations: 28
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
     speed:
       a:
         enabled: true
         max-violations: 25
         punish-command: ''
         setback: true
+        max_buffer: 1
+        buffer_decay: 0.5
       b:
         enabled: true
         max-violations: 27
         punish-command: ''
         setback: true
+        max_buffer: 5
+        buffer_decay: 0.15
       c:
         enabled: true
         max-violations: 23
         punish-command: ''
+        setback: true
+        max_buffer: 3
+        buffer_decay: 0.05
       d:
         enabled: true
         max-violations: 23
         punish-command: ''
+        setback: true
+        max_buffer: 3
+        buffer_decay: 0.05
+      e:
+        enabled: true
+        max-violations: 23
+        punish-command: ''
+        setback: true
+        max_buffer: 3
+        buffer_decay: 0.05
+      f:
+        enabled: true
+        max-violations: 23
+        punish-command: ''
+        setback: true
+        max_buffer: 3
+        buffer_decay: 0.05
+      g:
+        enabled: true
+        max-violations: 23
+        punish-command: ''
+        setback: true
+        max_buffer: 3
+        buffer_decay: 0.05
     strafe:
       a:
         enabled: true
         max-violations: 26
         punish-command: ''
+        setback: true
+        max_buffer: 3
+        buffer_decay: 0.05
+      b:
+        enabled: true
+        max-violations: 26
+        punish-command: ''
+        setback: true
+        max_buffer: 6
+        buffer_decay: 0.1
   player:
     hand:
       a:
         enabled: true
         max-violations: 22
         punish-command: ''
+        max_buffer: 10.0
+        buffer_decay: 0.5
     inventory:
       a:
         enabled: true
         max-violations: 24
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
       b:
         enabled: true
         max-violations: 26
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
     protocol:
       a:
         enabled: true
         max-violations: 15
         punish-command: ''
+        max_buffer: 10.0
+        buffer_decay: 0.5
       b:
         enabled: true
         max-violations: 17
         punish-command: ''
+        max_buffer: 10.0
+        buffer_decay: 0.5
       c:
         enabled: true
         max-violations: 19
         punish-command: ''
+        max_buffer: 10.0
+        buffer_decay: 0.5
       d:
         enabled: true
         max-violations: 21
         punish-command: ''
+        max_buffer: 10.0
+        buffer_decay: 0.5
       e:
         enabled: true
         max-violations: 23
         punish-command: ''
+        max_buffer: 10.0
+        buffer_decay: 0.5
       f:
         enabled: true
         max-violations: 25
         punish-command: ''
+        max_buffer: 10.0
+        buffer_decay: 0.5
       g:
         enabled: true
         max-violations: 27
         punish-command: ''
+        max_buffer: 10.0
+        buffer_decay: 0.5
       h:
         enabled: true
         max-violations: 29
         punish-command: ''
+        max_buffer: 10.0
+        buffer_decay: 0.5
       i:
         enabled: true
         max-violations: 30
         punish-command: ''
+        max_buffer: 10.0
+        buffer_decay: 0.5
       j:
         enabled: true
         max-violations: 28
         punish-command: ''
+        max_buffer: 10.0
+        buffer_decay: 0.5
       k:
         enabled: true
         max-violations: 26
         punish-command: ''
+        max_buffer: 10.0
+        buffer_decay: 0.5
       l:
         enabled: true
         max-violations: 26
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
       x:
           enabled: true
           max-violations: 26
           punish-command: ''
+          max_buffer: 10.0
+          buffer_decay: 0.5
       z:
           enabled: true
           max-violations: 26
           punish-command: ''
+          max_buffer: 10.0
+          buffer_decay: 0.5
     scaffold:
       a:
         enabled: true
         max-violations: 22
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
       b:
         enabled: true
         max-violations: 24
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
       c:
         enabled: true
         max-violations: 26
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
       d:
         enabled: true
         max-violations: 28
         punish-command: ''
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
     timer:
       a:
         enabled: true
@@ -479,12 +733,16 @@ checks:
         punish-command: ''
         max-timer-speed: 1.02
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
       b:
         enabled: true
         max-violations: 27
         punish-command: ''
         minimum-timer-speed: 0.75
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
       c:
         enabled: true
         max-violations: 29
@@ -493,3 +751,5 @@ checks:
         balance-reset: -50
         balance-subtraction-on-teleport: 50
         setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5

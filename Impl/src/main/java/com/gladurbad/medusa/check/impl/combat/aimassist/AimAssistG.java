@@ -14,11 +14,11 @@ import java.util.Deque;
 @CheckInfo(name = "AimAssist (G)", description = "Checks for aimbots with high randomisation.", experimental = true)
 public class AimAssistG extends Check {
 
-    private static final int SAMPLE_SIZE = 80;
+    private static final int SAMPLE_SIZE = 50;
     private static final double ANGLE_THRESHOLD = 0.24;
     private static final double CONSISTENCY_THRESHOLD = 1.79;
     private static final double SNAP_THRESHOLD = 25.0;
-    private static final double BUFFER_LIMIT = 100;
+    private static final double BUFFER_LIMIT = 200;
 
     private final Deque<Double> yawChanges = new ArrayDeque<>();
     private final Deque<Double> pitchChanges = new ArrayDeque<>();
@@ -78,6 +78,9 @@ public class AimAssistG extends Check {
                             fail(String.format("PatternG. CS: %.2f, SS: %.2f, AV: %.2f",
                                                consistencyScore, snapScore, angleVariation));
                             buffer = 0;
+                            angleChanges.clear();
+                            yawChanges.clear();
+                            pitchChanges.clear();
                         }
                     } else {
                         buffer = Math.max(0, buffer - 1);

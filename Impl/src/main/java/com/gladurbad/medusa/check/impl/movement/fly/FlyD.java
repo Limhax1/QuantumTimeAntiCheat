@@ -6,14 +6,18 @@ import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
+import org.bukkit.Bukkit;
 
 @CheckInfo(name = "Fly (D)", description = "Checks for Invalid Y motions", experimental = true)
 public class FlyD extends Check {
 
+    private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");
+    private static final ConfigValue buffer_decay = new ConfigValue(ConfigValue.ValueType.DOUBLE, "buffer_decay");
+    private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
+
     public FlyD(PlayerData data) {
         super(data);
     }
-    private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
 
     @Override
     public void handle(Packet packet) {

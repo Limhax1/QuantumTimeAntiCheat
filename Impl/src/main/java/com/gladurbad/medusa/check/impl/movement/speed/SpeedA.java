@@ -1,4 +1,4 @@
-package com.gladurbad.medusa.check.impl.movement.motion;
+package com.gladurbad.medusa.check.impl.movement.speed;
 
 import com.gladurbad.api.check.CheckInfo;
 import com.gladurbad.medusa.check.Check;
@@ -6,16 +6,15 @@ import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 @CheckInfo(name = "Speed (A)", description = "Checks for Speed.")
 public final class SpeedA extends Check {
+
+    private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");
+    private static final ConfigValue buffer_decay = new ConfigValue(ConfigValue.ValueType.DOUBLE, "buffer_decay");
     private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
+
     public SpeedA(final PlayerData data) {
         super(data);
     }
@@ -26,23 +25,24 @@ public final class SpeedA extends Check {
             final double speed = data.getPositionProcessor().getDeltaXZ();
             debug("Speed " + speed);
             if(speed > 0.65 && !data.getPlayer().hasPotionEffect(PotionEffectType.SPEED) && !isExempt(ExemptType.FLYING, ExemptType.VELOCITY, ExemptType.TELEPORT, ExemptType.SLIME, ExemptType.PISTON, ExemptType.UNDER_BLOCK, ExemptType.ICE, ExemptType.JOINED, ExemptType.NEAR_VEHICLE)) {
+                buffer++;
                 if(setback.getBoolean()) {
                     setback();
-                    buffer++;
                 }
-                if(buffer >= 5) {
+
+                if(buffer >= max_buffer.getDouble()) {
                     fail("Going too Quick " + speed);
                 }
             } else {
-                buffer = buffer- 0.1;
+                buffer = buffer - buffer_decay.getDouble();
             }
 
-            if(speed > 1.2 && !isExempt(ExemptType.FLYING, ExemptType.SLIME, ExemptType.PISTON, ExemptType.ICE, ExemptType.JOINED, ExemptType.NEAR_VEHICLE)) {
+            if(speed > 1.2 && !isExempt(ExemptType.TELEPORT ,ExemptType.FLYING, ExemptType.SLIME, ExemptType.PISTON, ExemptType.ICE, ExemptType.JOINED, ExemptType.NEAR_VEHICLE)) {
+                buffer++;
                 if(setback.getBoolean()) {
                     setback();
-                    buffer++;
                 }
-                if(buffer >= 5) {
+                if(buffer >= max_buffer.getDouble()) {
                     fail("Going too Quick " + speed);
                 }
             }

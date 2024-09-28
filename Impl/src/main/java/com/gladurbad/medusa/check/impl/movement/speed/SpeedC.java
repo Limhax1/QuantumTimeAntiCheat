@@ -1,4 +1,4 @@
-package com.gladurbad.medusa.check.impl.movement.motion;
+package com.gladurbad.medusa.check.impl.movement.speed;
 
 import com.gladurbad.api.check.CheckInfo;
 import com.gladurbad.medusa.check.Check;
@@ -7,7 +7,6 @@ import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.data.processor.PositionProcessor;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -16,7 +15,11 @@ import org.bukkit.potion.PotionEffectType;
 
 @CheckInfo(name = "Speed (C)", description = "Checks for invalid Y motions.", experimental = true)
 public class SpeedC extends Check {
+
+    private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");
+    private static final ConfigValue buffer_decay = new ConfigValue(ConfigValue.ValueType.DOUBLE, "buffer_decay");
     private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
+
     private static final int JUMP_THRESHOLD = 2;
     private static final double EPSILON = 1E-13;
 
@@ -45,10 +48,10 @@ public class SpeedC extends Check {
                 }
 
                 if (Math.abs(deltaY - expectedYMotion) < EPSILON) {
-                    buffer = Math.max(0, buffer - 1);
+                    buffer = Math.max(0, buffer - buffer_decay.getDouble());
                 } else if (Math.abs(deltaY - lastMaxYMotion) < EPSILON) {
                     sameMotionCount++;
-                    if (sameMotionCount >= JUMP_THRESHOLD) {
+                    if (sameMotionCount >= max_buffer.getDouble()) {
                         if(setback.getBoolean()) {
                             setback();
                         }
@@ -69,7 +72,7 @@ public class SpeedC extends Check {
                     if(setback.getBoolean()) {
                         setback();
                     }
-                    if(buffer++ > 2) {
+                    if(buffer++ > max_buffer.getDouble()) {
                         fail("Jumped too high: " + deltaY + ", Expected: " + expectedYMotion);
                         buffer = 0;
                     }
@@ -77,7 +80,7 @@ public class SpeedC extends Check {
                     if(setback.getBoolean()) {
                         setback();
                     }
-                    if(buffer++ > 2) {
+                    if(buffer++ > max_buffer.getDouble()) {
                         fail("Jumped too low: " + deltaY + ", Expected: " + expectedYMotion);
                         buffer = 0;
                     }
@@ -86,7 +89,7 @@ public class SpeedC extends Check {
                 if (deltaY == 0) {
                     lastMaxYMotion = 0.0;
                     sameMotionCount = 0;
-                    buffer = Math.max(0, buffer - 0.01);
+                    buffer = Math.max(0, buffer - buffer_decay.getDouble());
                 }
             }
         }
