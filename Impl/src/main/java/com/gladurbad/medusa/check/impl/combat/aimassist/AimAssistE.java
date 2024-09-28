@@ -16,9 +16,9 @@ import java.util.Deque;
 @CheckInfo(name = "AimAssist (E)", description = "Checks for Rotation speed flaws." , experimental = true)
 public class AimAssistE extends Check {
 
-    private static final int SAMPLE_SIZE = 80;
+    private static final int SAMPLE_SIZE = 70;
     private static final double SPEED_DISTANCE_RATIO_THRESHOLD = 1.495;
-    private static final double BUFFER_LIMIT = 35;
+    private static final double BUFFER_LIMIT = 30;
     private static final double MIN_ROTATION_THRESHOLD = 3;
     private static final double MAX_DISTANCE = 8.0;
     private static final double YAW_WEIGHT = 1;
@@ -74,15 +74,17 @@ public class AimAssistE extends Check {
                     boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.INSIDE_VEHICLE, ExemptType.JOINED);
 
                     if (!exempt && speedDistanceRatio > SPEED_DISTANCE_RATIO_THRESHOLD && patternDetected) {
-                        buffer += 1;
+                        buffer += 0.5;
 
                         if (buffer > BUFFER_LIMIT) {
                             fail(String.format("PatternE. Ratio: %.2f, ConsistentPatterns: %d", speedDistanceRatio, consistentPatternCount));
                             buffer = 0;
                             rotationSpeeds.clear();
+                            targetDistances.clear();
+                            consistentPatternCount = 0;
                         }
                     } else {
-                        buffer = Math.max(0, buffer - 0.75);
+                        buffer = Math.max(0, buffer - 1);
                     }
 
                     debug(String.format("Speed-Distance Ratio: %.2f, ConsistentPatterns: %d, Buffer: %.2f, SpeedCorrection: %.2f", 
@@ -123,7 +125,7 @@ public class AimAssistE extends Check {
             
             lastRatio = ratio;
             
-            if (patternCount >= 4) {
+            if (patternCount >= 5) {
                 consistentPatternCount++;
                 return true;
             }

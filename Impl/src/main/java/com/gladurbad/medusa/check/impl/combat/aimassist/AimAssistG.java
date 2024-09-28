@@ -14,9 +14,9 @@ import java.util.Deque;
 @CheckInfo(name = "AimAssist (G)", description = "Checks for aimbots with high randomisation.", experimental = true)
 public class AimAssistG extends Check {
 
-    private static final int SAMPLE_SIZE = 50;
-    private static final double ANGLE_THRESHOLD = 0.22;
-    private static final double CONSISTENCY_THRESHOLD = 1.75;
+    private static final int SAMPLE_SIZE = 80;
+    private static final double ANGLE_THRESHOLD = 0.24;
+    private static final double CONSISTENCY_THRESHOLD = 1.79;
     private static final double SNAP_THRESHOLD = 25.0;
     private static final double BUFFER_LIMIT = 100;
 

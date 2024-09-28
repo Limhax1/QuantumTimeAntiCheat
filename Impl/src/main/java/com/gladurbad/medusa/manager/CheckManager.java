@@ -2,10 +2,7 @@ package com.gladurbad.medusa.manager;
 
 import com.gladurbad.medusa.check.Check;
 import com.gladurbad.medusa.check.impl.combat.aimassist.*;
-import com.gladurbad.medusa.check.impl.combat.autoclicker.AutoClickerA;
-import com.gladurbad.medusa.check.impl.combat.autoclicker.AutoClickerB;
-import com.gladurbad.medusa.check.impl.combat.autoclicker.AutoClickerC;
-import com.gladurbad.medusa.check.impl.combat.autoclicker.AutoClickerD;
+import com.gladurbad.medusa.check.impl.combat.autoclicker.*;
 import com.gladurbad.medusa.check.impl.combat.hitbox.HitboxA;
 import com.gladurbad.medusa.check.impl.combat.killaura.KillAuraF;
 import com.gladurbad.medusa.check.impl.combat.reach.ReachA;
@@ -51,6 +48,7 @@ public final class CheckManager {
             AutoClickerB.class,
             AutoClickerC.class,
             AutoClickerD.class,
+            AutoClickerE.class,
             KillAuraA.class,
             KillAuraB.class,
             KillAuraC.class,
