@@ -9,7 +9,7 @@ import com.gladurbad.medusa.packet.Packet;
 import com.gladurbad.medusa.util.MathUtil;
 import com.gladurbad.medusa.util.type.EvictingList;
 
-@CheckInfo(name = "Timer (A)", description = "Checks for irregular game speed.")
+@CheckInfo(name = "Timer (A)", description = "Checks for irregular game speed.", complextype = "Timer")
 public class TimerA extends Check {
 
     private final EvictingList<Long> samples;

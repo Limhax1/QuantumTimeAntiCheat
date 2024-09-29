@@ -6,7 +6,7 @@ import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.packet.Packet;
 
-@CheckInfo(name = "FastClimb (A)", description = "Checks for fast-climb", experimental = true)
+@CheckInfo(name = "FastClimb (A)", description = "Checks for fast-climb", experimental = true, complextype = "FastClimb")
 public class FastClimbA extends Check {
 
     private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");

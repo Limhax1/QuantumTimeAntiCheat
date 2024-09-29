@@ -6,7 +6,7 @@ import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
 
-@CheckInfo(name = "KillAura (G)", description = "Checks for large head movements without decelerating.", experimental = true)
+@CheckInfo(name = "KillAura (G)", description = "Checks for large head movements without decelerating.", experimental = true, complextype = "Deceleration")
 public class KillAuraG extends Check {
 
     public KillAuraG(final PlayerData data) {

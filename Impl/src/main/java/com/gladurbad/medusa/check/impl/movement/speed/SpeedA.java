@@ -8,7 +8,7 @@ import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
 import org.bukkit.potion.PotionEffectType;
 
-@CheckInfo(name = "Speed (A)", description = "Checks for Speed.")
+@CheckInfo(name = "Speed (A)", description = "Checks for Speed.", complextype = "Speed")
 public final class SpeedA extends Check {
 
     private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");

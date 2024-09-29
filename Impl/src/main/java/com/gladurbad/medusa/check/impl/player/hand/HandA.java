@@ -12,7 +12,7 @@ import org.bukkit.Location;
  * Created on 1/18/2021 Package com.gladurbad.medusa.check.impl.player.hand by GladUrBad
  */
 
-@CheckInfo(name = "Hand (A)", experimental = true, description = "Checks for face occlusion when placing blocks.")
+@CheckInfo(name = "Hand (A)", experimental = true, description = "Checks for face occlusion when placing blocks.", complextype = "GhostHand")
 public final class HandA extends Check {
 
     public HandA(final PlayerData data) {

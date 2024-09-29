@@ -9,7 +9,7 @@ import com.gladurbad.medusa.util.MathUtil;
 
 import java.util.ArrayDeque;
 
-@CheckInfo(name = "AutoClicker (C)", experimental = true, description = "Checks for rounded(ish) CPS.")
+@CheckInfo(name = "AutoClicker (C)", experimental = true, description = "Checks for rounded(ish) CPS.", complextype = "Rounded")
 public final class AutoClickerC extends Check {
 
     private final ArrayDeque<Integer> samples = new ArrayDeque<>();

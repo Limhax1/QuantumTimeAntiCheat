@@ -27,7 +27,7 @@ import org.bukkit.util.Vector;
  * Fix stupid HitboxExpansion using NMS.
  */
 
-@CheckInfo(name = "Reach (A)", description = "Checks for attacking distance.")
+@CheckInfo(name = "Reach (A)", description = "Checks for attacking distance.", complextype = "Reach")
 public final class ReachA extends Check {
 
     private static final ConfigValue maxReach = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max-reach");

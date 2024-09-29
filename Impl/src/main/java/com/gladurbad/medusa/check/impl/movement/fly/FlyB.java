@@ -13,7 +13,7 @@ import org.bukkit.block.Block;
 
 import java.util.LinkedList;
 
-@CheckInfo(name = "Fly (B)", description = "Checks for jumping mid-air.")
+@CheckInfo(name = "Fly (B)", description = "Checks for jumping mid-air.", complextype = "Prediction")
 public final class FlyB extends Check {
 
     private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");

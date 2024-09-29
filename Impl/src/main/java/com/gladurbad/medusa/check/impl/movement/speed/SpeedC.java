@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-@CheckInfo(name = "Speed (C)", description = "Checks for invalid Y motions.", experimental = true)
+@CheckInfo(name = "Speed (C)", description = "Checks for invalid Y motions.", experimental = true, complextype = "InvalidY")
 public class SpeedC extends Check {
 
     private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");

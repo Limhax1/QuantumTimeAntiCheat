@@ -5,7 +5,7 @@ import com.gladurbad.medusa.check.Check;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.packet.Packet;
 
-@CheckInfo(name = "Protocol (Z)", description = "Notification handler for player timeouts.")
+@CheckInfo(name = "Protocol (Z)", description = "Notification handler for player timeouts.", complextype = "Null")
 public class ProtocolZ extends Check {
 
     public ProtocolZ(PlayerData data) {

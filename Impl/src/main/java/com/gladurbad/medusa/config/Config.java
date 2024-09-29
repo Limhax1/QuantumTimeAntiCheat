@@ -27,7 +27,7 @@ public final class Config {
     public static List<String> ENABLED_CHECKS = new ArrayList<>();
     public static Map<String, Integer> MAX_VIOLATIONS = new HashMap<>();
     public static Map<String, String> PUNISH_COMMANDS = new HashMap<>();
-
+    public static Map<String, String> CHECK_COMPLEX_TYPES = new HashMap<>();
 
     public static void updateConfig() {
         try {
@@ -87,6 +87,7 @@ public final class Config {
                 final boolean enabled = getBooleanFromConfig("checks." + checkType + "." + getPathFromCheckName(checkInfo.name()) + ".enabled");
                 final int maxViolations = getIntegerFromConfig("checks." + checkType + "." + getPathFromCheckName(checkInfo.name()) + ".max-violations");
                 final String punishCommand = getStringFromConfig("checks." + checkType + "." + getPathFromCheckName(checkInfo.name()) + ".punish-command");
+                final String complexType = getStringFromConfig("checks." + checkType + "." + getPathFromCheckName(checkInfo.name()) + ".complextype");
 
                 if (enabled) {
                     ENABLED_CHECKS.add(check.getSimpleName());
@@ -94,6 +95,7 @@ public final class Config {
 
                 MAX_VIOLATIONS.put(check.getSimpleName(), maxViolations);
                 PUNISH_COMMANDS.put(check.getSimpleName(), punishCommand);
+                CHECK_COMPLEX_TYPES.put(check.getSimpleName(), complexType);
             }
         } catch (Exception exception) {
             Bukkit.getLogger().severe("Could not properly load config.");

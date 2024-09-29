@@ -15,7 +15,7 @@ import java.text.DecimalFormat;
  * Created on 10/24/2020 Package com.gladurbad.medusa.check.impl.combat.killaura by GladUrBad
  */
 
-@CheckInfo(name = "KillAura (D)", description = "Checks for high accuracy.")
+@CheckInfo(name = "KillAura (D)", description = "Checks for high accuracy.", complextype = "Accuracy")
 public final class KillAuraD extends Check {
 
     private int hits, swings;

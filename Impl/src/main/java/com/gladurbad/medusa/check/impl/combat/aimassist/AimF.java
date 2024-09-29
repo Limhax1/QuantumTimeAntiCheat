@@ -3,15 +3,14 @@ package com.gladurbad.medusa.check.impl.combat.aimassist;
 import com.gladurbad.api.check.CheckInfo;
 import com.gladurbad.medusa.check.Check;
 import com.gladurbad.medusa.data.PlayerData;
-import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-@CheckInfo(name = "AimAssist (F)", description = "Checks for invalid GCD.", experimental = true)
-public class AimAssistF extends Check {
+@CheckInfo(name = "Aim (F)", description = "Checks for invalid GCD.", experimental = true, complextype = "GCD")
+public class AimF extends Check {
 
     private static final int SAMPLE_SIZE = 25;
     private static final double GCD_THRESHOLD = 0.0036;
@@ -24,7 +23,7 @@ public class AimAssistF extends Check {
     private float lastYaw = 0.0f;
     private float lastPitch = 0.0f;
 
-    public AimAssistF(PlayerData data) {
+    public AimF(PlayerData data) {
         super(data);
     }
 

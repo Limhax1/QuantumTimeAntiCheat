@@ -3,12 +3,9 @@ package com.gladurbad.medusa.check.impl.player.Scaffold;
 import com.gladurbad.api.check.CheckInfo;
 import com.gladurbad.medusa.check.Check;
 import com.gladurbad.medusa.data.PlayerData;
-import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
-import io.github.retrooper.packetevents.packetwrappers.play.in.blockplace.WrappedPacketInBlockPlace;
-import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
 
-@CheckInfo(name = "Scaffold (B)", description = "Checks for Right Click Autoclickers.")
+@CheckInfo(name = "Scaffold (B)", description = "Checks for Right Click Autoclickers.", complextype = "FastPlace")
 public class ScaffoldB extends Check {
     public ScaffoldB(PlayerData data) {
         super(data);

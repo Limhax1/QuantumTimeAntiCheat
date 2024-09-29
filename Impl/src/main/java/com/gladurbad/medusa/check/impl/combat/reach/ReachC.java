@@ -11,7 +11,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-@CheckInfo(name = "Reach (C)", experimental = true, description = "Checks for reach hacks on the first attack")
+@CheckInfo(name = "Reach (C)", experimental = true, description = "Checks for reach hacks on the first attack", complextype = "New")
 public final class ReachC extends Check {
 
     private static final double MAX_REACH = 3.05;

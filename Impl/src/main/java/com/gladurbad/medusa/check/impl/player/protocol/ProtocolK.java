@@ -9,7 +9,7 @@ import com.gladurbad.medusa.packet.Packet;
     * I came
  **/
 
-@CheckInfo(name = "Protocol (K)", description = "Checks for goofy deceleration.")
+@CheckInfo(name = "Protocol (K)", description = "Checks for goofy deceleration.", complextype = "Deceleration")
 public final class ProtocolK extends Check {
 
     public ProtocolK(final PlayerData data) {

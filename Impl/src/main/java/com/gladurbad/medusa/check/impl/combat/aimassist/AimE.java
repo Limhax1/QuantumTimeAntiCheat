@@ -13,8 +13,8 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-@CheckInfo(name = "AimAssist (E)", description = "Checks for Rotation speed flaws." , experimental = true)
-public class AimAssistE extends Check {
+@CheckInfo(name = "Aim (E)", description = "Checks for Rotation speed flaws." , experimental = true, complextype = "Speed")
+public class AimE extends Check {
 
     private static final int SAMPLE_SIZE = 70;
     private static final double SPEED_DISTANCE_RATIO_THRESHOLD = 1.495;
@@ -31,7 +31,7 @@ public class AimAssistE extends Check {
     private double buffer;
     private int consistentPatternCount;
 
-    public AimAssistE(PlayerData data) {
+    public AimE(PlayerData data) {
         super(data);
     }
 

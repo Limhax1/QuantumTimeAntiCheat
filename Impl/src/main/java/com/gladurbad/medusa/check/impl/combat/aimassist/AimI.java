@@ -5,9 +5,9 @@ import com.gladurbad.medusa.check.Check;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.packet.Packet;
 
-@CheckInfo(name = "AimAssist (I)", description = "Checks for invalid yaw changes.")
-public class AimAssistI extends Check {
-    public AimAssistI(PlayerData data) {
+@CheckInfo(name = "Aim (I)", description = "Checks for invalid yaw changes.", complextype = "InvalidYaw")
+public class AimI extends Check {
+    public AimI(PlayerData data) {
         super(data);
     }
     double MAX_BUFFER = 5;

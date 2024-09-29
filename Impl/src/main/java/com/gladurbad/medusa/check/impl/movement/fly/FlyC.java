@@ -9,7 +9,7 @@ import com.gladurbad.medusa.packet.Packet;
 import org.bukkit.Bukkit;
 
 
-@CheckInfo(name = "Fly (C)", description = "Checks for gravity.")
+@CheckInfo(name = "Fly (C)", description = "Checks for gravity.", complextype = "Gravity")
 public final class FlyC extends Check {
 
     private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");

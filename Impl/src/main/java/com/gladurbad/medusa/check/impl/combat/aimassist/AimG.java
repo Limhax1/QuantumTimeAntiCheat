@@ -11,8 +11,8 @@ import org.bukkit.util.Vector;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-@CheckInfo(name = "AimAssist (G)", description = "Checks for aimbots with high randomisation.", experimental = true)
-public class AimAssistG extends Check {
+@CheckInfo(name = "Aim (G)", description = "Checks for aimbots with high randomisation.", experimental = true, complextype = "Randomisation")
+public class AimG extends Check {
 
     private static final int SAMPLE_SIZE = 50;
     private static final double ANGLE_THRESHOLD = 0.24;
@@ -26,7 +26,7 @@ public class AimAssistG extends Check {
     private double lastYaw, lastPitch;
     private double buffer = 0.0;
 
-    public AimAssistG(PlayerData data) {
+    public AimG(PlayerData data) {
         super(data);
     }
 

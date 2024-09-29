@@ -10,7 +10,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-@CheckInfo(name = "Hitbox (A)", description = "Checks for invalid attack angles.")
+@CheckInfo(name = "Hitbox (A)", description = "Checks for invalid attack angles.", complextype = "Hitbox")
 public class HitboxA extends Check {
 
     private static final double MAX_ANGLE = Math.toRadians(30); // 90 fokos maximális szög

@@ -8,7 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-@CheckInfo(name = "KillAura (F)", experimental = true, description = "Checks for hit occlusion (wallhit).")
+@CheckInfo(name = "KillAura (F)", experimental = true, description = "Checks for hit occlusion (wallhit).", complextype = "Wallhit")
 public final class KillAuraF extends Check {
 
     private Location lastAttackerLocation;

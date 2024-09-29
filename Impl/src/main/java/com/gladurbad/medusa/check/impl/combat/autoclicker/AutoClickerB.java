@@ -12,7 +12,7 @@ import java.util.ArrayDeque;
 /**
  * Created on 12/30/2020 Package com.gladurbad.medusa.check.impl.combat.autoclicker by GladUrBad
  */
-@CheckInfo(name = "AutoClicker (B)", description = "Simple change in statistics check.")
+@CheckInfo(name = "AutoClicker (B)", description = "Simple change in statistics check.", complextype = "Statistics")
 public final class AutoClickerB extends Check {
 
     private int ticks;

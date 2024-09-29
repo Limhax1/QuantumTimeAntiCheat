@@ -12,7 +12,7 @@ import org.bukkit.craftbukkit.v1_8_R3.block.CraftBlock;
 
 
 
-@CheckInfo(name = "Velocity (A)", experimental = true, description = "Checks for vertical velocity.")
+@CheckInfo(name = "Velocity (A)", experimental = true, description = "Checks for vertical velocity.", complextype = "Vertical")
 public final class VelocityA extends Check {
 
     private static final ConfigValue minVelPct = new ConfigValue(

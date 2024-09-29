@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-@CheckInfo(name = "Speed (B)", description = "Checks for Speed.")
+@CheckInfo(name = "Speed (B)", description = "Checks for Speed.", complextype = "Speed")
 public final class SpeedB extends Check {
 
     private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");

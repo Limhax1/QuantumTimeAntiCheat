@@ -10,7 +10,7 @@ import org.bukkit.block.Block;
 
 import java.util.List;
 
-@CheckInfo(name = "Phase (A)", description = "Checks if the player moves through unpassable blocks", experimental = true)
+@CheckInfo(name = "Phase (A)", description = "Checks if the player moves through unpassable blocks", experimental = true, complextype = "Phase")
 public class PhaseA extends Check {
 
     public PhaseA(final PlayerData data) {

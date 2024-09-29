@@ -9,7 +9,7 @@ import com.gladurbad.medusa.packet.Packet;
  * Created on 11/14/2020 Package com.gladurbad.medusa.check.impl.player.Protocol by GladUrBad
  */
 
-@CheckInfo(name = "Protocol (A)", description = "Checks for invalid pitch rotation.")
+@CheckInfo(name = "Protocol (A)", description = "Checks for invalid pitch rotation.", complextype = "Invalid Pitch")
 public final class ProtocolA extends Check {
 
     public ProtocolA(final PlayerData data) {

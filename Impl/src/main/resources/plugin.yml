@@ -11,5 +11,7 @@ commands:
     usage: /qtac
     aliases: [anticheat, ac]
     permission: medusa.commands
-
+  custombroadcast:
+    description: Broadcasts a message without the "Broadcast:" prefix
+    usage: /custombroadcast <message>
 

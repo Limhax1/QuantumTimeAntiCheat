@@ -11,7 +11,7 @@ import com.gladurbad.medusa.packet.Packet;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-@CheckInfo(name = "Velocity (B)", description = "Detects suspicious vertical movement patterns indicative of self-damage attempts.")
+@CheckInfo(name = "Velocity (B)", description = "Detects suspicious vertical movement patterns indicative of self-damage attempts.", complextype = "Self Damage")
 public class VelocityB extends Check {
 
     private static final int PATTERN_SIZE = 2;

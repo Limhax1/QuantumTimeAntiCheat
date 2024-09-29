@@ -11,12 +11,7 @@ import com.gladurbad.medusa.util.type.Pair;
 import java.util.ArrayDeque;
 import java.util.List;
 
-/**
- * Created by Elevated.
- * @link https://github.com/ElevatedDev/Frequency/blob/master/src/main/java/xyz/elevated/frequency/check/impl/autoclicker/AutoClickerE.java
- */
-
-@CheckInfo(name = "AutoClicker (D)", experimental = true, description = "Checks for consistency.")
+@CheckInfo(name = "AutoClicker (D)", experimental = true, description = "Checks for consistency.", complextype = "Consistency")
 public final class AutoClickerD extends Check {
 
     private final ArrayDeque<Integer> samples = new ArrayDeque<>();

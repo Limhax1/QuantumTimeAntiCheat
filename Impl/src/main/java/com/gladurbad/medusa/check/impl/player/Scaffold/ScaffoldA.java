@@ -18,7 +18,7 @@ import org.bukkit.util.Vector;
 import java.util.Deque;
 import java.util.LinkedList;
 
-@CheckInfo(name = "Scaffold (A)", description = "Checks for Invalid yaw/pitch when bridging.")
+@CheckInfo(name = "Scaffold (A)", description = "Checks for Invalid yaw/pitch when bridging.", complextype = "RayCast")
 public class ScaffoldA extends Check {
 
     private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");

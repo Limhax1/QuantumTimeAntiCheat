@@ -8,7 +8,7 @@ import com.gladurbad.medusa.data.processor.PositionProcessor;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
 
-@CheckInfo(name = "Speed (F)", description = "Checks for invalid Y changes when jumping.", experimental = true)
+@CheckInfo(name = "Speed (F)", description = "Checks for invalid Y changes when jumping.", experimental = true, complextype = "InvalidY")
 public class SpeedF extends Check {
 
     private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
@@ -34,7 +34,7 @@ public class SpeedF extends Check {
             double deltaY = data.getPositionProcessor().getDeltaY();
             double currentY = data.getPositionProcessor().getY();
 
-            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.FLYING, ExemptType.SLIME, ExemptType.STAIRS, ExemptType.PISTON);
+           boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.FLYING, ExemptType.SLIME, ExemptType.STAIRS, ExemptType.PISTON, ExemptType.WEB);
 
             if (isJumpHeight(deltaY)) {
                 expectedJumpHeight = deltaY;

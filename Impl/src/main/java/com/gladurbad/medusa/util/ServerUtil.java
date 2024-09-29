@@ -3,6 +3,7 @@ package com.gladurbad.medusa.util;
 import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.utils.server.ServerVersion;
 import lombok.experimental.UtilityClass;
+import org.bukkit.Bukkit;
 
 @UtilityClass
 public final class ServerUtil {
@@ -21,5 +22,9 @@ public final class ServerUtil {
 
     public boolean isHigherThan1_13_2() {
         return getServerVersion().isHigherThan(ServerVersion.v_1_13_2);
+    }
+
+    public static void broadcast(final String message) {
+        Bukkit.broadcastMessage(ColorUtil.translate(message));
     }
 }

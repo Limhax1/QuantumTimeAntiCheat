@@ -8,8 +8,8 @@ import com.gladurbad.medusa.packet.Packet;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-@CheckInfo(name = "AimAssist (C)", description = "Checks for constant rotation speeds.", experimental = true)
-public class AimAssistC extends Check {
+@CheckInfo(name = "Aim (C)", description = "Checks for constant rotation speeds.", experimental = true, complextype = "Constant")
+public class AimC extends Check {
 
     private static final int SAMPLE_SIZE = 25;
     private static final double SIMILARITY_THRESHOLD = 0.02;
@@ -27,7 +27,7 @@ public class AimAssistC extends Check {
 
 
 
-    public AimAssistC(PlayerData data) {
+    public AimC(PlayerData data) {
         super(data);
     }
 

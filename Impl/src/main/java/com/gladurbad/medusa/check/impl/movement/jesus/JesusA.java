@@ -9,7 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-@CheckInfo(name = "Jesus (A)", description = "Checks for Jesus hacks", experimental = true)
+@CheckInfo(name = "Jesus (A)", description = "Checks for Jesus hacks", experimental = true, complextype = "WaterWalk")
 public class JesusA extends Check {
 
     private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");

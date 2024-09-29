@@ -11,7 +11,7 @@ import com.google.common.collect.Lists;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-@CheckInfo(name = "AutoClicker (E)", description = "Checks for too low variance.")
+@CheckInfo(name = "AutoClicker (E)", description = "Checks for too low variance.", complextype = "Variance")
 public final class AutoClickerE extends Check {
     private final Deque<Long> samples;
 

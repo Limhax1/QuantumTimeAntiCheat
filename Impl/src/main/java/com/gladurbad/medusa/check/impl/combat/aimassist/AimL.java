@@ -7,11 +7,11 @@ import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
 import com.gladurbad.medusa.util.MathUtil;
 
-@CheckInfo(name = "AimAssist (L)", description = "Checks for not constant rotations.")
-public class AimAssistL extends Check {
+@CheckInfo(name = "Aim (L)", description = "Checks for not constant rotations.", complextype = "Constant")
+public class AimL extends Check {
     double MAX_BUFFER = 5;
     double BUFFER;
-    public AimAssistL(PlayerData data) {
+    public AimL(PlayerData data) {
         super(data);
     }
 

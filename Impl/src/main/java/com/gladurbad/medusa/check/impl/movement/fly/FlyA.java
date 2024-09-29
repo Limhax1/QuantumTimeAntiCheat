@@ -8,7 +8,7 @@ import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
 import org.bukkit.Bukkit;
 
-@CheckInfo(name = "Fly (A)", description = "Checks for autistic flight modules.")
+@CheckInfo(name = "Fly (A)", description = "Checks for autistic flight modules.", complextype = "Test")
 public final class FlyA extends Check {
 
     private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");

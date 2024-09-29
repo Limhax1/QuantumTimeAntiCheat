@@ -11,7 +11,7 @@ import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.Wrapped
 import org.bukkit.GameMode;
 import org.bukkit.util.Vector;
 
-@CheckInfo(name = "Reach (B)", experimental = true, description = "A basic verbose reach check.")
+@CheckInfo(name = "Reach (B)", experimental = true, description = "A basic verbose reach check.", complextype = "Verbose")
 public final class ReachB extends Check {
 
     private static final ConfigValue maxLatency = new ConfigValue(ConfigValue.ValueType.LONG, "max-latency");

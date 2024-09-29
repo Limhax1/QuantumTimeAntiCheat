@@ -11,7 +11,7 @@ import io.github.retrooper.packetevents.packetwrappers.play.in.steervehicle.Wrap
  */
 
 
-@CheckInfo(name = "Protocol (F)", description = "Checks for a common exploit in disabler modules.")
+@CheckInfo(name = "Protocol (F)", description = "Checks for a common exploit in disabler modules.", complextype = "Disabler")
 public final class ProtocolF extends Check {
 
     public ProtocolF(final PlayerData data) {

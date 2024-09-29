@@ -12,7 +12,7 @@ import io.github.retrooper.packetevents.packetwrappers.play.in.flying.WrappedPac
     * I came
  **/
 
-@CheckInfo(name = "Protocol (L)", description = "Checks for players who took the L. (groundspoof xd)")
+@CheckInfo(name = "Protocol (L)", description = "Checks for players who took the L. (groundspoof xd)", complextype = "Ground Spoof")
 public final class ProtocolL extends Check {
 
     public ProtocolL(final PlayerData data) {

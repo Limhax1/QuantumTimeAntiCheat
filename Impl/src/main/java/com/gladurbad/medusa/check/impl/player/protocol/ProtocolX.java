@@ -11,7 +11,7 @@ import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.Wrapped
     * I came
  **/
 
-@CheckInfo(name = "Protocol (X)", description = "Checks for self interaction.")
+@CheckInfo(name = "Protocol (X)", description = "Checks for self interaction.", complextype = "Self Interact")
 public final class ProtocolX extends Check {
 
     public ProtocolX(final PlayerData data) {

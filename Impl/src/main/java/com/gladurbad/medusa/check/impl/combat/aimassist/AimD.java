@@ -5,15 +5,12 @@ import com.gladurbad.medusa.check.Check;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
-import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-import org.bukkit.util.Vector;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-@CheckInfo(name = "AimAssist (D)", description = "Checks for consistent aiming.", experimental = true)
-public class AimAssistD extends Check {
+@CheckInfo(name = "Aim (D)", description = "Checks for consistent aiming.", experimental = true, complextype = "Consistent")
+public class AimD extends Check {
 
     private static final int SAMPLE_SIZE = 20;
     private static final double MAX_SNAP_ANGLE = 30.0;
@@ -27,7 +24,7 @@ public class AimAssistD extends Check {
     private float lastPitch = 0.0f;
     private double buffer = 0.0;
 
-    public AimAssistD(PlayerData data) {
+    public AimD(PlayerData data) {
         super(data);
     }
 
@@ -40,7 +37,6 @@ public class AimAssistD extends Check {
             float deltaYaw = Math.abs(yaw - lastYaw);
             float deltaPitch = Math.abs(pitch - lastPitch);
 
-            // Normalize yaw
             if (deltaYaw > 180.0f) {
                 deltaYaw = 360.0f - deltaYaw;
             }

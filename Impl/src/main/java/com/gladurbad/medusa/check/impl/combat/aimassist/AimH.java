@@ -6,9 +6,9 @@ import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
 
-@CheckInfo(name = "AimAssist (H)", description = "Generic rotation analysis heuristic.")
-public class AimAssistH extends Check {
-    public AimAssistH(PlayerData data) {
+@CheckInfo(name = "Aim (H)", description = "Generic rotation analysis heuristic.", complextype = "Analysis")
+public class AimH extends Check {
+    public AimH(PlayerData data) {
         super(data);
     }
 

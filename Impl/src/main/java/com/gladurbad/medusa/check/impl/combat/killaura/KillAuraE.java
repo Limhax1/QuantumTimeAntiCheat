@@ -9,7 +9,7 @@ import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.Wrapped
 /**
  * Created on 07/01/2020 Package luna.anticheat.checks.player.badpackets by GladUrBad
  */
-@CheckInfo(name = "KillAura (E)", description = "Checks for no swing modules.")
+@CheckInfo(name = "KillAura (E)", description = "Checks for no swing modules.", complextype = "NoSwing")
 public final class KillAuraE extends Check {
 
     private int hits;

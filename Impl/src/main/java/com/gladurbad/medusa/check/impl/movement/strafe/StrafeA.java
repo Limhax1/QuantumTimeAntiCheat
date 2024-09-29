@@ -8,7 +8,7 @@ import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
 import org.bukkit.util.Vector;
 
-@CheckInfo(name = "Strafe (A)", description = "Checks for sudden direction changes while in air.")
+@CheckInfo(name = "Strafe (A)", description = "Checks for sudden direction changes while in air.", complextype = "Invalid Angle")
 public class StrafeA extends Check {
 
     private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");

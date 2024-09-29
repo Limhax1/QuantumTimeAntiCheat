@@ -6,7 +6,7 @@ import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.packet.Packet;
 
-@CheckInfo(name = "Speed (E)", description = "Checks for invalid Motion")
+@CheckInfo(name = "Speed (E)", description = "Checks for invalid Motion", complextype = "InvalidY")
 public class SpeedE extends Check {
     private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");
     private static final ConfigValue buffer_decay = new ConfigValue(ConfigValue.ValueType.DOUBLE, "buffer_decay");

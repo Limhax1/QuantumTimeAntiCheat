@@ -12,7 +12,7 @@ import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.Wrapped
  * Created on 10/24/2020 Package com.gladurbad.medusa.check.impl.combat.autoclicker by GladUrBad
  */
 
-@CheckInfo(name = "AutoClicker (A)", description = "Checks for attack speed.")
+@CheckInfo(name = "AutoClicker (A)", description = "Checks for attack speed.", complextype = "HighCps")
 public final class AutoClickerA extends Check {
 
     private int ticks, cps;

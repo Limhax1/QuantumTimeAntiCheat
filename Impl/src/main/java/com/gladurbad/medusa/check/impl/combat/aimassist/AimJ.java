@@ -5,13 +5,13 @@ import com.gladurbad.medusa.check.Check;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.packet.Packet;
 
-@CheckInfo(name = "AimAssist (J)", description = "Checks for Switching directions too quickly")
-public class AimAssistJ extends Check {
+@CheckInfo(name = "Aim (J)", description = "Checks for Switching directions too quickly", complextype = "Switch")
+public class AimJ extends Check {
     private float lastDeltaPitch;
     private int ticksSinceSwitchedDirection;
     double MAX_BUFFER = 5;
     double BUFFER;
-    public AimAssistJ(PlayerData data) {
+    public AimJ(PlayerData data) {
         super(data);
     }
     @Override

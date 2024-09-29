@@ -6,11 +6,11 @@ import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
 
-@CheckInfo(name = "AimAssist (M)", description = "ΣΣ")
-public class AimAssistΣ extends Check {
+@CheckInfo(name = "Aim (M)", description = "ΣΣ", complextype = "Sigma")
+public class AimM extends Check {
     double MAX_BUFFER = 5;
     double BUFFER;
-    public AimAssistΣ(PlayerData data) {
+    public AimM(PlayerData data) {
         super(data);
     }
 

@@ -6,7 +6,7 @@ import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.packet.Packet;
 import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
 
-@CheckInfo(name = "Protocol (J)", description = "Checks for attacking and digging.")
+@CheckInfo(name = "Protocol (J)", description = "Checks for attacking and digging.", complextype = "AWD")
 public final class ProtocolJ extends Check {
 
     public ProtocolJ(final PlayerData data) {

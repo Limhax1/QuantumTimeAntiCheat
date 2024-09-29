@@ -8,7 +8,7 @@ import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
 import org.bukkit.Bukkit;
 
-@CheckInfo(name = "Fly (D)", description = "Checks for Invalid Y motions", experimental = true)
+@CheckInfo(name = "Fly (D)", description = "Checks for Invalid Y motions", experimental = true, complextype = "InvalidY")
 public class FlyD extends Check {
 
     private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");

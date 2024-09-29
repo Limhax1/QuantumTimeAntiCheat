@@ -39,6 +39,8 @@ public final class AlertUtil {
     }
 
     public void handleAlert(final Check check, final PlayerData data, final String info) {
+        final String complexType = Config.CHECK_COMPLEX_TYPES.get(check.getClass().getSimpleName());
+        
         final TextComponent alertMessage = new TextComponent(ColorUtil.translate(Config.ALERT_FORMAT)
                 .replaceAll("%player%", data.getPlayer().getName())
                 .replaceAll("%uuid%", data.getPlayer().getUniqueId().toString())
@@ -49,14 +51,19 @@ public final class AlertUtil {
                 .replaceAll("%vl%", Integer.toString(check.getVl()))
                 .replaceAll("%maxvl%", Integer.toString(check.getMaxVl()))
                 .replaceAll("%ping%", Integer.toString(PlayerUtil.getPing(data.getPlayer())))
-                .replaceAll("%tps%", new DecimalFormat("##.##").format(ServerUtil.getTPS())));
+                .replaceAll("%tps%", new DecimalFormat("##.##").format(ServerUtil.getTPS()))
+                .replaceAll("%complexType%", complexType));
 
         alertMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + data.getPlayer().getName()));
         alertMessage.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ColorUtil.translate(
                 Config.ACCENT_ONE + "Description: &7" + check.getCheckInfo().description() +
                         "\n" + Config.ACCENT_ONE + "Info: &7" + info +
-                        "\n" + Config.ACCENT_ONE + "Ping: &7" + PlayerUtil.getPing(data.getPlayer()) +
+                        "\n" + Config.ACCENT_ONE + "Complex Type: &7" + complexType +
+                        "\n" +
+                        "\n" + Config.ACCENT_TWO + "Ping: &7" + PlayerUtil.getPing(data.getPlayer()) +
+                        "\n" +
                         "\n" + Config.ACCENT_ONE + "TPS: &7" + String.format("%.2f", PacketEvents.get().getServerUtils().getTPS()) +
+                        "\n" +
                         "\n" + Config.ACCENT_TWO + "Click to teleport.")).create()));
 
         final MedusaSendAlertEvent event = new MedusaSendAlertEvent(alertMessage, data.getPlayer(), check, info);

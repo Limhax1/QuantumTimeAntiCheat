@@ -9,7 +9,7 @@ import com.gladurbad.medusa.packet.Packet;
  * Created on 10/24/2020 Package com.gladurbad.medusa.check.impl.combat.killaura by GladUrBad
  */
 
-@CheckInfo(name = "KillAura (A)", description = "Checks for packet order.")
+@CheckInfo(name = "KillAura (A)", description = "Checks for packet order.", complextype = "PacketOrder")
 public final class KillAuraA extends Check {
 
     private boolean usedEntity;
