@@ -15,15 +15,15 @@ public class AimN extends Check {
 
     private static final int SAMPLE_SIZE = 40;
     private static final double MICRO_ADJUSTMENT_THRESHOLD = 0.1;
-    private static final double CONSISTENCY_THRESHOLD = 0.92;
     private static final double BUFFER_LIMIT = 8.0;
+    private static final double DECAY_RATE = 0.025;
 
     private final Deque<Double> yawChanges = new ArrayDeque<>();
     private final Deque<Double> pitchChanges = new ArrayDeque<>();
     private double lastYaw = 0.0;
     private double lastPitch = 0.0;
     private double buffer = 0.0;
-    private int microAdjustments = 0;
+    private double microAdjustments = 0.0;
 
     public AimN(PlayerData data) {
         super(data);
@@ -51,34 +51,31 @@ public class AimN extends Check {
             if (deltaYaw > 0 && deltaYaw < MICRO_ADJUSTMENT_THRESHOLD) microAdjustments++;
             if (deltaPitch > 0 && deltaPitch < MICRO_ADJUSTMENT_THRESHOLD) microAdjustments++;
 
+            // Minden ticken csökkentjük a microAdjustments értékét
+            microAdjustments = Math.max(0, microAdjustments - DECAY_RATE);
+
             if (yawChanges.size() > SAMPLE_SIZE) {
                 yawChanges.removeFirst();
                 pitchChanges.removeFirst();
 
-                double yawConsistency = calculateConsistency(yawChanges);
-                double pitchConsistency = calculateConsistency(pitchChanges);
-                double overallConsistency = (yawConsistency + pitchConsistency) / 2;
-
-                double microAdjustmentRatio = (double) microAdjustments / (SAMPLE_SIZE * 2);
+                double microAdjustmentRatio = microAdjustments / (SAMPLE_SIZE * 2);
 
                 boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.VELOCITY, ExemptType.JOINED);
 
-                if (!exempt && overallConsistency > CONSISTENCY_THRESHOLD && microAdjustmentRatio > 0.4) {
+                if (!exempt && microAdjustmentRatio > 0.4) {
                     buffer += 1.0;
 
                     if (buffer > BUFFER_LIMIT) {
-                        fail(String.format("Unnatural aiming. Consistency=%.2f, MicroAdj=%.2f",
-                                overallConsistency, microAdjustmentRatio));
-                        buffer = BUFFER_LIMIT * 0.75; // Részleges buffer reset
+                        fail(String.format("Unnatural aiming. MicroAdj=%.2f", microAdjustmentRatio));
+                        buffer = 0;
+                        microAdjustments = 0;
+                        microAdjustmentRatio = 0.0;
                     }
                 } else {
                     buffer = Math.max(0, buffer - 0.75);
                 }
 
-                debug(String.format("YawCons=%.2f, PitchCons=%.2f, MicroAdj=%.2f, Buffer=%.2f",
-                        yawConsistency, pitchConsistency, microAdjustmentRatio, buffer));
-
-                microAdjustments = 0; // Reset micro-adjustments counter
+                debug(String.format("MicroAdj=%.2f, Buffer=%.2f", microAdjustmentRatio, buffer));
             }
 
             lastYaw = yaw;
@@ -86,10 +83,5 @@ public class AimN extends Check {
         }
     }
 
-    private double calculateConsistency(Deque<Double> values) {
-        double mean = values.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
-        double variance = values.stream().mapToDouble(v -> Math.pow(v - mean, 2)).average().orElse(0.0);
-        double stdDev = Math.sqrt(variance);
-        return 1.0 - (stdDev / (mean + 0.1));
-    }
+    // Az calculateConsistency metódus eltávolítható, ha már nem használjuk
 }
