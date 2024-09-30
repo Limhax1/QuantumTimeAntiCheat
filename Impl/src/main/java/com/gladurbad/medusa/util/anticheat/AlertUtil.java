@@ -57,13 +57,10 @@ public final class AlertUtil {
         alertMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + data.getPlayer().getName()));
         alertMessage.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ColorUtil.translate(
                 Config.ACCENT_ONE + "Description: &7" + check.getCheckInfo().description() +
-                        "\n" + Config.ACCENT_ONE + "Info: &7" + info +
+                        "\n" + Config.ACCENT_TWO + "Info: &7" + info +
                         "\n" + Config.ACCENT_ONE + "Complex Type: &7" + complexType +
-                        "\n" +
                         "\n" + Config.ACCENT_TWO + "Ping: &7" + PlayerUtil.getPing(data.getPlayer()) +
-                        "\n" +
                         "\n" + Config.ACCENT_ONE + "TPS: &7" + String.format("%.2f", PacketEvents.get().getServerUtils().getTPS()) +
-                        "\n" +
                         "\n" + Config.ACCENT_TWO + "Click to teleport.")).create()));
 
         final MedusaSendAlertEvent event = new MedusaSendAlertEvent(alertMessage, data.getPlayer(), check, info);
