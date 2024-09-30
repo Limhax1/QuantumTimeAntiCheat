@@ -38,10 +38,13 @@ public final class FlyA extends Check {
 
             if (data.getPositionProcessor().isInAir() && data.getPositionProcessor().getAirTicks() > 20 && !exempt) {
                 if (DeltaY == 0.0) {
-                    if(setback.getBoolean()) {
-                        setback();
+                    buffer++;
+                    if(++buffer > 2) {
+                        if (setback.getBoolean()) {
+                            setback();
+                        }
+                        fail("Hovering " + DeltaY);
                     }
-                    fail("Hovering " + DeltaY);
                 }
             }
         }

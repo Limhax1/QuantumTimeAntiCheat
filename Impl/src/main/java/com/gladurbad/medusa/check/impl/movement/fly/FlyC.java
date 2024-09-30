@@ -40,6 +40,7 @@ public final class FlyC extends Check {
                     && difference > 0.001D
                     && !onGround
                     && !(data.getPositionProcessor().getY() % 0.5 == 0 && data.getPositionProcessor().isOnGround() && lastDeltaY < 0);
+                    // ez a fos darab false flaggel ha raugrok egy falra god damn wth
 
             debug("posY=" + data.getPositionProcessor().getY() + " dY=" + deltaY + " at=" + data.getPositionProcessor().getAirTicks());
 

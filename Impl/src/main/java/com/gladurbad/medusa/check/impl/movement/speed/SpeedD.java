@@ -31,8 +31,9 @@ public class SpeedD extends Check {
             double deltaY = data.getPositionProcessor().getDeltaY();
             boolean onGround = data.getPositionProcessor().isOnGround();
             boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.VELOCITY, ExemptType.FLYING, ExemptType.LIQUID, ExemptType.SLIME);
+            boolean isheadfucked = data.getPositionProcessor().isBlockNearHead();
 
-            if (!onGround && !exempt) {
+            if (!onGround && !exempt && !isheadfucked) {
                 if (wasInAir && deltaY < 0) {
                     double expectedMaxFallSpeed = getExpectedMaxFallSpeed();
                     

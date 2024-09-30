@@ -33,9 +33,8 @@ public class SpeedF extends Check {
         if (packet.isFlying()) {
             double deltaY = data.getPositionProcessor().getDeltaY();
             double currentY = data.getPositionProcessor().getY();
-
-           boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.FLYING, ExemptType.SLIME, ExemptType.STAIRS, ExemptType.PISTON, ExemptType.WEB);
-
+            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.FLYING, ExemptType.SLIME, ExemptType.STAIRS, ExemptType.PISTON, ExemptType.WEB);
+            boolean isheadfucked = data.getPositionProcessor().isBlockNearHead();
             if (isJumpHeight(deltaY)) {
                 expectedJumpHeight = deltaY;
                 jumpTicks = 0;
@@ -46,7 +45,7 @@ public class SpeedF extends Check {
                 jumpTicks++;
                 double yDifference = currentY - lastY;
 
-                if (jumpTicks <= 2 && !checkHorizontalCollision(data.getPositionProcessor())) {
+                if (jumpTicks <= 2 && !checkHorizontalCollision(data.getPositionProcessor()) && !isheadfucked) {
                     if (Math.abs(yDifference) < expectedJumpHeight * 0.79 && !exempt) {
                         fail("Abnormal jumping. Expected DeltaY: " + expectedJumpHeight +
                                 ", Real DeltaY: " + yDifference +
