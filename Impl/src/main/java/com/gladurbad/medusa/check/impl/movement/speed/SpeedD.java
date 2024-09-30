@@ -37,11 +37,16 @@ public class SpeedD extends Check {
                     double expectedMaxFallSpeed = getExpectedMaxFallSpeed();
                     
                     if (deltaY < expectedMaxFallSpeed && data.getPositionProcessor().getAirTicks() <= 2) {
-                        if(setback.getBoolean()) {
-                            setback();
+                        if(++buffer > max_buffer.getDouble() / 2) {
+                            if (setback.getBoolean()) {
+                                setback();
+                            }
                         }
                         if (++buffer > max_buffer.getDouble()) {
                             fail("Falling too quick. DeltaY: " + deltaY + ", Expected max: " + expectedMaxFallSpeed);
+                            if (setback.getBoolean()) {
+                                setback();
+                            }
                         }
                     } else {
                         buffer = Math.max(0, buffer - buffer_decay.getDouble());
