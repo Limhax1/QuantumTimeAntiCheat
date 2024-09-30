@@ -17,7 +17,7 @@ public class AimO extends Check {
     private static final double ANGLE_THRESHOLD = 0.5;
     private static final double SNAP_THRESHOLD = 7.0;
     private static final double CONSISTENCY_THRESHOLD = 0.90;
-    private static final double BUFFER_LIMIT = 20;
+    private static final double BUFFER_LIMIT = 15;
 
     private final Deque<Double> yawChanges = new ArrayDeque<>();
     private final Deque<Double> pitchChanges = new ArrayDeque<>();

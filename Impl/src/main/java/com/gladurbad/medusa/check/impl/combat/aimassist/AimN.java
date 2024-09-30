@@ -10,7 +10,7 @@ import org.bukkit.entity.Entity;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-@CheckInfo(name = "Aim (N)", description = "Checks for unnatural aiming patterns and micro-adjustments.", complextype = "Micro")
+@CheckInfo(name = "Aim (N)", description = "Checks for unnatural aiming patterns and micro-adjustments.", complextype = "Subtle")
 public class AimN extends Check {
 
     private static final int SAMPLE_SIZE = 40;
@@ -50,19 +50,18 @@ public class AimN extends Check {
 
             if (deltaYaw > 0 && deltaYaw < MICRO_ADJUSTMENT_THRESHOLD) microAdjustments++;
             if (deltaPitch > 0 && deltaPitch < MICRO_ADJUSTMENT_THRESHOLD) microAdjustments++;
-
-            // Minden ticken csökkentjük a microAdjustments értékét
             microAdjustments = Math.max(0, microAdjustments - DECAY_RATE);
 
-            if (yawChanges.size() > SAMPLE_SIZE) {
+            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.JOINED);
+
+
+            if (yawChanges.size() > SAMPLE_SIZE && !exempt) {
                 yawChanges.removeFirst();
                 pitchChanges.removeFirst();
 
                 double microAdjustmentRatio = microAdjustments / (SAMPLE_SIZE * 2);
 
-                boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.VELOCITY, ExemptType.JOINED);
-
-                if (!exempt && microAdjustmentRatio > 0.4) {
+                if (microAdjustmentRatio > 0.4) {
                     buffer += 1.0;
 
                     if (buffer > BUFFER_LIMIT) {
