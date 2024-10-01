@@ -81,6 +81,4 @@ public class AimN extends Check {
             lastPitch = pitch;
         }
     }
-
-    // Az calculateConsistency metódus eltávolítható, ha már nem használjuk
 }

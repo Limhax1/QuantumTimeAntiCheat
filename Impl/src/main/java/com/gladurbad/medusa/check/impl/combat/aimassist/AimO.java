@@ -14,10 +14,10 @@ import java.util.Deque;
 public class AimO extends Check {
 
     private static final int SAMPLE_SIZE = 25;
-    private static final double ANGLE_THRESHOLD = 0.5;
-    private static final double SNAP_THRESHOLD = 7.0;
-    private static final double CONSISTENCY_THRESHOLD = 0.90;
-    private static final double BUFFER_LIMIT = 15;
+    private static final double ANGLE_THRESHOLD = 0.3;
+    private static final double SNAP_THRESHOLD = 16;
+    private static final double CONSISTENCY_THRESHOLD = 0.38;
+    private static final double BUFFER_LIMIT = 10;
     private final Deque<Double> yawChanges = new ArrayDeque<>();
     private final Deque<Double> pitchChanges = new ArrayDeque<>();
     private double lastYaw = 0.0;
@@ -59,9 +59,7 @@ public class AimO extends Check {
                 boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.JOINED); // who puts a velocity exemption in an aim check 
 
                 if (!exempt) {
-                    if ((averageYawChange > ANGLE_THRESHOLD && yawConsistency > CONSISTENCY_THRESHOLD) ||
-                        (averagePitchChange > ANGLE_THRESHOLD && pitchConsistency > CONSISTENCY_THRESHOLD) ||
-                        (deltaYaw > SNAP_THRESHOLD || deltaPitch > SNAP_THRESHOLD)) {
+                    if (yawConsistency > CONSISTENCY_THRESHOLD) {
                         buffer += 1.0;
 
                         if (buffer > BUFFER_LIMIT) {
@@ -74,8 +72,7 @@ public class AimO extends Check {
                     }
                 }
 
-                debug(String.format("AvgYaw=%.2f, AvgPitch=%.2f, YawCons=%.2f, PitchCons=%.2f, DeltaYaw=%.2f, DeltaPitch=%.2f, Buffer=%.2f",
-                        averageYawChange, averagePitchChange, yawConsistency, pitchConsistency, deltaYaw, deltaPitch, buffer));
+                debug("Y " + yawConsistency + " P " + pitchConsistency + " B " + buffer);
             }
 
             lastYaw = yaw;

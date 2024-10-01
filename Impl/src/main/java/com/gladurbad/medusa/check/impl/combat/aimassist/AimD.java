@@ -5,6 +5,8 @@ import com.gladurbad.medusa.check.Check;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -34,6 +36,8 @@ public class AimD extends Check {
             float yaw = data.getRotationProcessor().getYaw();
             float pitch = data.getRotationProcessor().getPitch();
 
+            Entity target = data.getCombatProcessor().getTarget();
+
             float deltaYaw = Math.abs(yaw - lastYaw);
             float deltaPitch = Math.abs(pitch - lastPitch);
 
@@ -49,6 +53,8 @@ public class AimD extends Check {
                 pitchChanges.removeFirst();
 
                 boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.INSIDE_VEHICLE);
+                //boolean validenemy = target.getLocation().distance(target.getLocation()) != lastloc;
+                // TODO fix falses when target standing still for all aim checks
 
                 if (!exempt) {
                     double snapPercentage = calculateSnapPercentage();
