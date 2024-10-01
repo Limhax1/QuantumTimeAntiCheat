@@ -68,7 +68,7 @@ public class AimO extends Check {
                             buffer = BUFFER_LIMIT / 2; // Részleges buffer reset
                         }
                     } else {
-                        buffer = Math.max(0, buffer - 0.75);
+                        buffer = Math.max(0, buffer - 0.3);
                     }
                 }
 
