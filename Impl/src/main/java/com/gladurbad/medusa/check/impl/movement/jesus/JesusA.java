@@ -75,7 +75,7 @@ public class JesusA extends Check {
         }
     }
 
-    private boolean isNearSolidBlock(Location location) {
+    private boolean isNearSolidBlock(Location location) { //TODO: fix lily pads, carpets and trapdoors causing falses
         for (double x = -0.3; x <= 0.3; x += 0.3) {
             for (double z = -0.3; z <= 0.3; z += 0.3) {
                 Block block = location.clone().add(x, -0.1, z).getBlock();
