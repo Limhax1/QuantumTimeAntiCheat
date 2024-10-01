@@ -18,7 +18,6 @@ public class AimO extends Check {
     private static final double SNAP_THRESHOLD = 7.0;
     private static final double CONSISTENCY_THRESHOLD = 0.90;
     private static final double BUFFER_LIMIT = 15;
-
     private final Deque<Double> yawChanges = new ArrayDeque<>();
     private final Deque<Double> pitchChanges = new ArrayDeque<>();
     private double lastYaw = 0.0;
@@ -57,7 +56,7 @@ public class AimO extends Check {
                 double yawConsistency = calculateConsistency(yawChanges);
                 double pitchConsistency = calculateConsistency(pitchChanges);
 
-                boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.VELOCITY, ExemptType.JOINED);
+                boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.JOINED); // who puts a velocity exemption in an aim check 
 
                 if (!exempt) {
                     if ((averageYawChange > ANGLE_THRESHOLD && yawConsistency > CONSISTENCY_THRESHOLD) ||
