@@ -348,7 +348,6 @@ checks:
         max-violations: 15
         punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
         complextype: "Sigma [M]"  # Add this line to each check
-        setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
       n:
@@ -356,7 +355,6 @@ checks:
         max-violations: 15
         punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
         complextype: "Subtle [N]"  # Add this line to each check
-        setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
       o:
@@ -364,79 +362,69 @@ checks:
         max-violations: 15
         punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
         complextype: "Pattern [O]"  # Add this line to each check
-        setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
       p:
         enabled: true
         max-violations: 15
         punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Aim Assistance"  # Add this line to each check
-        setback: true
+        complextype: "Pattern [P]"  # Add this line to each check
         max_buffer: 10.0
         buffer_decay: 0.5
       q:
         enabled: true
         max-violations: 15
         punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Aim Assistance"  # Add this line to each check
-        setback: true
+        complextype: "Pattern [Q]"  # Add this line to each check
         max_buffer: 10.0
         buffer_decay: 0.5
       r:
         enabled: true
         max-violations: 15
         punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Aim Assistance"  # Add this line to each check
-        setback: true
+        complextype: "Pattern [R]"  # Add this line to each check
         max_buffer: 10.0
         buffer_decay: 0.5
       s:
         enabled: true
         max-violations: 15
         punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Aim Assistance"  # Add this line to each check
-        setback: true
+        complextype: "Pattern [S]"  # Add this line to each check
         max_buffer: 10.0
         buffer_decay: 0.5
       t:
         enabled: true
         max-violations: 15
         punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Aim Assistance"  # Add this line to each check
-        setback: true
+        complextype: "Pattern [T]"  # Add this line to each check
         max_buffer: 10.0
         buffer_decay: 0.5
       u:
         enabled: true
         max-violations: 15
         punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Aim Assistance"  # Add this line to each check
-        setback: true
+        complextype: "Pattern [U]"  # Add this line to each check
         max_buffer: 10.0
         buffer_decay: 0.5
       v:
         enabled: true
         max-violations: 15
         punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Aim Assistance"  # Add this line to each check
-        setback: true
+        complextype: "Pattern [V]"  # Add this line to each check
         max_buffer: 10.0
         buffer_decay: 0.5
       w:
         enabled: true
         max-violations: 15
         punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Aim Assistance"  # Add this line to each check
-        setback: true
+        complextype: "Pattern [W]"  # Add this line to each check
         max_buffer: 10.0
         buffer_decay: 0.5
       x:
         enabled: true
         max-violations: 15
         punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Aim Assistance"  # Add this line to each check
-        setback: true
+        complextype: "Pattern [X]"  # Add this line to each check
         max_buffer: 10.0
         buffer_decay: 0.5
     autoclicker:
