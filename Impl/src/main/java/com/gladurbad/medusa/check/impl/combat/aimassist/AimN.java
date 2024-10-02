@@ -10,7 +10,7 @@ import org.bukkit.entity.Entity;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-@CheckInfo(name = "Aim (N)", description = "Checks for unnatural aiming patterns and micro-adjustments.", complextype = "Subtle")
+@CheckInfo(name = "Aim (N)", description = "Checks for micro adjustments.", complextype = "Subtle")
 public class AimN extends Check {
 
     private static final int SAMPLE_SIZE = 40;

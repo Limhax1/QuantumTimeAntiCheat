@@ -33,6 +33,28 @@ public final class PlayerData {
     private final VelocityProcessor velocityProcessor = new VelocityProcessor(this);
     private final TransactionProcessor transactionProcessor = new TransactionProcessor(this);
 
+    private int hurtTime = 0;
+    private long lastHurtTime = 0;
+
+    public void updateHurtTime() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastHurtTime > 50) { // 50 ms = 1 tick
+            if (hurtTime > 0) {
+                hurtTime--;
+            }
+            lastHurtTime = currentTime;
+        }
+    }
+
+    public void setHurtTime(int hurtTime) {
+        this.hurtTime = Math.min(hurtTime, 10); // Maximum 10
+        this.lastHurtTime = System.currentTimeMillis();
+    }
+
+    public int getHurtTime() {
+        return hurtTime;
+    }
+
     public PlayerData(final Player player) {
         this.player = player;
     }
@@ -40,5 +62,10 @@ public final class PlayerData {
     public Check getCheckByName(String checkName) {
         Optional<Check> check = checks.stream().filter(t -> t.getCheckInfo().name().equals(checkName)).findFirst();
         return check.isPresent() ? check.get() : null;
+    }
+
+    public void incrementHurtTime() {
+        this.hurtTime = Math.min(this.hurtTime + 1, 10); // Maximum 10
+        this.lastHurtTime = System.currentTimeMillis();
     }
 }

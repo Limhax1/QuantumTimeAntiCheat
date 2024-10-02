@@ -11,6 +11,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 @CheckInfo(name = "Speed (B)", description = "Checks for Speed.", complextype = "Speed")
 public final class SpeedB extends Check {
@@ -20,15 +21,20 @@ public final class SpeedB extends Check {
     private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
 
     private static final double JUMP_BOOST = 0.42;
-    private static final double LANDING_LENIENCY = 0.1;
-
     private static final double WALK_SPEED = 0.221;
-    private static final double SPRINT_SPEED = 0.296;
+    private static final double SPRINT_SPEED = 0.2865;
     private static final double AIR_SPEED = 0.36;
+    private static final double POST_JUMP_BOOST = 0.31;
 
+    private static final double VELOCITY_DECAY = 0.99;
+
+    private static final int VELOCITY_THRESHOLD = 15;
     private double buffer = 0.0;
     private boolean lastOnGround = true;
     private boolean lastSprinting = false;
+    private int ticksSinceJump = 0;
+    private double lastVelocityBoost = 0.0;
+    private int lastTicksSinceVelocity = 999;
 
     public SpeedB(final PlayerData data) {
         super(data);
@@ -42,56 +48,62 @@ public final class SpeedB extends Check {
             final boolean onGround = data.getPositionProcessor().isOnGround();
             final boolean sprinting = data.getActionProcessor().isSprinting();
 
-            if (!data.getPositionProcessor().isInLiquid() && !data.getPositionProcessor().isOnClimbable()) {
-                double expectedSpeed = getExpectedSpeed(onGround, sprinting);
+            int ticksSinceVelocity = data.getVelocityProcessor().getTicksSinceVelocity();
 
-                // Speed effect kezelése
-                Player player = data.getPlayer();
-                double speedCorrection = getSpeedPotionCorrection(player);
-                expectedSpeed *= speedCorrection;
+            updateVelocityState(ticksSinceVelocity);
 
-                // Lépcső vagy félblokk közeli ellenőrzés
-                if (isNearStairOrSlab(player)) {
-                    expectedSpeed += 0.3;
-                }
+            double expectedSpeed = predictMaxSpeed(onGround, sprinting, deltaY);
 
-                boolean Exempt = isExempt(ExemptType.TELEPORT, ExemptType.SLIME, ExemptType.UNDER_BLOCK, ExemptType.JOINED, ExemptType.ICE, ExemptType.VELOCITY, ExemptType.FLYING);
+            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.SLIME, ExemptType.UNDER_BLOCK, ExemptType.JOINED, ExemptType.ICE, ExemptType.FLYING);
 
-                if (!onGround && lastOnGround && Math.abs(deltaY - JUMP_BOOST) < 1E-5) {
-                    expectedSpeed *= 1.1;
-                } else if (onGround && !lastOnGround) {
-                    expectedSpeed += LANDING_LENIENCY;
-                }
-
-                if (deltaXZ > expectedSpeed * 1.001 && !Exempt) {
-                    buffer += 1;
-                } else {
-                    buffer = Math.max(buffer - buffer_decay.getDouble(), 0);
-                }
-
-                if(expectedSpeed > 0.49 && data.getActionProcessor().isSprinting() && data.getPositionProcessor().isInAir() && getSpeedPotionCorrection(data.getPlayer()) > 1) {
-                    expectedSpeed = 0.37;
-                }
-
-                if (buffer > max_buffer.getDouble() && !Exempt) {
-                    if(setback.getBoolean()) {
-                        setback();
-                    }
-                    fail(String.format("Going too quick - deltaXZ=%.2f, expectedSpeed=%.2f, buffer=%.2f",
-                            deltaXZ, expectedSpeed, buffer));
-                    buffer = 0;
-                }
-
-                debug(String.format("DeltaXZ: %.2f, ExpectedSpeed: %.2f, Buffer: %.2f, DeltaY: %.2f, OnGround: %b, Sprinting: %b, SpeedCorrection: %.2f", 
-                        deltaXZ, expectedSpeed, buffer, deltaY, onGround, sprinting, speedCorrection));
-
-                lastOnGround = onGround;
-                lastSprinting = sprinting;
+            if(isNearStairOrSlab(data.getPlayer())) {
+                expectedSpeed *= 1.6;
             }
+
+            if (deltaXZ > expectedSpeed * 1.001 && !exempt) {
+                buffer += 1;
+            } else {
+                buffer = Math.max(buffer - buffer_decay.getDouble(), 0);
+            }
+
+            if (buffer > max_buffer.getDouble() && !exempt) {
+                if(setback.getBoolean()) {
+                    setback();
+                }
+                fail(String.format("Going too quick - deltaXZ=%.4f, expectedSpeed=%.4f, buffer=%.2f",
+                        deltaXZ, expectedSpeed, buffer));
+                buffer = 0;
+            }
+
+            debug(String.format("VB: %.4f, TSV: %d", lastVelocityBoost, ticksSinceVelocity));
+
+            lastTicksSinceVelocity = ticksSinceVelocity;
+
+            updateJumpTicks(onGround, deltaY);
+            lastOnGround = onGround;
+            lastSprinting = sprinting;
         }
     }
 
-    private double getExpectedSpeed(boolean onGround, boolean sprinting) {
+    private void updateVelocityState(int ticksSinceVelocity) {
+        if (ticksSinceVelocity < lastTicksSinceVelocity) {
+            lastVelocityBoost = getVelocityBoost();
+        } else if (ticksSinceVelocity < VELOCITY_THRESHOLD) {
+            lastVelocityBoost *= VELOCITY_DECAY;
+        } else {
+            lastVelocityBoost = 0;
+        }
+    }
+
+    private double predictMaxSpeed(boolean onGround, boolean sprinting, double deltaY) {
+        double baseSpeed = getBaseSpeed(onGround, sprinting);
+        double speedMultiplier = getSpeedPotionMultiplier(data.getPlayer());
+        double jumpBoost = getJumpBoost(onGround, deltaY);
+
+        return (baseSpeed * speedMultiplier) + jumpBoost + lastVelocityBoost;
+    }
+
+    private double getBaseSpeed(boolean onGround, boolean sprinting) {
         if (onGround) {
             return sprinting ? SPRINT_SPEED : WALK_SPEED;
         } else {
@@ -99,14 +111,40 @@ public final class SpeedB extends Check {
         }
     }
 
-    private double getSpeedPotionCorrection(Player player) {
+    private double getSpeedPotionMultiplier(Player player) {
         for (PotionEffect effect : player.getActivePotionEffects()) {
             if (effect.getType().equals(PotionEffectType.SPEED)) {
                 int speedAmplifier = effect.getAmplifier() + 1;
-                return 1.0 + (0.2 * speedAmplifier);
+                return 1.0 + (0.19 * speedAmplifier);
             }
         }
         return 1.0;
+    }
+
+    private double getVelocityBoost() {
+        double velocityX = data.getVelocityProcessor().getVelocityX();
+        double velocityZ = data.getVelocityProcessor().getVelocityZ();
+        return Math.hypot(velocityX, velocityZ);
+    }
+
+    private double getJumpBoost(boolean onGround, double deltaY) {
+        if (!onGround && lastOnGround && Math.abs(deltaY - JUMP_BOOST) < 1E-5) {
+            ticksSinceJump = 0;
+            return 0.1;
+        } else if (ticksSinceJump < 2) {
+            return POST_JUMP_BOOST;
+        }
+        return 0;
+    }
+
+    private void updateJumpTicks(boolean onGround, double deltaY) {
+        if (!onGround && lastOnGround && Math.abs(deltaY - JUMP_BOOST) < 1E-5) {
+            ticksSinceJump = 0;
+        } else if (!onGround) {
+            ticksSinceJump++;
+        } else {
+            ticksSinceJump = 999; // Reset when on ground
+        }
     }
 
     private boolean isNearStairOrSlab(Player player) {

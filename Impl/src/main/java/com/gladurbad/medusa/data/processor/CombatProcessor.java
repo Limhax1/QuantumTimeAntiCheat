@@ -5,7 +5,6 @@ import lombok.Getter;
 import com.gladurbad.medusa.data.PlayerData;
 import org.bukkit.entity.Entity;
 
-
 @Getter
 public final class CombatProcessor {
 
@@ -16,6 +15,8 @@ public final class CombatProcessor {
     private double hitMissRatio, distance;
 
     private Entity target, lastTarget;
+
+    private int lastDamageTicks = 0;
 
     public CombatProcessor(final PlayerData data) {
         this.data = data;
@@ -58,5 +59,17 @@ public final class CombatProcessor {
         if (hits > 100 || swings > 100) {
             hits = swings = 0;
         }
+    }
+
+    public void onDamage() {
+        lastDamageTicks = 0;
+    }
+
+    public void tick() {
+        lastDamageTicks++;
+    }
+
+    public int getLastDamageTicks() {
+        return lastDamageTicks;
     }
 }

@@ -14,4 +14,7 @@ commands:
   custombroadcast:
     description: Broadcasts a message without the "Broadcast:" prefix
     usage: /custombroadcast <message>
+  acban:
+    description: Bans a player in the name of the anticheat.
+    usage: /acban <player>
 

@@ -14,8 +14,6 @@ import java.util.Deque;
 public class AimO extends Check {
 
     private static final int SAMPLE_SIZE = 25;
-    private static final double ANGLE_THRESHOLD = 0.3;
-    private static final double SNAP_THRESHOLD = 16;
     private static final double CONSISTENCY_THRESHOLD = 0.38;
     private static final double BUFFER_LIMIT = 10;
     private final Deque<Double> yawChanges = new ArrayDeque<>();
@@ -56,7 +54,7 @@ public class AimO extends Check {
                 double yawConsistency = calculateConsistency(yawChanges);
                 double pitchConsistency = calculateConsistency(pitchChanges);
 
-                boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.JOINED); // who puts a velocity exemption in an aim check 
+                boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.JOINED);
 
                 if (!exempt) {
                     if (yawConsistency > CONSISTENCY_THRESHOLD) {
@@ -65,10 +63,10 @@ public class AimO extends Check {
                         if (buffer > BUFFER_LIMIT) {
                             fail(String.format("PatternO. AvgYaw=%.2f, AvgPitch=%.2f, YawCons=%.2f, PitchCons=%.2f, DeltaYaw=%.2f, DeltaPitch=%.2f",
                                     averageYawChange, averagePitchChange, yawConsistency, pitchConsistency, deltaYaw, deltaPitch));
-                            buffer = BUFFER_LIMIT / 2; // Részleges buffer reset
+                            buffer = BUFFER_LIMIT / 4;
                         }
                     } else {
-                        buffer = Math.max(0, buffer - 0.3);
+                        buffer = Math.max(0, buffer - 0.45);
                     }
                 }
 
