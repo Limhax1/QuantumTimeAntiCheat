@@ -22,13 +22,13 @@ public class ProtocolM extends Check {
 
     @Override
     public void handle(Packet packet) {
-        if (isExempt(ExemptType.JOINED, ExemptType.TPS)) {
+        if (isExempt(ExemptType.JOINED, ExemptType.TPS, ExemptType.TELEPORT)) {
             return;
         }
 
         long now = System.currentTimeMillis();
 
-        if (packet.isPosition() || packet.isPosLook()) {
+        if (packet.isPosition() || packet.isPosLook() || packet.isFlying()) {
             long timeDiff = now - lastPositionPacket;
             if (timeDiff > 1) {
                 blinkTicks = 0;
