@@ -16,7 +16,7 @@ public class AimJ extends Check {
     }
     @Override
     public void handle(final Packet packet) {
-        if (packet.isRotation() && data.getCombatProcessor().isInCombat()) {
+        if (packet.isRotation() && data.getCombatProcessor().isInCombat() && data.getPositionProcessor().getDeltaXZ() != 0) {
             final float pitch = this.data.getRotationProcessor().getPitch();
             final float lastPitch = this.data.getRotationProcessor().getLastPitch();
             final float deltaPitch = pitch - lastPitch;

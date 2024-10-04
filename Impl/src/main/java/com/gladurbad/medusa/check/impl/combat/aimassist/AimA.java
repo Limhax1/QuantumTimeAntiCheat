@@ -21,7 +21,7 @@ public final class AimA extends Check {
 
     @Override
     public void handle(final Packet packet) {
-        if (packet.isRotation() && data.getCombatProcessor().isInCombat()) {
+        if (packet.isRotation() && data.getCombatProcessor().isInCombat() && data.getPositionProcessor().getDeltaXZ() != 0) {
             final double deltaYaw = data.getRotationProcessor().getDeltaYaw();
             final double deltaPitch = data.getRotationProcessor().getDeltaPitch();
             final boolean invalid = deltaYaw > 3F && deltaPitch < 0.01 && Math.abs(data.getRotationProcessor().getPitch()) != 90  ;

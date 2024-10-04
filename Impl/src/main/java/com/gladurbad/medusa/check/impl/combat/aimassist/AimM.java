@@ -16,7 +16,7 @@ public class AimM extends Check {
 
     @Override
     public void handle(final Packet packet) {
-        if (packet.isRotation() && data.getCombatProcessor().isInCombat()) {
+        if (packet.isRotation() && data.getCombatProcessor().isInCombat() && data.getPositionProcessor().getDeltaXZ() != 0) {
             final float deltaYaw = this.data.getRotationProcessor().getDeltaYaw();
             final float deltaPitch = this.data.getRotationProcessor().getDeltaPitch();
             final int sensitivity = this.data.getRotationProcessor().getSensitivity();

@@ -14,7 +14,7 @@ public class AimH extends Check {
 
     @Override
     public void handle(Packet packet) {
-        if (packet.isRotation() && data.getCombatProcessor().isInCombat()) {
+        if (packet.isRotation() && data.getCombatProcessor().isInCombat() && data.getPositionProcessor().getDeltaXZ() != 0) {
             final float lastFuckedYaw = this.data.getRotationProcessor().getLastFuckedPredictedYaw();
             final float fuckedYaw = this.data.getRotationProcessor().getFuckedPredictedYaw();
             final float difference = Math.abs(fuckedYaw - lastFuckedYaw);

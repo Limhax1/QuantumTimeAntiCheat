@@ -32,7 +32,7 @@ public class AimG extends Check {
 
     @Override
     public void handle(Packet packet) {
-        if (packet.isRotation() && data.getCombatProcessor().isInCombat()) {
+        if (packet.isRotation() && data.getCombatProcessor().isInCombat() && data.getPositionProcessor().getDeltaXZ() != 0) {
             Entity target = data.getCombatProcessor().getTarget();
             if (target == null) return;
 
