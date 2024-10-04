@@ -1,6 +1,6 @@
 package com.gladurbad.medusa.manager;
 
-import com.gladurbad.medusa.Medusa;
+import com.gladurbad.medusa.QuantumTimeAC;
 import com.gladurbad.medusa.util.type.Pair;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -17,7 +17,7 @@ public final class TickManager implements Runnable {
     public void start() {
         assert task == null : "TickProcessor has already been started!";
 
-        task = Bukkit.getScheduler().runTaskTimer(Medusa.INSTANCE.getPlugin(), this, 0L, 1L);
+        task = Bukkit.getScheduler().runTaskTimer(QuantumTimeAC.INSTANCE.getPlugin(), this, 0L, 1L);
     }
 
     public void stop() {
@@ -31,7 +31,7 @@ public final class TickManager implements Runnable {
     public void run() {
         ticks++;
 
-        Medusa.INSTANCE.getPlayerDataManager().getAllData().parallelStream()
+        QuantumTimeAC.INSTANCE.getPlayerDataManager().getAllData().parallelStream()
                 .forEach(data -> {
                     data.getTransactionProcessor().handleTransaction();
                     final Entity target = data.getCombatProcessor().getTarget();

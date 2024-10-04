@@ -1,6 +1,6 @@
 package com.gladurbad.medusa.data.processor;
 
-import com.gladurbad.medusa.Medusa;
+import com.gladurbad.medusa.QuantumTimeAC;
 import com.gladurbad.medusa.check.impl.player.protocol.ProtocolZ;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.packet.Packet;
@@ -37,7 +37,7 @@ public class TransactionProcessor {
         if (id == transactionId) {
             lastTransactionReceive = System.currentTimeMillis();
         } else {
-            Medusa.INSTANCE.getPacketExecutor().execute(() -> timeoutCheck.fail("Transaction id dismatch " + id + " != " + transactionId));
+            QuantumTimeAC.INSTANCE.getPacketExecutor().execute(() -> timeoutCheck.fail("Transaction id dismatch " + id + " != " + transactionId));
         }
         transactionId++;
     }
@@ -50,7 +50,7 @@ public class TransactionProcessor {
         Long n = System.currentTimeMillis();
         long diff = n - lastTransactionReceive;
         if (n - lastTransactionSend < 500 && diff > 30000 && lastTransactionReceive != -1 && lastTransactionSend != -1) {
-            Medusa.INSTANCE.getPacketExecutor().execute(() -> timeoutCheck.fail("Timed out " + diff + "ms"));
+            QuantumTimeAC.INSTANCE.getPacketExecutor().execute(() -> timeoutCheck.fail("Timed out " + diff + "ms"));
         } 
         sendTransaction(transactionId);
         timeoutCheck.debug("sent: " + transactionId);

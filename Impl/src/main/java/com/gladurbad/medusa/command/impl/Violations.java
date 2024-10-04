@@ -1,12 +1,10 @@
 package com.gladurbad.medusa.command.impl;
 
-import com.gladurbad.medusa.Medusa;
+import com.gladurbad.medusa.QuantumTimeAC;
 import com.gladurbad.medusa.command.CommandInfo;
 import com.gladurbad.medusa.command.MedusaCommand;
 import com.gladurbad.medusa.config.Config;
 import com.gladurbad.medusa.data.PlayerData;
-import com.gladurbad.medusa.util.ColorUtil;
-import io.github.retrooper.packetevents.PacketEvents;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -20,7 +18,7 @@ public final class Violations extends MedusaCommand {
             final Player player = Bukkit.getPlayer(args[1]);
 
             if (player != null) {
-                final PlayerData playerData = Medusa.INSTANCE.getPlayerDataManager().getPlayerData(player);
+                final PlayerData playerData = QuantumTimeAC.INSTANCE.getPlayerDataManager().getPlayerData(player);
 
                 if (playerData != null) {
                     sendRetardedNewLine(sender);

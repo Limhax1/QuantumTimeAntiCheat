@@ -1,6 +1,5 @@
 package com.gladurbad.medusa.packet.processor;
 
-import com.gladurbad.medusa.Medusa;
 import com.gladurbad.medusa.data.PlayerData;
 import io.github.retrooper.packetevents.packetwrappers.play.out.entityvelocity.WrappedPacketOutEntityVelocity;
 import com.gladurbad.medusa.packet.Packet;

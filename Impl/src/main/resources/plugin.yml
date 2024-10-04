@@ -1,20 +1,21 @@
 name: QuantumTimeAntiCheat
 
-version: 1.5.3
-main: com.gladurbad.medusa.MedusaPlugin
-authors: [GladUrBad]
-description: Quantum Time AntiCheat
+version: 1.0.0 Alpha
+main: com.gladurbad.medusa.QuantumTimePlugin
+authors: [Limhax, BarCodee]
+description: Quantum Time Cheat detection.
 
 commands:
   qtac:
     description: Commands for Quantum Time AntiCheat.
     usage: /qtac
     aliases: [anticheat, ac]
-    permission: medusa.commands
+    permission: qtac.commands
   custombroadcast:
     description: Broadcasts a message without the "Broadcast:" prefix
     usage: /custombroadcast <message>
-  acban:
+    permission: qtac.custombroadcast
+  forceban:
     description: Bans a player in the name of the anticheat.
-    usage: /acban <player>
-
+    usage: /forceban <player>
+    permission: qtac.forceban

@@ -1,7 +1,7 @@
 package com.gladurbad.medusa.config;
 
 import com.gladurbad.api.check.CheckInfo;
-import com.gladurbad.medusa.Medusa;
+import com.gladurbad.medusa.QuantumTimeAC;
 import com.gladurbad.medusa.manager.CheckManager;
 import org.bukkit.Bukkit;
 
@@ -105,31 +105,31 @@ public final class Config {
     }
 
     private static boolean getBooleanFromConfig(String string) {
-        return Medusa.INSTANCE.getPlugin().getConfig().getBoolean(string);
+        return QuantumTimeAC.INSTANCE.getPlugin().getConfig().getBoolean(string);
     }
 
     public static String getStringFromConfig(String string) {
-        return Medusa.INSTANCE.getPlugin().getConfig().getString(string);
+        return QuantumTimeAC.INSTANCE.getPlugin().getConfig().getString(string);
     }
 
     private static int getIntegerFromConfig(String string) {
-        return Medusa.INSTANCE.getPlugin().getConfig().getInt(string);
+        return QuantumTimeAC.INSTANCE.getPlugin().getConfig().getInt(string);
     }
 
     public static double getDoubleFromConfig(String string) {
-        return Medusa.INSTANCE.getPlugin().getConfig().getDouble(string);
+        return QuantumTimeAC.INSTANCE.getPlugin().getConfig().getDouble(string);
     }
 
     private static List<String> getStringListFromConfig(String string) {
-        return Medusa.INSTANCE.getPlugin().getConfig().getStringList(string);
+        return QuantumTimeAC.INSTANCE.getPlugin().getConfig().getStringList(string);
     }
 
     private static Set<String> getKeysFromConfig(String string) {
-        return Medusa.INSTANCE.getPlugin().getConfig().getConfigurationSection(string).getKeys(false);
+        return QuantumTimeAC.INSTANCE.getPlugin().getConfig().getConfigurationSection(string).getKeys(false);
     }
 
     private static long getLongFromConfig(String string) {
-        return Medusa.INSTANCE.getPlugin().getConfig().getLong(string);
+        return QuantumTimeAC.INSTANCE.getPlugin().getConfig().getLong(string);
     }
 
     public static String getPathFromCheckName(String name) {

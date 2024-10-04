@@ -1,21 +1,15 @@
 package com.gladurbad.medusa.check.impl.combat.reach;
 
 import com.gladurbad.api.check.CheckInfo;
-import com.gladurbad.medusa.Medusa;
+import com.gladurbad.medusa.QuantumTimeAC;
 import com.gladurbad.medusa.check.*;
-import com.gladurbad.medusa.config.Config;
 import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.packet.Packet;
 import com.gladurbad.medusa.util.HitboxExpansion;
-import com.gladurbad.medusa.util.MathUtil;
 import com.gladurbad.medusa.util.PlayerUtil;
-import com.gladurbad.medusa.util.type.BoundingBox;
-import com.gladurbad.medusa.util.type.RayTrace;
-import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.NumberConversions;
@@ -54,7 +48,7 @@ public final class ReachA extends Check {
                     || !data.getTargetLocations().isFull()
                     || PlayerUtil.getPing(data.getPlayer()) > (maxLatency.getLong() < 0 ? Integer.MAX_VALUE : maxLatency.getLong())) return;
 
-            final int ticks = Medusa.INSTANCE.getTickManager().getTicks();
+            final int ticks = QuantumTimeAC.INSTANCE.getTickManager().getTicks();
             final int pingTicks = NumberConversions.floor(data.getActionProcessor().getPing() / 50.0) + 3;
 
             final Vector player = data.getPlayer().getLocation().toVector().setY(0);

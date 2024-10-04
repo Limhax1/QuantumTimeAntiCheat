@@ -1,10 +1,9 @@
 package com.gladurbad.medusa.command.impl;
 
-import com.gladurbad.medusa.Medusa;
+import com.gladurbad.medusa.QuantumTimeAC;
 import com.gladurbad.medusa.check.Check;
 import com.gladurbad.medusa.command.CommandInfo;
 import com.gladurbad.medusa.command.MedusaCommand;
-import com.gladurbad.medusa.config.Config;
 import com.gladurbad.medusa.data.PlayerData;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -16,7 +15,7 @@ public class Debug extends MedusaCommand {
     @Override
     protected boolean handle(final CommandSender sender, final Command command, final String label, final String[] args) {
         if (sender instanceof Player) {
-            final PlayerData data = Medusa.INSTANCE.getPlayerDataManager().getPlayerData(((Player) sender).getPlayer());
+            final PlayerData data = QuantumTimeAC.INSTANCE.getPlayerDataManager().getPlayerData(((Player) sender).getPlayer());
 
             if (data != null) {
                 if (args.length == 3) {

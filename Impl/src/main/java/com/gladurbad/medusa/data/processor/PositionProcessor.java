@@ -6,8 +6,7 @@ import com.gladurbad.medusa.util.type.BoundingBox;
 import com.gladurbad.medusa.util.type.LocationVector;
 import com.gladurbad.medusa.util.type.Pair;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.collect.Maps;
-import com.gladurbad.medusa.Medusa;
+import com.gladurbad.medusa.QuantumTimeAC;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.packet.Packet;
 
@@ -79,7 +78,7 @@ public final class PositionProcessor {
 
 
     public void handleFlying(final WrappedPacketInFlying wrapper) {
-        int tick = Medusa.INSTANCE.getTickManager().getTicks();
+        int tick = QuantumTimeAC.INSTANCE.getTickManager().getTicks();
         World playerWorld = data.getPlayer().getWorld();
         Vector3d postision = wrapper.getPosition();
         Location bukkitLocation = new Location(playerWorld, postision.getX(), postision.getY(), postision.getZ());
@@ -304,7 +303,7 @@ public final class PositionProcessor {
                 location.getWorld().loadChunk(location.getBlockX() >> 4, location.getBlockZ() >> 4);
                 return location.getBlock();
             });
-            Bukkit.getScheduler().runTask(Medusa.INSTANCE.getPlugin(), futureTask);
+            Bukkit.getScheduler().runTask(QuantumTimeAC.INSTANCE.getPlugin(), futureTask);
             try {
                 return futureTask.get();
             } catch (final Exception exception) {
@@ -322,7 +321,7 @@ public final class PositionProcessor {
                 world.loadChunk(x >> 4, z >> 4);
                 return world.getBlockAt(x, y, z);
             });
-            Bukkit.getScheduler().runTask(Medusa.INSTANCE.getPlugin(), futureTask);
+            Bukkit.getScheduler().runTask(QuantumTimeAC.INSTANCE.getPlugin(), futureTask);
             try {
                 return futureTask.get();
             } catch (final Exception exception) {

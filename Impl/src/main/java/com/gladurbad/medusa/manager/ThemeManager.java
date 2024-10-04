@@ -1,6 +1,6 @@
 package com.gladurbad.medusa.manager;
 
-import com.gladurbad.medusa.Medusa;
+import com.gladurbad.medusa.QuantumTimeAC;
 import com.gladurbad.medusa.config.Config;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,8 +15,8 @@ public final class ThemeManager {
 
     public static void setup() {
         for (String str : Config.THEMES) {
-            final String message = Medusa.INSTANCE.getPlugin().getConfig().getString("appearance.themes." + str + ".message");
-            final List<String> colors = Medusa.INSTANCE.getPlugin().getConfig().getStringList("appearance.themes." + str + ".colors");
+            final String message = QuantumTimeAC.INSTANCE.getPlugin().getConfig().getString("appearance.themes." + str + ".message");
+            final List<String> colors = QuantumTimeAC.INSTANCE.getPlugin().getConfig().getStringList("appearance.themes." + str + ".colors");
 
             final List<ChatColor> accentColourList = new ArrayList<>();
 

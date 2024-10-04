@@ -17,11 +17,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Getter
-public enum Medusa {
+public enum QuantumTimeAC {
 
     INSTANCE;
 
-    private MedusaPlugin plugin;
+    private QuantumTimePlugin plugin;
 
     private long startTime;
 
@@ -32,9 +32,9 @@ public enum Medusa {
     private final CommandManager commandManager = new CommandManager(this.getPlugin());
     private final ExecutorService packetExecutor = Executors.newSingleThreadExecutor();
 
-    public void start(final MedusaPlugin plugin) {
+    public void start(final QuantumTimePlugin plugin) {
         this.plugin = plugin;
-        assert plugin != null : "Error while starting Medusa.";
+        assert plugin != null : "Error while starting qtac.";
 
         this.getPlugin().saveDefaultConfig();
         Config.updateConfig();
@@ -61,7 +61,7 @@ public enum Medusa {
         PacketEvents.get().registerListener(new NetworkListener());
     }
 
-    public void stop(final MedusaPlugin plugin) {
+    public void stop(final QuantumTimePlugin plugin) {
         this.plugin = plugin;
         assert plugin != null : "Error while shutting down qtac.";
 

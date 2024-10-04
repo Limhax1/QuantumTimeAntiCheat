@@ -4,10 +4,8 @@ import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.packetwrappers.play.in.transaction.WrappedPacketInTransaction;
 import io.github.retrooper.packetevents.packetwrappers.play.out.transaction.WrappedPacketOutTransaction;
 import lombok.Getter;
-import com.gladurbad.medusa.Medusa;
+import com.gladurbad.medusa.QuantumTimeAC;
 import com.gladurbad.medusa.data.PlayerData;
-import org.bukkit.Bukkit;
-import org.bukkit.util.Vector;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -46,7 +44,7 @@ public final class VelocityProcessor {
 
         if (this.verifyingVelocity && wrapper.getActionNumber() == this.velocityID) {
             this.verifyingVelocity = false;
-            this.velocityTicks = Medusa.INSTANCE.getTickManager().getTicks();
+            this.velocityTicks = QuantumTimeAC.INSTANCE.getTickManager().getTicks();
             this.maxVelocityTicks = (int) (((lastVelocityZ + lastVelocityX) / 2 + 2) * 15);
         }
 
@@ -64,6 +62,6 @@ public final class VelocityProcessor {
     }
 
     public boolean isTakingVelocity() {
-        return Math.abs(Medusa.INSTANCE.getTickManager().getTicks() - this.velocityTicks) < this.maxVelocityTicks;
+        return Math.abs(QuantumTimeAC.INSTANCE.getTickManager().getTicks() - this.velocityTicks) < this.maxVelocityTicks;
     }
 }

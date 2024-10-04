@@ -2,12 +2,11 @@ package com.gladurbad.medusa.data.processor;
 
 import com.gladurbad.medusa.util.MathUtil;
 import lombok.Getter;
-import com.gladurbad.medusa.Medusa;
+import com.gladurbad.medusa.QuantumTimeAC;
 import com.gladurbad.medusa.data.PlayerData;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayDeque;
-import java.util.Collection;
 
 @Getter
 public final class RotationProcessor {
@@ -81,10 +80,10 @@ public final class RotationProcessor {
             cinematicTicks--;
         }
 
-        cinematic = cinematicTicks > 8 || (Medusa.INSTANCE.getTickManager().getTicks() - lastCinematic < 120);
+        cinematic = cinematicTicks > 8 || (QuantumTimeAC.INSTANCE.getTickManager().getTicks() - lastCinematic < 120);
 
         if (cinematic && cinematicTicks > 8) {
-            lastCinematic = Medusa.INSTANCE.getTickManager().getTicks();
+            lastCinematic = QuantumTimeAC.INSTANCE.getTickManager().getTicks();
         }
     }
 

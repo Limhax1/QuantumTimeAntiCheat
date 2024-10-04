@@ -1,8 +1,7 @@
 package com.gladurbad.medusa.listener;
 
-import com.gladurbad.medusa.Medusa;
+import com.gladurbad.medusa.QuantumTimeAC;
 import com.gladurbad.medusa.data.PlayerData;
-import com.gladurbad.medusa.manager.PlayerDataManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,7 +16,7 @@ public final class ClientBrandListener implements PluginMessageListener, Listene
     @Override
     public void onPluginMessageReceived(final String channel, final Player player, final byte[] msg) {
         try {
-            final PlayerData data = Medusa.INSTANCE.getPlayerDataManager().getPlayerData(player);
+            final PlayerData data = QuantumTimeAC.INSTANCE.getPlayerDataManager().getPlayerData(player);
             if (data == null) return;
             data.setClientBrand(new String(msg, "UTF-8").substring(1));
         } catch (UnsupportedEncodingException e) {

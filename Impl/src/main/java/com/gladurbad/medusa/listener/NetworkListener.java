@@ -1,6 +1,6 @@
 package com.gladurbad.medusa.listener;
 
-import com.gladurbad.medusa.Medusa;
+import com.gladurbad.medusa.QuantumTimeAC;
 import com.gladurbad.medusa.data.PlayerData;
 
 import io.github.retrooper.packetevents.event.PacketListenerDynamic;
@@ -13,24 +13,24 @@ public final class NetworkListener extends PacketListenerDynamic {
 
     @Override
     public void onPacketPlayReceive(final PacketPlayReceiveEvent event) {
-        final PlayerData data = Medusa.INSTANCE.getPlayerDataManager().getPlayerData(event.getPlayer());
+        final PlayerData data = QuantumTimeAC.INSTANCE.getPlayerDataManager().getPlayerData(event.getPlayer());
 
         handle: {
             if (data == null) break handle;
 
-            Medusa.INSTANCE.getPacketExecutor().execute(() -> Medusa.INSTANCE.getReceivingPacketProcessor()
+            QuantumTimeAC.INSTANCE.getPacketExecutor().execute(() -> QuantumTimeAC.INSTANCE.getReceivingPacketProcessor()
                     .handle(data, new Packet(Packet.Direction.RECEIVE, event.getNMSPacket(), event.getPacketId())));
         }
     }
 
     @Override
     public void onPacketPlaySend(final PacketPlaySendEvent event) {
-        final PlayerData data = Medusa.INSTANCE.getPlayerDataManager().getPlayerData(event.getPlayer());
+        final PlayerData data = QuantumTimeAC.INSTANCE.getPlayerDataManager().getPlayerData(event.getPlayer());
 
         handle: {
             if (data == null) break handle;
 
-            Medusa.INSTANCE.getPacketExecutor().execute(() -> Medusa.INSTANCE.getSendingPacketProcessor()
+            QuantumTimeAC.INSTANCE.getPacketExecutor().execute(() -> QuantumTimeAC.INSTANCE.getSendingPacketProcessor()
                     .handle(data, new Packet(Packet.Direction.SEND, event.getNMSPacket(), event.getPacketId())));
         }
     }

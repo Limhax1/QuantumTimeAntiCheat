@@ -1,6 +1,6 @@
 package com.gladurbad.medusa.exempt.type;
 
-import com.gladurbad.medusa.Medusa;
+import com.gladurbad.medusa.QuantumTimeAC;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.util.PlayerUtil;
 import com.gladurbad.medusa.util.ServerUtil;
@@ -40,11 +40,11 @@ public enum ExemptType {
 
     CLIMBABLE(data -> data.getPositionProcessor().isOnClimbable()),
 
-    DIGGING(data -> Medusa.INSTANCE.getTickManager().getTicks() - data.getActionProcessor().getLastDiggingTick() < 10),
+    DIGGING(data -> QuantumTimeAC.INSTANCE.getTickManager().getTicks() - data.getActionProcessor().getLastDiggingTick() < 10),
 
-    BLOCK_BREAK(data -> Medusa.INSTANCE.getTickManager().getTicks() - data.getActionProcessor().getLastBreakTick() < 10),
+    BLOCK_BREAK(data -> QuantumTimeAC.INSTANCE.getTickManager().getTicks() - data.getActionProcessor().getLastBreakTick() < 10),
 
-    PLACING(data -> Medusa.INSTANCE.getTickManager().getTicks() - data.getActionProcessor().getLastPlaceTick() < 10),
+    PLACING(data -> QuantumTimeAC.INSTANCE.getTickManager().getTicks() - data.getActionProcessor().getLastPlaceTick() < 10),
 
     NEAR_VEHICLE(data -> data.getPositionProcessor().isNearVehicle()),
 

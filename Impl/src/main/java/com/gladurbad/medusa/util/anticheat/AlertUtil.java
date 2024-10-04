@@ -1,8 +1,6 @@
 package com.gladurbad.medusa.util.anticheat;
 
-import com.gladurbad.api.listener.MedusaFlagEvent;
 import com.gladurbad.api.listener.MedusaSendAlertEvent;
-import com.gladurbad.medusa.Medusa;
 import com.gladurbad.medusa.check.Check;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.util.ColorUtil;

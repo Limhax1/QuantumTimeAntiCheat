@@ -1,6 +1,6 @@
 package com.gladurbad.medusa.data.processor;
 
-import com.gladurbad.medusa.Medusa;
+import com.gladurbad.medusa.QuantumTimeAC;
 import com.gladurbad.medusa.util.MathUtil;
 import com.gladurbad.medusa.util.PlayerUtil;
 import com.gladurbad.medusa.util.type.EvictingList;
@@ -12,7 +12,6 @@ import io.github.retrooper.packetevents.packetwrappers.play.in.helditemslot.Wrap
 import lombok.Getter;
 import com.gladurbad.medusa.data.PlayerData;
 import lombok.Setter;
-import org.bukkit.Bukkit;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -102,22 +101,22 @@ public final class ActionProcessor {
          Getting the looking block ensures that the player is not spoofing his digging state.
          */
         if (digging && PlayerUtil.getLookingBlock(data.getPlayer(), 5) != null) {
-            lastDiggingTick = Medusa.INSTANCE.getTickManager().getTicks();
+            lastDiggingTick = QuantumTimeAC.INSTANCE.getTickManager().getTicks();
         }
     }
 
     public void handleInteract(final PlayerInteractEvent event) {
         if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
-            lastDiggingTick = Medusa.INSTANCE.getTickManager().getTicks();
+            lastDiggingTick = QuantumTimeAC.INSTANCE.getTickManager().getTicks();
         }
     }
 
     public void handleBukkitPlace() {
-        lastPlaceTick = Medusa.INSTANCE.getTickManager().getTicks();
+        lastPlaceTick = QuantumTimeAC.INSTANCE.getTickManager().getTicks();
     }
 
     public void handleBukkitBlockBreak() {
-        lastBreakTick = Medusa.INSTANCE.getTickManager().getTicks();
+        lastBreakTick = QuantumTimeAC.INSTANCE.getTickManager().getTicks();
     }
 
     public void handleFlying() {

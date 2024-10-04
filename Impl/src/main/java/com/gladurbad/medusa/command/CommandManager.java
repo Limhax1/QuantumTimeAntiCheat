@@ -1,6 +1,6 @@
 package com.gladurbad.medusa.command;
 
-import com.gladurbad.medusa.MedusaPlugin;
+import com.gladurbad.medusa.QuantumTimePlugin;
 import com.gladurbad.medusa.command.impl.*;
 import com.gladurbad.medusa.util.ColorUtil;
 import com.gladurbad.medusa.config.Config;
@@ -9,14 +9,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public final class CommandManager implements CommandExecutor {
 
     private final List<MedusaCommand> commands = new ArrayList<>();
 
-    public CommandManager(final MedusaPlugin plugin) {
+    public CommandManager(final QuantumTimePlugin plugin) {
         commands.add(new Alerts());
         commands.add(new Info());
         commands.add(new Debug());
