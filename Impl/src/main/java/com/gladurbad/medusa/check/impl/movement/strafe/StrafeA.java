@@ -17,7 +17,6 @@ public class StrafeA extends Check {
 
 
     private double DIRECTION_CHANGE_THRESHOLD = 13;
-    private static final int BUFFER_LIMIT = 3;
 
     private Vector lastVelocity;
     private boolean wasInAir;
@@ -54,7 +53,7 @@ public class StrafeA extends Check {
                 DIRECTION_CHANGE_THRESHOLD = 50;
             }
 
-            if (inAir && wasInAir && !exempt && lastVelocity != null && DeltaXZ > 0.22) {
+            if (inAir && wasInAir && !exempt && lastVelocity != null && DeltaXZ > 0.21) {
                 double angle = calculateAngle(lastVelocity, movement);
 
                 if (angle > DIRECTION_CHANGE_THRESHOLD) {

@@ -22,28 +22,27 @@ public class ProtocolM extends Check {
 
     @Override
     public void handle(Packet packet) {
-        if (isExempt(ExemptType.JOINED, ExemptType.TPS, ExemptType.TELEPORT)) {
-            return;
-        }
+
+        boolean exempt = isExempt(ExemptType.JOINED, ExemptType.TPS, ExemptType.TELEPORT);
 
         long now = System.currentTimeMillis();
 
-        if (packet.isPosition() || packet.isPosLook() || packet.isFlying()) {
+        if (packet.isPosition() || packet.isPosLook() || packet.isFlying() || data.getPlayer().isDead() || data.getPlayer().getTicksLived() > 10) {
             long timeDiff = now - lastPositionPacket;
             if (timeDiff > 1) {
                 blinkTicks = 0;
             }
             lastPositionPacket = now;
-        } else {
+        } else if(!exempt && !data.getPlayer().isDead()) {
             blinkTicks++;
         }
 
         if (blinkTicks % 3 == 0) {
-            debug(PlayerUtil.getPing(data.getPlayer()) / 5);
+            debug( blinkTicks + PlayerUtil.getPing(data.getPlayer()) / 5);
         }
 
-        if (blinkTicks > 175 + PlayerUtil.getPing(data.getPlayer()) / 5) {
-            fail("Last position was: " + blinkTicks / 20 + " seconds ago");
+        if (blinkTicks > 175 + PlayerUtil.getPing(data.getPlayer()) / 5 && !exempt) {
+            fail("Last position was: " + blinkTicks / 3 + " ticks ago");
             if (setback.getBoolean()) {
                 setback();
             }
