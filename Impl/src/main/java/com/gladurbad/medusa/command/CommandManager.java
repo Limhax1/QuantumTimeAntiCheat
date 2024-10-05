@@ -25,12 +25,12 @@ public final class CommandManager implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String string, String[] args) {
-        if (commandSender.hasPermission("medusa.commands")) {
+        if (commandSender.hasPermission("qtac.commands")) {
             if (args.length > 0) {
                 for (final MedusaCommand medusaCommand : commands) {
                     final String commandName = medusaCommand.getCommandInfo().name();
                     if (commandName.equals(args[0])) {
-                        if (commandSender.hasPermission("medusa." + commandName)) {
+                        if (commandSender.hasPermission("qtac." + commandName)) {
                             if (!medusaCommand.handle(commandSender, command, string, args)) {
                                 commandSender.sendMessage(ColorUtil.translate(Config.ACCENT_ONE + "Usage: /qtac " +
                                         medusaCommand.getCommandInfo().name() + " " +

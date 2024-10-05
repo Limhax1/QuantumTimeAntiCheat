@@ -30,15 +30,17 @@ public final class QuantumTimePlugin extends JavaPlugin {
         QuantumTimeAC.INSTANCE.stop(this);
     }
 
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("custombroadcast") && sender.hasPermission("qtac.custombroadcast")) {
             if (args.length > 1) {
+                String duration = "3s";
                 String playerName = args[0];
                 String message = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
                 if(!Bukkit.getPlayer(playerName).isBanned()) {
                     Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', message));
-                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "tempban " + playerName + " 1s Unfair Advantage");
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "tempban " + playerName + " " + duration + " Unfair Advantage");
                 }
                 return true;
             } else {

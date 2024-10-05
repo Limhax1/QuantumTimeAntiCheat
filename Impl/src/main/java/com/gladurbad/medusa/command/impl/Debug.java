@@ -24,7 +24,7 @@ public class Debug extends MedusaCommand {
                     for (Check check : data.getChecks()) {
                         if (check.getCheckInfo().name().equals(checkName)) {
                             check.setDebugging(true);
-                            sender.sendMessage(ChatColor.RED + "Debugging " + checkName + "!");
+                            sender.sendMessage(ChatColor.WHITE + "Debugging " + checkName + "!");
                         } else {
                             check.setDebugging(false);
                         }
@@ -35,7 +35,7 @@ public class Debug extends MedusaCommand {
                         for (Check check : data.getChecks()) {
                             check.setDebugging(false);
                         }
-                        sender.sendMessage(ChatColor.RED + "Turned off debugging!");
+                        sender.sendMessage(ChatColor.WHITE + "Turned off debugging!");
                         return true;
                     }
                 }
