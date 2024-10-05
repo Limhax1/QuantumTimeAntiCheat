@@ -27,13 +27,13 @@ public class ProtocolM extends Check {
 
         long now = System.currentTimeMillis();
 
-        if (packet.isPosition() || packet.isPosLook() || packet.isFlying() || data.getPlayer().isDead() || data.getPlayer().getTicksLived() > 10) {
+        if (packet.isPosition() || packet.isPosLook() || packet.isFlying() || data.getPlayer().isDead()) {
             long timeDiff = now - lastPositionPacket;
             if (timeDiff > 1) {
                 blinkTicks = 0;
             }
             lastPositionPacket = now;
-        } else if(!exempt && !data.getPlayer().isDead()) {
+        } else if(!exempt && !data.getPlayer().isDead() && data.getPlayer().getTicksLived() > 10) {
             blinkTicks++;
         }
 

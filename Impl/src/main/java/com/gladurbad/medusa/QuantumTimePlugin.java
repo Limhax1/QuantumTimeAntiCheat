@@ -14,9 +14,7 @@ public final class QuantumTimePlugin extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        PacketEvents.create(this).getSettings()
-                .checkForUpdates(false);
-
+        PacketEvents.create(this).getSettings().checkForUpdates(false);
         PacketEvents.get().load();
     }
 

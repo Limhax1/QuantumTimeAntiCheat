@@ -8,6 +8,8 @@ import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -19,7 +21,7 @@ public final class SpeedB extends Check {
     private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");
     private static final ConfigValue buffer_decay = new ConfigValue(ConfigValue.ValueType.DOUBLE, "buffer_decay");
     private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
-
+    private static final double ACCELERATION = 0.1;
     private static final double WALK_SPEED = 0.221;
     private static final double SPRINT_SPEED = 0.2865;
     private static final double AIR_SPEED = 0.36;
@@ -30,12 +32,10 @@ public final class SpeedB extends Check {
     private static final double MOMENTUM_DECAY = 0.07;
     private static final double MAX_MOMENTUM = 0.08;
     private static final double MAX_SPEED = 0.48;
-    private static final double MAX_ACCELERATION = 0.06;
-    private static final double ACCELERATION = 0.1;
-    private static final double TOLERANCE = 1.0003;
+    private static double MAX_ACCELERATION = 0.06;
+    private static final double TOLERANCE = 1.0002;
     private static final double BUFFER_INCREASE_MULTIPLIER = 4.0;
-    private static final double BUFFER_DECAY_MULTIPLIER = 0.95;
-
+    private static final double BUFFER_DECAY_MULTIPLIER = 0.97;
     private double lastDeltaXZ = 0.0;
     private double momentum = 0.0;
     private boolean wasOnGround = true;
@@ -63,19 +63,27 @@ public final class SpeedB extends Check {
 
             double expectedSpeed = predictMaxSpeed(onGround, sprinting, deltaY, deltaXZ);
             double acceleration = deltaXZ - lastDeltaXZ;
+            boolean exempt2 = data.getPlayer().getItemInHand().containsEnchantment(Enchantment.ARROW_KNOCKBACK);
+            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.FLYING);
 
-            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.VELOCITY, ExemptType.FLYING);
-
-            if(isNearStairOrSlab(data.getPlayer())) {
-                expectedSpeed *= 1.25;
+            if(exempt2) {
+                expectedSpeed *= 1.02;
+                MAX_ACCELERATION *= 5;
             }
 
-            // Kezeljük az egymás utáni ugrásokat
+            if(isNearStairOrSlab(data.getPlayer())) {
+                expectedSpeed *= 1.5;
+            }
+
+            if(lastVelocityBoost != 0.0) {
+                MAX_ACCELERATION *= 2.5;
+            }
+
             if (!onGround && wasOnGround && Math.abs(deltaY - JUMP_BOOST) < 1E-5) {
                 long currentTime = System.currentTimeMillis();
-                if (currentTime - lastJumpTime < 500) { // 500 ms-on belüli ugrások
+                if (currentTime - lastJumpTime < 500) {
                     consecutiveJumps++;
-                    expectedSpeed *= (1 + (consecutiveJumps * 0.02)); // Növeljük az elvárt sebességet
+                    expectedSpeed *= (1 + (consecutiveJumps * 0.02));
                 } else {
                     consecutiveJumps = 0;
                 }
@@ -83,11 +91,11 @@ public final class SpeedB extends Check {
             }
 
             if (Math.abs(acceleration) > MAX_ACCELERATION && !exempt) {
-                buffer += Math.abs(acceleration) * BUFFER_INCREASE_MULTIPLIER;
+                buffer += Math.abs(acceleration) * BUFFER_INCREASE_MULTIPLIER * 1.2;
             }
 
             if (deltaXZ > expectedSpeed * TOLERANCE && !exempt) {
-                buffer += (deltaXZ - expectedSpeed) * BUFFER_INCREASE_MULTIPLIER;
+                buffer += (deltaXZ - expectedSpeed) * BUFFER_INCREASE_MULTIPLIER * 1.1;
             } else {
                 buffer *= BUFFER_DECAY_MULTIPLIER;
             }
@@ -98,7 +106,7 @@ public final class SpeedB extends Check {
 
             buffer = Math.max(buffer - buffer_decay.getDouble(), 0);
 
-            if (buffer > max_buffer.getDouble() && !exempt) {
+            if (buffer > max_buffer.getDouble() * 0.9 && !exempt) {
                 if(setback.getBoolean()) {
                     setback();
                 }
@@ -133,7 +141,7 @@ public final class SpeedB extends Check {
 
         if (!onGround) {
             airTicks++;
-            expectedSpeed *= Math.pow(AIR_FRICTION, Math.min(airTicks, 10)); // Korlátozzuk a légellenállás hatását
+            expectedSpeed *= Math.pow(AIR_FRICTION, Math.min(airTicks, 10));
         } else {
             airTicks = 0;
             expectedSpeed *= GROUND_FRICTION;
@@ -176,9 +184,8 @@ public final class SpeedB extends Check {
         int ticksSinceVelocity = data.getVelocityProcessor().getTicksSinceVelocity();
         
         double velocityXZ = Math.hypot(velocityX, velocityZ);
-        
-        // A velocity hatása csökken az idő múlásával
-        double decayFactor = Math.max(0, 1 - (ticksSinceVelocity / 20.0)); // 1 másodperc után teljesen lecseng
+
+        double decayFactor = Math.max(0, 1 - (ticksSinceVelocity / 20.0));
         
         return velocityXZ * decayFactor;
     }
