@@ -6,45 +6,24 @@ import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Item;
+import com.gladurbad.medusa.util.MathUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
-@CheckInfo(name = "Speed (B)", description = "Ellenőrzi a játékos sebességét.", complextype = "Speed")
-public final class SpeedB extends Check {
+@CheckInfo(name = "Speed (B)", description = "Checks for speed.", experimental = true, complextype = "Ground")
+public class SpeedB extends Check {
 
     private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");
     private static final ConfigValue buffer_decay = new ConfigValue(ConfigValue.ValueType.DOUBLE, "buffer_decay");
     private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
-    private static final double ACCELERATION = 0.1;
-    private static final double WALK_SPEED = 0.221;
-    private static final double SPRINT_SPEED = 0.2865;
-    private static final double AIR_SPEED = 0.36;
-    private static final double JUMP_BOOST = 0.42;
-    private static final double AIR_FRICTION = 0.98;
-    private static final double GROUND_FRICTION = 0.91;
-    private static final double MOMENTUM_MULTIPLIER = 1.03;
-    private static final double MOMENTUM_DECAY = 0.07;
-    private static final double MAX_MOMENTUM = 0.08;
-    private static final double MAX_SPEED = 0.48;
-    private static double MAX_ACCELERATION = 0.06;
-    private static final double TOLERANCE = 1.0002;
-    private static final double BUFFER_INCREASE_MULTIPLIER = 4.0;
-    private static final double BUFFER_DECAY_MULTIPLIER = 0.97;
-    private double lastDeltaXZ = 0.0;
-    private double momentum = 0.0;
-    private boolean wasOnGround = true;
-    private boolean wasSprinting = false;
-    private int airTicks = 0;
-    private double lastVelocityBoost = 0.0;
-    private double lastExpectedSpeed = 0.0;
-    private int consecutiveJumps = 0;
-    private long lastJumpTime = 0;
+
+    private static final double BASE_GROUND_SPEED = 0.2873;
+    private static final double ICE_BOOST = 0.5;
+    private static final double BLOCK_BOOST = 0.05;
+    private static final double VELOCITY_BOOST_BASE = 0.05;
+    private static final double VELOCITY_BOOST_MULTIPLIER = 2.0;
+    private static final int VELOCITY_TICKS_MAX = 40;
 
     public SpeedB(final PlayerData data) {
         super(data);
@@ -53,164 +32,75 @@ public final class SpeedB extends Check {
     @Override
     public void handle(final Packet packet) {
         if (packet.isPosition()) {
-            final double deltaXZ = data.getPositionProcessor().getDeltaXZ();
-            final double deltaY = data.getPositionProcessor().getDeltaY();
+            final Player player = data.getPlayer();
             final boolean onGround = data.getPositionProcessor().isOnGround();
-            final boolean sprinting = data.getActionProcessor().isSprinting();
+            final double deltaXZ = data.getPositionProcessor().getDeltaXZ();
+            final double lastDeltaXZ = data.getPositionProcessor().getLastDeltaXZ();
+            final int groundTicks = data.getPositionProcessor().getGroundTicks();
+            final int sinceIceTicks = data.getPositionProcessor().getSinceIceTicks();
+            final int sinceSlimeTicks = data.getPositionProcessor().getSinceSlimeTicks();
+            final int sinceVelocityTicks = data.getVelocityProcessor().getTicksSinceVelocity();
 
-            double velocityBoost = getVelocityBoost();
-            lastVelocityBoost = Math.max(lastVelocityBoost, velocityBoost);
+            double maxSpeed = BASE_GROUND_SPEED;
 
-            double expectedSpeed = predictMaxSpeed(onGround, sprinting, deltaY, deltaXZ);
-            double acceleration = deltaXZ - lastDeltaXZ;
-            boolean exempt2 = data.getPlayer().getItemInHand().containsEnchantment(Enchantment.ARROW_KNOCKBACK);
-            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.FLYING);
+            double speedEffectMultiplier = getSpeedPotionCorrection(player);
+            maxSpeed *= speedEffectMultiplier;
 
-            if(exempt2) {
-                expectedSpeed *= 1.02;
-                MAX_ACCELERATION *= 5;
+            if (sinceIceTicks < 40) {
+                maxSpeed += ICE_BOOST;
             }
 
-            if(isNearStairOrSlab(data.getPlayer())) {
-                expectedSpeed *= 1.5;
+            if (sinceSlimeTicks < 40) {
+                maxSpeed += BLOCK_BOOST;
             }
 
-            if(lastVelocityBoost != 0.0) {
-                MAX_ACCELERATION *= 2.5;
+            if (data.getPositionProcessor().isNearStairs() || data.getPositionProcessor().isNearSlab()) {
+                maxSpeed += BLOCK_BOOST;
             }
 
-            if (!onGround && wasOnGround && Math.abs(deltaY - JUMP_BOOST) < 1E-5) {
-                long currentTime = System.currentTimeMillis();
-                if (currentTime - lastJumpTime < 500) {
-                    consecutiveJumps++;
-                    expectedSpeed *= (1 + (consecutiveJumps * 0.02));
-                } else {
-                    consecutiveJumps = 0;
-                }
-                lastJumpTime = currentTime;
+            if (sinceVelocityTicks < VELOCITY_TICKS_MAX) {
+                double velocityX = data.getVelocityProcessor().getVelocityX();
+                double velocityZ = data.getVelocityProcessor().getVelocityZ();
+                double velocityXZ = MathUtil.hypot(velocityX, velocityZ);
+                double velocityBoost = VELOCITY_BOOST_BASE + (velocityXZ * VELOCITY_BOOST_MULTIPLIER);
+                maxSpeed += velocityBoost * (1 - (sinceVelocityTicks / (double) VELOCITY_TICKS_MAX));
             }
 
-            if (Math.abs(acceleration) > MAX_ACCELERATION && !exempt) {
-                buffer += Math.abs(acceleration) * BUFFER_INCREASE_MULTIPLIER * 1.2;
-            }
-
-            if (deltaXZ > expectedSpeed * TOLERANCE && !exempt) {
-                buffer += (deltaXZ - expectedSpeed) * BUFFER_INCREASE_MULTIPLIER * 1.1;
+            if (deltaXZ > lastDeltaXZ) {
+                maxSpeed += 0.01 + (groundTicks * 0.0005);
             } else {
-                buffer *= BUFFER_DECAY_MULTIPLIER;
+                maxSpeed += 0.08;
             }
 
-            if (deltaXZ > lastExpectedSpeed * TOLERANCE && deltaXZ > expectedSpeed * TOLERANCE && !exempt) {
-                buffer += (deltaXZ - expectedSpeed) * BUFFER_INCREASE_MULTIPLIER;
+            if (groundTicks == 1 && data.getPositionProcessor().getDeltaY() > 0) {
+                maxSpeed += 0.1;
             }
 
-            buffer = Math.max(buffer - buffer_decay.getDouble(), 0);
+            if (deltaXZ > maxSpeed && !isExempt(ExemptType.TELEPORT, ExemptType.FLYING)) {
 
-            if (buffer > max_buffer.getDouble() * 0.9 && !exempt) {
-                if(setback.getBoolean()) {
+                if(buffer++ > max_buffer.getDouble() / 2 && setback.getBoolean()) {
                     setback();
                 }
-                fail(String.format("Túl gyors mozgás - deltaXZ=%.4f, expectedSpeed=%.4f, buffer=%.2f, momentum=%.4f, acc=%.4f, consJumps=%d",
-                        deltaXZ, expectedSpeed, buffer, momentum, acceleration, consecutiveJumps));
-                buffer = 0;
-                consecutiveJumps = 0;
+
+                if (buffer++ > max_buffer.getDouble()) {
+                    fail(String.format("(%.2f > %.2f)", deltaXZ, maxSpeed));
+                }
+            } else {
+                buffer = Math.max(buffer - buffer_decay.getDouble(), 0);
             }
 
-            String debugInfo = String.format(
-                "DXZ: %.4f, EXP: %.4f, BUF: %.2f, AT: %d, OG: %b, SPR: %b, DY: %.4f, MOM: %.4f, ACC: %.4f, VB: %.4f, CJ: %d",
-                deltaXZ, expectedSpeed, buffer, airTicks, onGround, sprinting, deltaY, momentum, acceleration, lastVelocityBoost, consecutiveJumps
-            );
-            debug(debugInfo);
-
-            lastDeltaXZ = deltaXZ;
-            lastExpectedSpeed = expectedSpeed;
-            wasOnGround = onGround;
-            wasSprinting = sprinting;
-            lastVelocityBoost *= 0.99;
+            debug(String.format("deltaXZ=%.4f, maxSpeed=%.4f, speedEffect=%.2f, groundTicks=%d, buffer=%.2f",
+                    deltaXZ, maxSpeed, speedEffectMultiplier, groundTicks, buffer));
         }
     }
 
-    private double predictMaxSpeed(boolean onGround, boolean sprinting, double deltaY, double deltaXZ) {
-        double baseSpeed = getBaseSpeed(onGround, sprinting);
-        double speedMultiplier = getSpeedPotionMultiplier(data.getPlayer());
-        double jumpBoost = getJumpBoost(onGround, deltaY);
-
-        updateMomentum(onGround, sprinting);
-
-        double expectedSpeed = (baseSpeed * speedMultiplier) + jumpBoost + lastVelocityBoost + momentum;
-
-        if (!onGround) {
-            airTicks++;
-            expectedSpeed *= Math.pow(AIR_FRICTION, Math.min(airTicks, 10));
-        } else {
-            airTicks = 0;
-            expectedSpeed *= GROUND_FRICTION;
-        }
-
-        expectedSpeed += ACCELERATION;
-        expectedSpeed = Math.min(expectedSpeed, MAX_SPEED + momentum + lastVelocityBoost);
-
-        return expectedSpeed;
-    }
-
-    private double getBaseSpeed(boolean onGround, boolean sprinting) {
-        if (onGround) {
-            return sprinting ? SPRINT_SPEED : WALK_SPEED;
-        } else {
-            return AIR_SPEED;
-        }
-    }
-
-    private double getSpeedPotionMultiplier(Player player) {
+    private double getSpeedPotionCorrection(Player player) {
         for (PotionEffect effect : player.getActivePotionEffects()) {
             if (effect.getType().equals(PotionEffectType.SPEED)) {
-                int amplifier = effect.getAmplifier() + 1;
-                return 1.0 + (0.2 * amplifier);
+                int speedAmplifier = effect.getAmplifier() + 1;
+                return 1.0 + (0.2 * speedAmplifier);
             }
         }
         return 1.0;
-    }
-
-    private double getJumpBoost(boolean onGround, double deltaY) {
-        if (!onGround && wasOnGround && Math.abs(deltaY - JUMP_BOOST) < 1E-5) {
-            return JUMP_BOOST;
-        }
-        return 0;
-    }
-
-    private double getVelocityBoost() {
-        double velocityX = data.getVelocityProcessor().getVelocityX();
-        double velocityZ = data.getVelocityProcessor().getVelocityZ();
-        int ticksSinceVelocity = data.getVelocityProcessor().getTicksSinceVelocity();
-        
-        double velocityXZ = Math.hypot(velocityX, velocityZ);
-
-        double decayFactor = Math.max(0, 1 - (ticksSinceVelocity / 20.0));
-        
-        return velocityXZ * decayFactor;
-    }
-
-    private void updateMomentum(boolean onGround, boolean sprinting) {
-        if (sprinting && onGround) {
-            momentum = Math.min(momentum + (MOMENTUM_MULTIPLIER - 1), MAX_MOMENTUM);
-        } else {
-            momentum = Math.max(momentum - MOMENTUM_DECAY, 0);
-        }
-    }
-
-    private boolean isNearStairOrSlab(Player player) {
-        int radius = 1;
-        for (int x = -radius; x <= radius; x++) {
-            for (int y = -1; y <= 1; y++) {
-                for (int z = -radius; z <= radius; z++) {
-                    Block block = player.getLocation().add(x, y, z).getBlock();
-                    Material type = block.getType();
-                    if (type.name().contains("STAIRS") || type.name().contains("SLAB") || type.name().contains("STEP")) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
     }
 }

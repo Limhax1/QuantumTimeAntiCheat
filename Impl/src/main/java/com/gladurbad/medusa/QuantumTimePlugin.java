@@ -9,8 +9,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public final class QuantumTimePlugin extends JavaPlugin {
+
+    private final Map<UUID, Long> lastCustomBroadcastTime = new HashMap<>();
+    private long lastConsoleBroadcastTime = 0L;
 
     @Override
     public void onLoad() {
@@ -30,17 +36,44 @@ public final class QuantumTimePlugin extends JavaPlugin {
         QuantumTimeAC.INSTANCE.stop(this);
     }
 
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("custombroadcast") && sender.hasPermission("qtac.custombroadcast")) {
+            long currentTime = System.currentTimeMillis();
+            long lastUseTime;
+
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
+                lastUseTime = lastCustomBroadcastTime.getOrDefault(player.getUniqueId(), 0L);
+            } else {
+                lastUseTime = lastConsoleBroadcastTime;
+            }
+
+            if (currentTime - lastUseTime < 1000) {
+                sender.sendMessage(ChatColor.RED + "Please wait 1 second before using this command again.");
+                return true;
+            }
+
+            if (sender instanceof Player) {
+                lastCustomBroadcastTime.put(((Player) sender).getUniqueId(), currentTime);
+            } else {
+                lastConsoleBroadcastTime = currentTime;
+            }
+
             if (args.length > 1) {
                 String duration = "3s";
                 String playerName = args[0];
                 String message = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-                if(!Bukkit.getPlayer(playerName).isBanned()) {
-                    Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', message));
-                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "tempban " + playerName + " " + duration + " Unfair Advantage");
+                Player targetPlayer = Bukkit.getPlayer(playerName);
+
+                if (targetPlayer != null && !targetPlayer.isBanned()) {
+                    Bukkit.getScheduler().runTaskLater(this, () -> {
+                        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', message));
+                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "tempban " + playerName + " " + duration + " Unfair Advantage");
+                    }, 20L); // 20 tick = 1 másodperc
+                    sender.sendMessage(ChatColor.GREEN + "Broadcast and ban will be executed in 1 second.");
+                } else {
+                    sender.sendMessage(ChatColor.RED + "Player " + playerName + " not found or already banned.");
                 }
                 return true;
             } else {
