@@ -27,6 +27,10 @@ public final class FlyA extends Check {
 
             boolean exempt = isExempt(ExemptType.FLYING, ExemptType.TELEPORT, ExemptType.VELOCITY, ExemptType.NEAR_VEHICLE);
 
+            if(exempt) {
+                debug(isExempt(ExemptType.FLYING, ExemptType.TELEPORT, ExemptType.VELOCITY, ExemptType.NEAR_VEHICLE));
+            }
+
             if (data.getPositionProcessor().getAirTicks() > 60 && data.getPositionProcessor().isInAir() && !exempt) {
                 if (speed > 0.34) {
                     if(setback.getBoolean()) {
