@@ -2,7 +2,7 @@ package com.gladurbad.medusa.data.processor;
 
 import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.packetwrappers.play.in.transaction.WrappedPacketInTransaction;
-import io.github.retrooper.packetevents.packetwrappers.play.out.transaction.WrappedPacketOutTransaction;
+import io.github.retrooper.packetevents.utils.server.ServerVersion;
 import lombok.Getter;
 import com.gladurbad.medusa.QuantumTimeAC;
 import com.gladurbad.medusa.data.PlayerData;
@@ -18,9 +18,11 @@ public final class VelocityProcessor {
     private short transactionID, velocityID;
     private long transactionPing, transactionReply;
     private boolean verifyingVelocity;
+    private boolean useTransactions;
 
     public VelocityProcessor(final PlayerData data) {
         this.data = data;
+        this.useTransactions = PacketEvents.get().getServerUtils().getVersion().isNewerThanOrEquals(ServerVersion.v_1_12);
     }
 
     public void handle(final double velocityX, final double velocityY, final double velocityZ) {
@@ -34,13 +36,18 @@ public final class VelocityProcessor {
         this.velocityY = velocityY;
         this.velocityZ = velocityZ;
 
-        this.velocityID = (short) ThreadLocalRandom.current().nextInt(32767);
-        this.verifyingVelocity = true;
-
-        PacketEvents.get().getPlayerUtils().sendPacket(data.getPlayer(), new WrappedPacketOutTransaction(0, velocityID, false));
+        if (useTransactions) {
+            this.velocityID = (short) ThreadLocalRandom.current().nextInt(32767);
+            this.verifyingVelocity = true;
+            sendTransaction(velocityID);
+        } else {
+            this.velocityTicks = QuantumTimeAC.INSTANCE.getTickManager().getTicks();
+            this.maxVelocityTicks = (int) (((lastVelocityZ + lastVelocityX) / 2 + 2) * 15);
+        }
     }
 
     public void handleTransaction(final WrappedPacketInTransaction wrapper) {
+        if (!useTransactions) return;
 
         if (this.verifyingVelocity && wrapper.getActionNumber() == this.velocityID) {
             this.verifyingVelocity = false;
@@ -52,8 +59,20 @@ public final class VelocityProcessor {
             transactionPing = System.currentTimeMillis() - transactionReply;
 
             transactionID = (short) ThreadLocalRandom.current().nextInt(32767);
-            PacketEvents.get().getPlayerUtils().sendPacket(data.getPlayer(), new WrappedPacketOutTransaction(0, transactionID, false));
+            sendTransaction(transactionID);
             transactionReply = System.currentTimeMillis();
+        }
+    }
+
+    private void sendTransaction(short id) {
+        if (useTransactions) {
+            try {
+                PacketEvents.get().getPlayerUtils().sendPacket(data.getPlayer(), 
+                    new io.github.retrooper.packetevents.packetwrappers.play.out.transaction.WrappedPacketOutTransaction(0, id, false));
+            } catch (Exception e) {
+                // Ha a WrappedPacketOutTransaction nem támogatott, kapcsoljuk ki a tranzakciókat
+                useTransactions = false;
+            }
         }
     }
 

@@ -28,7 +28,7 @@ public class ProtocolM extends Check {
         boolean exempt = isExempt(ExemptType.JOINED, ExemptType.TPS, ExemptType.TELEPORT);
 
         if(ServerUtil.isHigherThan1_13_2()) {
-            max = 250;
+            max = 320;
         } else {
             max = 175;
         }

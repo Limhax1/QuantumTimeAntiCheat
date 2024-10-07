@@ -58,12 +58,14 @@ public class SpeedD extends Check {
                             if (setback.getBoolean()) {
                                 setback();
                             }
+
+                            buffer = 0;
                         }
                     } else {
                         buffer = Math.max(0, buffer - buffer_decay.getDouble());
                     }
 
-                    debug("DeltaY: " + deltaY + ", Predicted: " + predictedDeltaY + ", Diff: " + difference + ", Buffer: " + buffer + ", AirTicks: " + airTicks);
+                    debug( difference + " " + buffer);
                 } else {
                     airTicks = 0;
                     buffer = Math.max(0, buffer - buffer_decay.getDouble());
@@ -81,7 +83,7 @@ public class SpeedD extends Check {
             return 0.05 * (currentMotionY - 0.05);
         }
 
-        double predictedMotionY = (currentMotionY - GRAVITY) * 0.98;
+        double predictedMotionY = (currentMotionY - GRAVITY) * 0.9800000190734863;
 
         if (Math.abs(predictedMotionY) < DRAG) {
             predictedMotionY = 0;
