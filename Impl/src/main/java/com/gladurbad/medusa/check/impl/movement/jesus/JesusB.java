@@ -4,6 +4,7 @@ import com.gladurbad.api.check.CheckInfo;
 import com.gladurbad.medusa.check.Check;
 import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
+import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -34,14 +35,14 @@ public class JesusB extends Check {
             final Location location = data.getPlayer().getLocation();
             final double deltaY = data.getPositionProcessor().getDeltaY();
             final double deltaXZ = data.getPositionProcessor().getDeltaXZ();
-
+            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.VELOCITY, ExemptType.DEPTH_STRIDER, ExemptType.SWIMMING, ExemptType.BUBBLE_COLUMN, ExemptType.ELYTRA);
             if(isNearSolidBlock(location)) {
                 MAX_JUMP_HEIGHT = 0.42;
             } else {
                 MAX_JUMP_HEIGHT = 0.12;
             }
 
-            if (isOverWater(location) && !isNearSolidBlock(location)) {
+            if (isOverWater(location) && !isNearSolidBlock(location) && !exempt) {
                 if (deltaY > MAX_JUMP_HEIGHT) {
                     if ((verticalBuffer += 1) > max_buffer.getDouble()) {
                         if(setback.getBoolean()) {

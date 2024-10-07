@@ -7,8 +7,11 @@ import com.gladurbad.medusa.packet.Packet;
 
 import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.packettype.PacketType;
-import io.github.retrooper.packetevents.packetwrappers.play.in.transaction.WrappedPacketInTransaction;
-import io.github.retrooper.packetevents.packetwrappers.play.out.transaction.WrappedPacketOutTransaction;
+import io.github.retrooper.packetevents.packetwrappers.play.out.keepalive.WrappedPacketOutKeepAlive;
+import io.github.retrooper.packetevents.packetwrappers.play.in.keepalive.WrappedPacketInKeepAlive;
+import io.github.retrooper.packetevents.utils.server.ServerVersion;
+
+import org.bukkit.Bukkit;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -16,55 +19,57 @@ import java.util.HashMap;
 public class TransactionProcessor {
     private final PlayerData data;
 
-    private Short transactionId = Short.MIN_VALUE;
-    private Long lastTransactionReceive = -1L;
-    private Long lastTransactionSend = -1L;
-    private final Map<Short, Long> transactionMap = new HashMap<>();
+    private long keepAliveId = 0;
+    private Long lastKeepAliveReceive = -1L;
+    private Long lastKeepAliveSend = -1L;
+    private final Map<Long, Long> keepAliveMap = new HashMap<>();
     private final ProtocolZ timeoutCheck;
+    private final boolean isTransactionEnabled;
 
     public TransactionProcessor(PlayerData data) {
         this.data = data;
         this.timeoutCheck = (ProtocolZ) data.getCheckByName("Protocol (Z)");
+        this.isTransactionEnabled = PacketEvents.get().getServerUtils().getVersion().isOlderThanOrEquals(ServerVersion.v_1_16_4);
     }
 
     public void handleIncoming(Packet packet) {
-        if (packet.getPacketId() != PacketType.Play.Client.TRANSACTION) return;
-        WrappedPacketInTransaction wrapper = new WrappedPacketInTransaction(packet.getRawPacket());
-        short id = wrapper.getActionNumber();
-        Long n = transactionMap.remove(id);
+        if (!isTransactionEnabled) return;
+        if (packet.getPacketId() != PacketType.Play.Client.KEEP_ALIVE) return;
+        WrappedPacketInKeepAlive wrapper = new WrappedPacketInKeepAlive(packet.getRawPacket());
+        long id = wrapper.getId();
+        Long n = keepAliveMap.remove(id);
         if (n == null) return;
         timeoutCheck.debug("received " + id);
-        if (id == transactionId) {
-            lastTransactionReceive = System.currentTimeMillis();
+        if (id == keepAliveId) {
+            lastKeepAliveReceive = System.currentTimeMillis();
         } else {
-            QuantumTimeAC.INSTANCE.getPacketExecutor().execute(() -> timeoutCheck.fail("Transaction id dismatch " + id + " != " + transactionId));
+            QuantumTimeAC.INSTANCE.getPacketExecutor().execute(() -> timeoutCheck.fail("KeepAlive id mismatch " + id + " != " + keepAliveId));
         }
-        transactionId++;
+        keepAliveId++;
     }
 
     public void handleOutgoing(Packet packet) {
-
     }
 
     public void handleTransaction() {
+        if (!isTransactionEnabled) return;
         Long n = System.currentTimeMillis();
-        long diff = n - lastTransactionReceive;
-        if (n - lastTransactionSend < 500 && diff > 30000 && lastTransactionReceive != -1 && lastTransactionSend != -1) {
+        long diff = n - lastKeepAliveReceive;
+        if (n - lastKeepAliveSend < 500 && diff > 30000 && lastKeepAliveReceive != -1 && lastKeepAliveSend != -1) {
             QuantumTimeAC.INSTANCE.getPacketExecutor().execute(() -> timeoutCheck.fail("Timed out " + diff + "ms"));
-        } 
-        sendTransaction(transactionId);
-        timeoutCheck.debug("sent: " + transactionId);
-        lastTransactionSend = n;
-        transactionMap.put(
-            transactionId, lastTransactionSend);
-        if (transactionId == Short.MAX_VALUE) {
-            transactionId = Short.MIN_VALUE;
         }
-        
+        sendTransaction(keepAliveId);
+        timeoutCheck.debug("sent: " + keepAliveId);
+        lastKeepAliveSend = n;
+        keepAliveMap.put(
+                keepAliveId, lastKeepAliveSend);
+        if (keepAliveId == Long.MAX_VALUE) {
+            keepAliveId = 0;
+        }
     }
 
-    public void sendTransaction(short secret) {
-        WrappedPacketOutTransaction wrapper = new WrappedPacketOutTransaction(0, secret, false);
+    public void sendTransaction(long secret) {
+        WrappedPacketOutKeepAlive wrapper = new WrappedPacketOutKeepAlive(secret);
         PacketEvents.get().getPlayerUtils().sendPacket(data.getPlayer(), wrapper);
     }
 }

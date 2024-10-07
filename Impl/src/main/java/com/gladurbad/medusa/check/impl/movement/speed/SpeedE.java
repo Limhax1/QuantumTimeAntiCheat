@@ -4,6 +4,7 @@ import com.gladurbad.api.check.CheckInfo;
 import com.gladurbad.medusa.check.Check;
 import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
+import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
 
 @CheckInfo(name = "Speed (E)", description = "Checks for invalid Motion", complextype = "InvalidY")
@@ -20,8 +21,5 @@ public class SpeedE extends Check {
 
     @Override
     public void handle(Packet packet) {
-        if (packet.isPosLook() || packet.isPosition()) {
-
         }
     }
-}

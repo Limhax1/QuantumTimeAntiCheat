@@ -6,11 +6,6 @@ import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.packet.Packet;
 import io.github.retrooper.packetevents.packetwrappers.play.in.abilities.WrappedPacketInAbilities;
 
-/**
- * Created on 11/14/2020 Package com.gladurbad.medusa.check.impl.player.Protocol by GladUrBad
- */
-
-
 @CheckInfo(name = "Protocol (B)", description = "Checks for spoofed abilities packets.", complextype = "Spoofed abilities")
 public final class ProtocolB extends Check {
 
@@ -23,11 +18,13 @@ public final class ProtocolB extends Check {
         if (packet.isAbilities()) {
             final WrappedPacketInAbilities wrapper = new WrappedPacketInAbilities(packet.getRawPacket());
 
-            final boolean invalid = wrapper.isFlightAllowed().get() && !data.getPlayer().getAllowFlight();
+            wrapper.isFlightAllowed().ifPresent(flightAllowed -> {
+                final boolean invalid = flightAllowed && !data.getPlayer().getAllowFlight();
 
-            if (invalid) {
-                fail();
-            }
+                if (invalid) {
+                    fail();
+                }
+            });
         }
     }
 }

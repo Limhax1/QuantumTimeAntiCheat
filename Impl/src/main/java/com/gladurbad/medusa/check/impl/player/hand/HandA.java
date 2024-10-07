@@ -4,13 +4,10 @@ import com.gladurbad.medusa.check.Check;
 import com.gladurbad.api.check.CheckInfo;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.packet.Packet;
-import io.github.retrooper.packetevents.packetwrappers.play.in.blockplace.WrappedPacketInBlockPlace;
+import com.gladurbad.medusa.packet.wrapper.blockplace.CustomWrappedPacketInBlockPlace;
+import io.github.retrooper.packetevents.packetwrappers.NMSPacket;
 import io.github.retrooper.packetevents.utils.player.Direction;
 import org.bukkit.Location;
-
-/**
- * Created on 1/18/2021 Package com.gladurbad.medusa.check.impl.player.hand by GladUrBad
- */
 
 @CheckInfo(name = "Hand (A)", experimental = true, description = "Checks for face occlusion when placing blocks.", complextype = "GhostHand")
 public final class HandA extends Check {
@@ -22,25 +19,27 @@ public final class HandA extends Check {
     @Override
     public void handle(final Packet packet) {
         if (packet.isBlockPlace()) {
-            final WrappedPacketInBlockPlace wrapper = new WrappedPacketInBlockPlace(packet.getRawPacket());
+            final CustomWrappedPacketInBlockPlace wrapper = new CustomWrappedPacketInBlockPlace(new NMSPacket(packet.getRawPacket()), data.getPlayer());
 
-            final Direction direction = wrapper.getDirection();
+            if (!wrapper.isAirPlace() && !wrapper.isItemUse()) {
+                final Direction direction = wrapper.getDirection();
 
-            final Location blockLocation = new Location(
-                    data.getPlayer().getWorld(),
-                    wrapper.getBlockPosition().getX(),
-                    wrapper.getBlockPosition().getY(),
-                    wrapper.getBlockPosition().getZ()
-            );
+                final Location blockLocation = new Location(
+                        data.getPlayer().getWorld(),
+                        wrapper.getBlockPosition().getX(),
+                        wrapper.getBlockPosition().getY(),
+                        wrapper.getBlockPosition().getZ()
+                );
 
-            final Location eyeLocation = data.getPlayer().getEyeLocation();
-            final Location blockAgainstLocation = getBlockAgainst(direction, blockLocation);
+                final Location eyeLocation = data.getPlayer().getEyeLocation();
+                final Location blockAgainstLocation = getBlockAgainst(direction, blockLocation);
 
-            final boolean validInteraction = interactedCorrectly(blockAgainstLocation, eyeLocation, direction);
+                final boolean validInteraction = interactedCorrectly(blockAgainstLocation, eyeLocation, direction);
 
-            if (!validInteraction) {
-                assert direction != null;
-                fail("face=" + direction.getFaceValue());
+                if (!validInteraction) {
+                    assert direction != null;
+                    fail("face=" + direction.getFaceValue());
+                }
             }
         }
     }

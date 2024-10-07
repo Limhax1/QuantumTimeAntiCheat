@@ -6,7 +6,6 @@ import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -28,6 +27,7 @@ public final class FlyB extends Check {
     private int violations;
     private int consistentUpwardMoveTicks;
     private double lastDeltaY;
+    private int ignoreTicks = 0;
 
     public FlyB(final PlayerData data) {
         super(data);
@@ -35,7 +35,7 @@ public final class FlyB extends Check {
 
     @Override
     public void handle(final Packet packet) {
-        boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.LIQUID, ExemptType.FLYING, ExemptType.VELOCITY, ExemptType.NEAR_VEHICLE, ExemptType.PISTON);
+        boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.LIQUID, ExemptType.FLYING, ExemptType.VELOCITY, ExemptType.NEAR_VEHICLE, ExemptType.PISTON, ExemptType.ELYTRA);
 
         if (packet.isPosition()) {
 
@@ -45,6 +45,20 @@ public final class FlyB extends Check {
                 double DY = data.getPositionProcessor().getDeltaY();
                 final double deltaY = y - lastY;
                 final boolean onGround = data.getPositionProcessor().isOnGround();
+
+                // Jobb klikkelés detektálása és kezelése
+                if (DY == 0 && lastDeltaY != 0) {
+                    ignoreTicks = 1;
+                    debug("Right-click detected, ignoring next tick");
+                }
+
+                if (ignoreTicks > 0) {
+                    ignoreTicks--;
+                    debug("Ignoring tick, remaining: " + ignoreTicks);
+                    lastY = y;
+                    lastDeltaY = DY;
+                    return;
+                }
 
                 int airTicks = data.getPositionProcessor().getAirTicks();
                 int groundTicks = data.getPositionProcessor().getGroundTicks();

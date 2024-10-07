@@ -50,7 +50,7 @@ public enum QuantumTimeAC {
         tickManager.start();
 
         final Messenger messenger = Bukkit.getMessenger();
-        messenger.registerIncomingPluginChannel(plugin, "MC|Brand", new ClientBrandListener());
+        messenger.registerIncomingPluginChannel(plugin, "minecraft:brand", new ClientBrandListener());
 
         startTime = System.currentTimeMillis();
 

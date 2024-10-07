@@ -6,20 +6,23 @@ import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
+import org.bukkit.potion.PotionEffectType;
 
-@CheckInfo(name = "Speed (D)", description = "Checks for falling too fast", complextype = "FastFall")
+@CheckInfo(name = "Speed (D)", description = "Checks for abnormal vertical movement", complextype = "VerticalPrediction")
 public class SpeedD extends Check {
 
     private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");
     private static final ConfigValue buffer_decay = new ConfigValue(ConfigValue.ValueType.DOUBLE, "buffer_decay");
     private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
 
-    private static final double MAX_FALL_SPEED = -0.399;
-    private static final int BUFFER_LIMIT = 3;
+    private static final double GRAVITY = 0.08;
+    private static final double DRAG = 0.02;
+    private static final double JUMP_UPWARDS_MOTION = 0.42;
 
     private double lastDeltaY = 0.0;
     private double buffer = 0;
     private boolean wasInAir = false;
+    private int airTicks = 0;
 
     public SpeedD(PlayerData data) {
         super(data);
@@ -30,21 +33,28 @@ public class SpeedD extends Check {
         if (packet.isPosition()) {
             double deltaY = data.getPositionProcessor().getDeltaY();
             boolean onGround = data.getPositionProcessor().isOnGround();
-            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.VELOCITY, ExemptType.FLYING, ExemptType.LIQUID, ExemptType.SLIME);
-            boolean isheadfucked = data.getPositionProcessor().isBlockNearHead();
+            boolean exempt = isExempt(
+                ExemptType.TELEPORT, 
+                ExemptType.VELOCITY, 
+                ExemptType.FLYING, 
+                ExemptType.LIQUID, 
+                ExemptType.SLIME, 
+                ExemptType.CLIMBABLE,
+                ExemptType.BOAT,
+                ExemptType.NEAR_VEHICLE,
+                ExemptType.PISTON,
+                ExemptType.UNDER_BLOCK
+            );
 
-            if (!onGround && !exempt && !isheadfucked) {
-                if (wasInAir && deltaY < 0) {
-                    double expectedMaxFallSpeed = getExpectedMaxFallSpeed();
-                    
-                    if (deltaY < expectedMaxFallSpeed && data.getPositionProcessor().getAirTicks() <= 2) {
-                        if(++buffer > max_buffer.getDouble() / 2) {
-                            if (setback.getBoolean()) {
-                                setback();
-                            }
-                        }
-                        if (++buffer > max_buffer.getDouble()) {
-                            fail("Falling too quick. DeltaY: " + deltaY + ", Expected max: " + expectedMaxFallSpeed);
+            if (!exempt) {
+                if (!onGround) {
+                    airTicks++;
+                    double predictedDeltaY = predictNextMotionY(lastDeltaY);
+                    double difference = Math.abs(deltaY - predictedDeltaY);
+
+                    if (difference > 1e-3 && airTicks > 2) {
+                        if ((buffer += difference) > max_buffer.getDouble()) {
+                            fail("Abnormal vertical movement. DeltaY: " + deltaY + ", Predicted: " + predictedDeltaY + ", Diff: " + difference);
                             if (setback.getBoolean()) {
                                 setback();
                             }
@@ -53,20 +63,30 @@ public class SpeedD extends Check {
                         buffer = Math.max(0, buffer - buffer_decay.getDouble());
                     }
 
-                    debug("DeltaY: " + deltaY + ", Expected max: " + expectedMaxFallSpeed + ", Buffer: " + buffer);
+                    debug("DeltaY: " + deltaY + ", Predicted: " + predictedDeltaY + ", Diff: " + difference + ", Buffer: " + buffer + ", AirTicks: " + airTicks);
+                } else {
+                    airTicks = 0;
+                    buffer = Math.max(0, buffer - buffer_decay.getDouble());
                 }
-                wasInAir = true;
             } else {
-                wasInAir = false;
+                buffer = Math.max(0, buffer - buffer_decay.getDouble());
             }
 
             lastDeltaY = deltaY;
         }
     }
 
-    private double getExpectedMaxFallSpeed() {
-        double maxFallSpeed = MAX_FALL_SPEED;
+    private double predictNextMotionY(double currentMotionY) {
+        if (data.getPositionProcessor().isInWeb()) {
+            return 0.05 * (currentMotionY - 0.05);
+        }
 
-        return maxFallSpeed;
+        double predictedMotionY = (currentMotionY - GRAVITY) * 0.98;
+
+        if (Math.abs(predictedMotionY) < DRAG) {
+            predictedMotionY = 0;
+        }
+
+        return predictedMotionY;
     }
 }

@@ -35,7 +35,7 @@ public class FlyE extends Check {
     public void handle(Packet packet) {
         if (packet.isFlying()) {
             final double deltaY = data.getPositionProcessor().getDeltaY();
-            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.FLYING, ExemptType.STEPPED, ExemptType.STAIRS, ExemptType.PISTON, ExemptType.LIQUID, ExemptType.CLIMBABLE, ExemptType.WEB);
+            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.FLYING, ExemptType.STEPPED, ExemptType.STAIRS, ExemptType.PISTON, ExemptType.LIQUID, ExemptType.CLIMBABLE, ExemptType.WEB, ExemptType.BUBBLE_COLUMN, ExemptType.ELYTRA);
 
             if (deltaY > DELTA_Y_THRESHOLD && deltaY == lastDeltaY && !exempt) {
                 consecutiveSameDeltaYCount++;

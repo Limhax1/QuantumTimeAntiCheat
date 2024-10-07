@@ -106,21 +106,26 @@ public final class PositionProcessor {
             }
         }
 
+        final Location teleportLocation;
         if (bestLocation != null) {
-
             float yaw = data.getRotationProcessor().getYaw();
             float pitch = data.getRotationProcessor().getPitch();
             bestLocation.setYaw(yaw);
             bestLocation.setPitch(pitch);
-            data.getPlayer().teleport(bestLocation);
+            teleportLocation = bestLocation;
         } else {
             float yaw = data.getRotationProcessor().getYaw();
             float pitch = data.getRotationProcessor().getPitch();
             Location loc = data.getPlayer().getLocation();
             loc.setYaw(yaw);
             loc.setPitch(pitch);
-            data.getPlayer().teleport(loc);
+            teleportLocation = loc;
         }
+
+        // Szinkron teleportálás
+        Bukkit.getScheduler().runTask(QuantumTimeAC.INSTANCE.getPlugin(), () -> {
+            data.getPlayer().teleport(teleportLocation);
+        });
     }
 
     public void handle(final double x, final double y, final double z, final boolean onGround) {

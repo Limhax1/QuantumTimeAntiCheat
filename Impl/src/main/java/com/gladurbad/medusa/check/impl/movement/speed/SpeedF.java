@@ -33,7 +33,7 @@ public class SpeedF extends Check {
         if (packet.isFlying()) {
             double deltaY = data.getPositionProcessor().getDeltaY();
             double currentY = data.getPositionProcessor().getY();
-            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.FLYING, ExemptType.SLIME, ExemptType.STAIRS, ExemptType.PISTON, ExemptType.WEB);
+            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.FLYING, ExemptType.SLIME, ExemptType.STAIRS, ExemptType.PISTON, ExemptType.WEB, ExemptType.ELYTRA, ExemptType.BUBBLE_COLUMN);
             boolean isheadfucked = data.getPositionProcessor().isBlockNearHead();
             if (isJumpHeight(deltaY)) {
                 expectedJumpHeight = deltaY;

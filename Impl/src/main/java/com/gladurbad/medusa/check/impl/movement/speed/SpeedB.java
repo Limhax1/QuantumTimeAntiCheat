@@ -25,6 +25,9 @@ public class SpeedB extends Check {
     private static final double VELOCITY_BOOST_MULTIPLIER = 2.0;
     private static final int VELOCITY_TICKS_MAX = 40;
 
+    private double lastValidDeltaXZ = 0.0;
+    private int ignoreTicks = 0;
+
     public SpeedB(final PlayerData data) {
         super(data);
     }
@@ -40,7 +43,7 @@ public class SpeedB extends Check {
             final int sinceIceTicks = data.getPositionProcessor().getSinceIceTicks();
             final int sinceSlimeTicks = data.getPositionProcessor().getSinceSlimeTicks();
             final int sinceVelocityTicks = data.getVelocityProcessor().getTicksSinceVelocity();
-
+            boolean exempt = isExempt(ExemptType.UNDER_BLOCK, ExemptType.BUBBLE_COLUMN, ExemptType.ELYTRA, ExemptType.TELEPORT, ExemptType.FLYING);
             double maxSpeed = BASE_GROUND_SPEED;
 
             double speedEffectMultiplier = getSpeedPotionCorrection(player);
@@ -76,7 +79,23 @@ public class SpeedB extends Check {
                 maxSpeed += 0.1;
             }
 
-            if (deltaXZ > maxSpeed && !isExempt(ExemptType.TELEPORT, ExemptType.FLYING)) {
+            // Jobb klikkelés detektálása és kezelése
+            if (deltaXZ == 0 && lastValidDeltaXZ > 0) {
+                ignoreTicks = 2; // Ignoráljuk a következő 2 ticket
+                debug("Right-click detected, ignoring next 2 ticks");
+            }
+
+            if (ignoreTicks > 0) {
+                ignoreTicks--;
+                debug("Ignoring tick, remaining: " + ignoreTicks);
+                return;
+            }
+
+            if (deltaXZ > 0) {
+                lastValidDeltaXZ = deltaXZ;
+            }
+
+            if (deltaXZ > maxSpeed && !exempt) {
 
                 if(buffer++ > max_buffer.getDouble() / 2 && setback.getBoolean()) {
                     setback();
@@ -84,13 +103,14 @@ public class SpeedB extends Check {
 
                 if (buffer++ > max_buffer.getDouble()) {
                     fail(String.format("(%.2f > %.2f)", deltaXZ, maxSpeed));
+                    buffer = 0;
                 }
             } else {
                 buffer = Math.max(buffer - buffer_decay.getDouble(), 0);
             }
 
-            debug(String.format("deltaXZ=%.4f, maxSpeed=%.4f, speedEffect=%.2f, groundTicks=%d, buffer=%.2f",
-                    deltaXZ, maxSpeed, speedEffectMultiplier, groundTicks, buffer));
+            debug(String.format("deltaXZ=%.4f, maxSpeed=%.4f, speedEffect=%.2f, groundTicks=%d, buffer=%.2f, ignoreTicks=%d",
+                    deltaXZ, maxSpeed, speedEffectMultiplier, groundTicks, buffer, ignoreTicks));
         }
     }
 

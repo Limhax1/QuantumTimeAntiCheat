@@ -4,7 +4,13 @@ import com.gladurbad.medusa.QuantumTimeAC;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.util.PlayerUtil;
 import com.gladurbad.medusa.util.ServerUtil;
+import com.gladurbad.medusa.util.VersionUtil;
+import io.github.retrooper.packetevents.utils.server.ServerVersion;
 import lombok.Getter;
+
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.function.Function;
 
@@ -64,7 +70,47 @@ public enum ExemptType {
 
     AUTO_CLICKER(data -> data.getExemptProcessor().isExempt(ExemptType.PLACING, ExemptType.DIGGING, ExemptType.BLOCK_BREAK)),
 
-    DEPTH_STRIDER(data -> PlayerUtil.getDepthStriderLevel(data.getPlayer()) > 0);
+    DEPTH_STRIDER(data -> PlayerUtil.getDepthStriderLevel(data.getPlayer()) > 0),
+
+    RIPTIDE(data -> VersionUtil.isRiptiding(data.getPlayer()) || 
+        data.getPlayer().getInventory().getItemInHand().getType().toString().contains("TRIDENT")),
+
+    SWIMMING(data -> VersionUtil.isSwimming(data.getPlayer())),
+
+    CRAWLING(data -> VersionUtil.hasPose(data.getPlayer(), "SWIMMING") && !VersionUtil.isSwimming(data.getPlayer())),
+
+    ELYTRA(data -> VersionUtil.isGliding(data.getPlayer())),
+
+    BOAT(data -> data.getPlayer().getVehicle() != null && data.getPlayer().getVehicle().getType().toString().contains("BOAT")),
+
+    STRIDER(data -> {
+        if (ServerUtil.getServerVersion().isLowerThan(ServerVersion.v_1_16)) return false;
+        return data.getPlayer().getVehicle() != null && data.getPlayer().getVehicle().getType().toString().equals("STRIDER");
+    }),
+
+    BUBBLE_COLUMN(data -> {
+        if (ServerUtil.getServerVersion().isLowerThan(ServerVersion.v_1_13)) return false;
+        return data.getPlayer().getLocation().getBlock().getType().toString().contains("BUBBLE_COLUMN");
+    }),
+
+    POWDER_SNOW(data -> {
+        if (ServerUtil.getServerVersion().isLowerThan(ServerVersion.v_1_17)) return false;
+        return data.getPlayer().getLocation().getBlock().getType().toString().equals("POWDER_SNOW");
+    }),
+
+    SCAFFOLDING(data -> {
+        if (ServerUtil.getServerVersion().isLowerThan(ServerVersion.v_1_14)) return false;
+        return data.getPlayer().getLocation().getBlock().getType().toString().equals("SCAFFOLDING");
+    }),
+
+    HONEY_BLOCK(data -> {
+        if (ServerUtil.getServerVersion().isLowerThan(ServerVersion.v_1_15)) return false;
+        return data.getPlayer().getLocation().getBlock().getType().toString().equals("HONEY_BLOCK");
+    }),
+
+    LEVITATION(data -> VersionUtil.hasLevitation(data.getPlayer())),
+
+    SLOW_FALLING(data -> VersionUtil.hasSlowFalling(data.getPlayer()));
 
     private final Function<PlayerData, Boolean> exception;
 

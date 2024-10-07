@@ -7,7 +7,8 @@ import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.packet.Packet;
 import com.gladurbad.medusa.util.raytrace.RayTrace;
 import com.gladurbad.medusa.util.raytrace.RayTraceResult;
-import io.github.retrooper.packetevents.packetwrappers.play.in.blockplace.WrappedPacketInBlockPlace;
+import com.gladurbad.medusa.packet.wrapper.blockplace.CustomWrappedPacketInBlockPlace;
+import io.github.retrooper.packetevents.packetwrappers.NMSPacket;
 import io.github.retrooper.packetevents.utils.vector.Vector3i;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -43,42 +44,45 @@ public class ScaffoldA extends Check {
             placedBlock = false;
             lastPlacedBlockLocation = null;
         } else if (packet.isBlockPlace()) {
-            WrappedPacketInBlockPlace wrappedPacket = new WrappedPacketInBlockPlace(packet.getRawPacket());
-            Vector3i blockPosition = wrappedPacket.getBlockPosition();
-            Block placedBlock = data.getPositionProcessor().getBlockat(data.getPlayer().getWorld(), blockPosition.getX(), blockPosition.getY(), blockPosition.getZ());
-            Player player = data.getPlayer();
+            CustomWrappedPacketInBlockPlace wrappedPacket = new CustomWrappedPacketInBlockPlace(new NMSPacket(packet.getRawPacket()), data.getPlayer());
+            
+            if (!wrappedPacket.isAirPlace() && !wrappedPacket.isItemUse()) {
+                Vector3i blockPosition = wrappedPacket.getBlockPosition();
+                Block placedBlock = data.getPositionProcessor().getBlockat(data.getPlayer().getWorld(), blockPosition.getX(), blockPosition.getY(), blockPosition.getZ());
+                Player player = data.getPlayer();
 
-            if (player.getItemInHand().getType().isBlock()) {
-                Material handMaterial = player.getItemInHand().getType();
-                Material blockMaterial = placedBlock.getType();
+                if (player.getItemInHand().getType().isBlock()) {
+                    Material handMaterial = player.getItemInHand().getType();
+                    Material blockMaterial = placedBlock.getType();
 
-                boolean recentSwing = (System.currentTimeMillis() - lastSwingTime) <= SWING_TIMEOUT;
-                if (blockMaterial == handMaterial && recentSwing) {
-                    this.placedBlock = true;
-                    lastPlacedBlockLocation = placedBlock.getLocation();
+                    boolean recentSwing = (System.currentTimeMillis() - lastSwingTime) <= SWING_TIMEOUT;
+                    if (blockMaterial == handMaterial && recentSwing) {
+                        this.placedBlock = true;
+                        lastPlacedBlockLocation = placedBlock.getLocation();
 
-                    Location eyeLocation = player.getEyeLocation();
-                    Vector direction = eyeLocation.getDirection();
-                    RayTrace rayTrace = new RayTrace(player, eyeLocation, direction, MAX_PLACE_DISTANCE, 0.01);
-                    RayTraceResult result = rayTrace.trace();
+                        Location eyeLocation = player.getEyeLocation();
+                        Vector direction = eyeLocation.getDirection();
+                        RayTrace rayTrace = new RayTrace(player, eyeLocation, direction, MAX_PLACE_DISTANCE, 0.01);
+                        RayTraceResult result = rayTrace.trace();
 
-                    if (result.getHitType() == RayTraceResult.HitType.BLOCK &&
-                        result.getHitLocation().getBlock().equals(placedBlock)) {
-                        debug("Block placed legitimately at: " + lastPlacedBlockLocation + ", Material: " + blockMaterial);
-                    } else {
-                        if(BUFFER++ > max_buffer.getDouble()) {
-                            fail("RayTrace fail (distance: " +
-                                    String.format("%.2f", result.getDistance()) + ")");
-                            if (setback.getBoolean()) {
-                                player.teleport(player.getLocation().subtract(0, 1, 0));
-                            }
+                        if (result.getHitType() == RayTraceResult.HitType.BLOCK &&
+                            result.getHitLocation().getBlock().equals(placedBlock)) {
+                            debug("Block placed legitimately at: " + lastPlacedBlockLocation + ", Material: " + blockMaterial);
                         } else {
-                            BUFFER = Math.max(0, BUFFER - buffer_decay.getDouble());
+                            if(BUFFER++ > max_buffer.getDouble()) {
+                                fail("RayTrace fail (distance: " +
+                                        String.format("%.2f", result.getDistance()) + ")");
+                                if (setback.getBoolean()) {
+                                    player.teleport(player.getLocation().subtract(0, 1, 0));
+                                }
+                            } else {
+                                BUFFER = Math.max(0, BUFFER - buffer_decay.getDouble());
+                            }
                         }
+                    } else {
+                        //debug("Block interaction detected, but not placed or no recent swing. Hand: " + handMaterial +
+                              //", Block: " + blockMaterial + ", Recent swing: " + recentSwing);
                     }
-                } else {
-                    //debug("Block interaction detected, but not placed or no recent swing. Hand: " + handMaterial +
-                          //", Block: " + blockMaterial + ", Recent swing: " + recentSwing);
                 }
             }
         } else if (packet.isArmAnimation()) {

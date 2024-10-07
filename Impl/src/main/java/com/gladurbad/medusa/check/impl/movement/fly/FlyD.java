@@ -23,7 +23,7 @@ public class FlyD extends Check {
     public void handle(Packet packet) {
         if(packet.isPosition() || packet.isPosLook()) {
 
-            boolean Exempt = isExempt(ExemptType.TELEPORT, ExemptType.JOINED);
+            boolean Exempt = isExempt(ExemptType.TELEPORT, ExemptType.JOINED, ExemptType.ELYTRA, ExemptType.BUBBLE_COLUMN);
 
             if(data.getPositionProcessor().getDeltaY() > 2.89 && !Exempt) {
                 if(setback.getBoolean()) {

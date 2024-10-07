@@ -8,7 +8,6 @@ import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
 import org.bukkit.Bukkit;
 
-
 @CheckInfo(name = "Fly (C)", description = "Checks for gravity.", complextype = "Gravity")
 public final class FlyC extends Check {
 
@@ -16,12 +15,23 @@ public final class FlyC extends Check {
     private static final ConfigValue buffer_decay = new ConfigValue(ConfigValue.ValueType.DOUBLE, "buffer_decay");
     private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
 
+    private boolean recentAirClick = false;
+    private int airClickTicks = 0;
+
     public FlyC(final PlayerData data) {
         super(data);
     }
 
     @Override
     public void handle(final Packet packet) {
+        if (packet.isBlockPlace()) {
+            // Ellenőrizzük, hogy levegőbe történt-e a klikkelés
+            if (data.getPositionProcessor().getAirTicks() > 5) {
+                recentAirClick = true;
+                airClickTicks = 0;
+            }
+        }
+
         if (packet.isPosition()) {
             final double deltaY = data.getPositionProcessor().getDeltaY();
             final double lastDeltaY = data.getPositionProcessor().getLastDeltaY();
@@ -33,16 +43,16 @@ public final class FlyC extends Check {
 
             final boolean exempt = isExempt(
                     ExemptType.TELEPORT, ExemptType.NEAR_VEHICLE, ExemptType.FLYING,
-                    ExemptType.INSIDE_VEHICLE, ExemptType.VELOCITY
+                    ExemptType.INSIDE_VEHICLE, ExemptType.VELOCITY, ExemptType.ELYTRA, ExemptType.BUBBLE_COLUMN
             );
 
             final boolean invalid = !exempt
                     && difference > 0.001D
                     && !onGround
-                    && !(data.getPositionProcessor().getY() % 0.5 == 0 && data.getPositionProcessor().isOnGround() && lastDeltaY < 0);
-                    // ez a fos darab false flaggel ha raugrok egy falra god damn wth
+                    && !(data.getPositionProcessor().getY() % 0.5 == 0 && data.getPositionProcessor().isOnGround() && lastDeltaY < 0)
+                    && !recentAirClick; // Hozzáadtuk a recentAirClick ellenőrzését
 
-            debug("posY=" + data.getPositionProcessor().getY() + " dY=" + deltaY + " at=" + data.getPositionProcessor().getAirTicks());
+            debug("posY=" + data.getPositionProcessor().getY() + " dY=" + deltaY + " at=" + data.getPositionProcessor().getAirTicks() + " recentAirClick=" + recentAirClick);
 
             if (invalid) {
                 buffer += buffer < 50 ? 10 : 0;
@@ -55,6 +65,15 @@ public final class FlyC extends Check {
                 }
             } else {
                 buffer = Math.max(buffer - buffer_decay.getDouble(), 0);
+            }
+
+            // Frissítjük a recentAirClick állapotát
+            if (recentAirClick) {
+                airClickTicks++;
+                if (airClickTicks > 20) { // 1 másodperc után (20 tick) reseteljük
+                    recentAirClick = false;
+                    airClickTicks = 0;
+                }
             }
         }
     }

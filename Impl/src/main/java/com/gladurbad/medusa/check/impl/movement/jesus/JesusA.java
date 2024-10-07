@@ -4,6 +4,7 @@ import com.gladurbad.api.check.CheckInfo;
 import com.gladurbad.medusa.check.Check;
 import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
+import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -33,8 +34,8 @@ public class JesusA extends Check {
             Location location = data.getPlayer().getLocation();
             boolean posAir = location.getBlock().isEmpty();
             boolean onLiquid = location.clone().subtract(0, 0.5, 0).getBlock().isLiquid();
-
-            if (onLiquid && posAir && !isNearSolidBlock(location)) {
+            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.VELOCITY, ExemptType.DEPTH_STRIDER, ExemptType.SWIMMING, ExemptType.BUBBLE_COLUMN, ExemptType.ELYTRA);
+            if (onLiquid && posAir && !isNearSolidBlock(location) && !exempt) {
                 double deltaY = data.getPositionProcessor().getDeltaY();
                 double deltaXZ = data.getPositionProcessor().getDeltaXZ();
 
