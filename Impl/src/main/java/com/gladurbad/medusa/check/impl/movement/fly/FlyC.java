@@ -43,7 +43,7 @@ public final class FlyC extends Check {
                     ExemptType.TELEPORT, ExemptType.NEAR_VEHICLE, ExemptType.FLYING,
                     ExemptType.INSIDE_VEHICLE, ExemptType.ANYVELOCITY, ExemptType.ELYTRA,
                     ExemptType.BUBBLE_COLUMN, ExemptType.SLOW_FALLING, ExemptType.LEVITATION,
-                    ExemptType.POWDER_SNOW
+                    ExemptType.POWDER_SNOW, ExemptType.HONEY_BLOCK
             );
 
             final boolean invalid = !exempt

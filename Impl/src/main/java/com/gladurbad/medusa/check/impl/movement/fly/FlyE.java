@@ -40,7 +40,8 @@ public class FlyE extends Check {
                 ExemptType.BUBBLE_COLUMN,
                 ExemptType.ELYTRA,
                 ExemptType.POWDER_SNOW,
-                ExemptType.LEVITATION
+                ExemptType.LEVITATION,
+                ExemptType.HONEY_BLOCK
             );
 
             if (deltaY > DELTA_Y_THRESHOLD && deltaY == lastDeltaY && !exempt) {

@@ -38,7 +38,7 @@ public final class FlyB extends Check {
         boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.LIQUID, ExemptType.FLYING,
                 ExemptType.ANYVELOCITY, ExemptType.NEAR_VEHICLE, ExemptType.PISTON,
                 ExemptType.ELYTRA, ExemptType.LEVITATION, ExemptType.POWDER_SNOW,
-                ExemptType.BUBBLE_COLUMN, ExemptType.SLOW_FALLING);
+                ExemptType.BUBBLE_COLUMN, ExemptType.SLOW_FALLING, ExemptType.HONEY_BLOCK);
 
         if (packet.isPosition()) {
 

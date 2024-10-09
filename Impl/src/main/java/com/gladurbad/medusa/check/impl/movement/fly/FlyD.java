@@ -7,6 +7,7 @@ import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 
 @CheckInfo(name = "Fly (D)", description = "Checks for Invalid Y motions", experimental = true, complextype = "InvalidY")
 public class FlyD extends Check {
@@ -24,8 +25,9 @@ public class FlyD extends Check {
         if(packet.isPosition() || packet.isPosLook()) {
 
             boolean Exempt = isExempt(ExemptType.TELEPORT, ExemptType.JOINED, ExemptType.ELYTRA, ExemptType.BUBBLE_COLUMN);
+            boolean notsurvival = !data.getPlayer().getGameMode().equals(GameMode.SURVIVAL);
 
-            if(data.getPositionProcessor().getDeltaY() > 2.89 && !Exempt) {
+            if(data.getPositionProcessor().getDeltaY() > 2.89 && !Exempt && !notsurvival) {
                 if(setback.getBoolean()) {
                     setback();
                 }
