@@ -6,11 +6,6 @@ import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.packet.Packet;
 import io.github.retrooper.packetevents.packetwrappers.play.in.flying.WrappedPacketInFlying;
 
-/**
- * Created on 11/14/2020 Package com.gladurbad.medusa.check.impl.player.Protocol by GladUrBad
- */
-
-
 @CheckInfo(name = "Protocol (C)", description = "Checks for flying packet sequence.", complextype = "Sequence")
 public final class ProtocolC extends Check {
 

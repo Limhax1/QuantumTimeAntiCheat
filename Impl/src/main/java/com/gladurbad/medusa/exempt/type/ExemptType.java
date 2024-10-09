@@ -8,10 +8,6 @@ import com.gladurbad.medusa.util.VersionUtil;
 import io.github.retrooper.packetevents.utils.server.ServerVersion;
 import lombok.Getter;
 
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import java.util.function.Function;
 
 @Getter
@@ -22,9 +18,15 @@ public enum ExemptType {
 
     TPS(data -> ServerUtil.getTPS() < 18.5D),
 
+    HIGHPING(data -> PlayerUtil.getPing(data.getPlayer()) > 400),
+
     TELEPORT(data -> data.getPositionProcessor().isTeleporting() || System.currentTimeMillis() - data.getJoinTime() < 2000L),
 
-    VELOCITY(data -> data.getVelocityProcessor().isTakingVelocity()),
+    ANYVELOCITY(data -> data.getVelocityProcessor().isTakingVelocity()),
+
+    VELOCITYEXC_FALL(data -> data.getVelocityProcessor().isTakingVelocity() && !data.getPlayer().getLastDamageCause().getCause().name().equals("FALL")),
+
+    PVPVELOCITY(data -> data.getVelocityProcessor().isTakingVelocity() && data.getPlayer().getLastDamageCause().getCause().name().equals("ENTITY_ATTACK") || data.getPlayer().getLastDamageCause().getCause().name().equals("PROJECTILE")|| data.getPlayer().getLastDamageCause().getCause().name().equals("FIRE_TICK") || data.getPlayer().getLastDamageCause().getCause().name().equals("POISON") || data.getPlayer().getLastDamageCause().getCause().name().equals("WITHER") || data.getPlayer().getLastDamageCause().getCause().name().equals("THORNS")),
 
     JOINED(data -> System.currentTimeMillis() - data.getJoinTime() < 5000L),
 

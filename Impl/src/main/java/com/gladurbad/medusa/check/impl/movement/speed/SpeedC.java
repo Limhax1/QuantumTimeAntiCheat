@@ -38,7 +38,7 @@ public class SpeedC extends Check {
             boolean onGround = positionProcessor.isOnGround();
             boolean lastOnGround = positionProcessor.isLastOnGround();
             double deltaY = positionProcessor.getDeltaY();
-            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.VELOCITY, ExemptType.SLIME, ExemptType.FLYING, ExemptType.UNDER_BLOCK, ExemptType.LIQUID, ExemptType.PISTON, ExemptType.CLIMBABLE, ExemptType.NEAR_VEHICLE, ExemptType.ELYTRA, ExemptType.BUBBLE_COLUMN);
+            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.ANYVELOCITY, ExemptType.SLIME, ExemptType.FLYING, ExemptType.UNDER_BLOCK, ExemptType.LIQUID, ExemptType.PISTON, ExemptType.CLIMBABLE, ExemptType.NEAR_VEHICLE, ExemptType.ELYTRA, ExemptType.BUBBLE_COLUMN);
 
             if (!onGround && lastOnGround && deltaY > 0 && !exempt) {
                 double expectedYMotion = getExpectedYMotion(data.getPlayer());
@@ -76,7 +76,7 @@ public class SpeedC extends Check {
                         fail("Jumped too high: " + deltaY + ", Expected: " + expectedYMotion);
                         buffer = 0;
                     }
-                } else if (deltaY < expectedYMotion * 0.99 && !isExempt(ExemptType.SLIME, ExemptType.VELOCITY)) {
+                } else if (deltaY < expectedYMotion * 0.99 && !isExempt(ExemptType.SLIME, ExemptType.ANYVELOCITY)) {
                     if(setback.getBoolean()) {
                         setback();
                     }

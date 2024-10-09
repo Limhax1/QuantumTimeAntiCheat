@@ -50,7 +50,7 @@ public class ProtocolM extends Check {
         }
 
         if (blinkTicks > max + PlayerUtil.getPing(data.getPlayer()) / 5 && !exempt) {
-            fail("Last position was: " + blinkTicks / 3 + " ticks ago");
+            fail("Last position was at: " + blinkTicks);
             if (setback.getBoolean()) {
                 setback();
             }

@@ -35,7 +35,7 @@ public class JesusB extends Check {
             final Location location = data.getPlayer().getLocation();
             final double deltaY = data.getPositionProcessor().getDeltaY();
             final double deltaXZ = data.getPositionProcessor().getDeltaXZ();
-            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.VELOCITY, ExemptType.DEPTH_STRIDER, ExemptType.SWIMMING, ExemptType.BUBBLE_COLUMN, ExemptType.ELYTRA);
+            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.ANYVELOCITY, ExemptType.DEPTH_STRIDER, ExemptType.SWIMMING, ExemptType.BUBBLE_COLUMN, ExemptType.ELYTRA);
             if(isNearSolidBlock(location)) {
                 MAX_JUMP_HEIGHT = 0.42;
             } else {

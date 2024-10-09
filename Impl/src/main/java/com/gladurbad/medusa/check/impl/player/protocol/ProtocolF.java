@@ -6,11 +6,6 @@ import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.packet.Packet;
 import io.github.retrooper.packetevents.packetwrappers.play.in.steervehicle.WrappedPacketInSteerVehicle;
 
-/**
- * Created on 11/14/2020 Package com.gladurbad.medusa.check.impl.player.Protocol by GladUrBad
- */
-
-
 @CheckInfo(name = "Protocol (F)", description = "Checks for a common exploit in disabler modules.", complextype = "Disabler")
 public final class ProtocolF extends Check {
 

@@ -6,11 +6,6 @@ import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.packet.Packet;
 import io.github.retrooper.packetevents.packetwrappers.play.in.helditemslot.WrappedPacketInHeldItemSlot;
 
-/**
- * Created on 11/14/2020 Package com.gladurbad.medusa.check.impl.player.Protocol by GladUrBad
- */
-
-
 @CheckInfo(name = "Protocol (E)", description = "Checks for flaws in scaffold/auto-tool hacks.", complextype = "Invalid Slot")
 public final class ProtocolE extends Check {
 

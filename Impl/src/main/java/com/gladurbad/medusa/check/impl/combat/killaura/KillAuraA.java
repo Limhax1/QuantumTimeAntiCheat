@@ -4,10 +4,9 @@ import com.gladurbad.medusa.check.Check;
 import com.gladurbad.api.check.CheckInfo;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.packet.Packet;
+import com.gladurbad.medusa.util.ServerUtil;
+import io.github.retrooper.packetevents.utils.server.ServerVersion;
 
-/**
- * Created on 10/24/2020 Package com.gladurbad.medusa.check.impl.combat.killaura by GladUrBad
- */
 
 @CheckInfo(name = "KillAura (A)", description = "Checks for packet order.", complextype = "PacketOrder")
 public final class KillAuraA extends Check {
@@ -21,6 +20,11 @@ public final class KillAuraA extends Check {
 
     @Override
     public void handle(final Packet packet) {
+
+        if(ServerUtil.getServerVersion().isHigherThan(ServerVersion.v_1_8)) {
+            return;
+        }
+
         if (packet.isUseEntity()) {
             usedEntity = true;
             lastUseEntityTime = now();

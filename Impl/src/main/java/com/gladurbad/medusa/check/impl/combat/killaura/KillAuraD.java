@@ -9,11 +9,6 @@ import com.gladurbad.medusa.packet.Packet;
 import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
 import org.bukkit.Location;
 
-import java.text.DecimalFormat;
-
-/**
- * Created on 10/24/2020 Package com.gladurbad.medusa.check.impl.combat.killaura by GladUrBad
- */
 
 @CheckInfo(name = "KillAura (D)", description = "Checks for high accuracy.", complextype = "Accuracy")
 public final class KillAuraD extends Check {

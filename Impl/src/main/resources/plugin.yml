@@ -15,7 +15,7 @@ commands:
     description: Broadcasts a message without the "Broadcast:" prefix
     usage: /custombroadcast <message>
     permission: qtac.custombroadcast
-  forceban:
-    description: Bans a player in the name of the anticheat.
-    usage: /forceban <player>
-    permission: qtac.forceban
+  autoban:
+    description: Automatically bans a player and broadcasts a message.
+    usage: /autoban <player>
+    permission: qtac.autoban

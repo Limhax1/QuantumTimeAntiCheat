@@ -50,6 +50,7 @@ public final class CheckManager {
             AimM.class,
             AimN.class,
             AimO.class,
+            AimP.class,
             AutoClickerA.class,
             AutoClickerB.class,
             AutoClickerC.class,

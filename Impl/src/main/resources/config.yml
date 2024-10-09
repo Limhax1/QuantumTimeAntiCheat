@@ -193,7 +193,7 @@ appearance:
       message: |
         &6&l[&e&lQ&c&lT&e&lA&6&lC&6&l] &f%player% &7failed &e%checkName% &6(&c%complexType%&6) &c%dev%
         &8[&e&l!&8] &7VL: &f%vl%&7/&f%maxvl% &8| &7Ping: &f%ping%ms &8| &7TPS: &f%tps%
-            colors:
+      colors:
         - '&e'
         - '&c'
     narsargComplexOneLine:
@@ -201,54 +201,6 @@ appearance:
       colors:
         - '&e'
         - '&c'
-    lilrozs:
-      message: |
-        &5&l[&d&lQ&e&lT&d&lA&5&lC&5&l] &f%player% &7failed &d%checkName% &eType &5(&e%checkType%&5) &e%dev%
-        &8[&d&l!&8] &7VL: &f%vl%&7/&f%maxvl% &8| &7Ping: &f%ping%ms &8| &7TPS: &f%tps%
-      colors:
-        - '&d'
-        - '&5'
-    lilrozsOneLine:
-      message: '&5&l[&d&lQ&e&lT&d&lA&5&lC&5&l] &f%player% &7failed &d%checkName% &eType &5(&e%checkType%&5) &e%dev% &8| &7VL: &f%vl%&7/&f%maxvl% &8| &7Ping: &f%ping%ms &8| &7TPS: &f%tps%'
-      colors:
-        - '&d'
-        - '&5'
-    lilrozsComplex:
-      message: |
-        &5&l[&d&lQ&e&lT&d&lA&5&lC&5&l] &f%player% &7failed &d%checkName% &5(&e%complexType%&5) &e%dev%
-        &8[&d&l!&8] &7VL: &f%vl%&7/&f%maxvl% &8| &7Ping: &f%ping%ms &8| &7TPS: &f%tps%
-      colors:
-        - '&d'
-        - '&e'
-    lilrozsComplexOneLine:
-      message: '&5&l[&d&lQ&e&lT&d&lA&5&lC&5&l] &f%player% &7failed &d%checkName% &5(&e%complexType%&5) &e%dev% &8| &7VL: &f%vl%&7/&f%maxvl% &8| &7Ping: &f%ping%ms &8| &7TPS: &f%tps%'
-      colors:
-        - '&d'
-        - '&e'
-    kekaqua:
-      message: |
-        &1&l[&b&lQ&3&lT&b&lA&1&lC&1&l] &f%player% &7failed &b%checkName% &3Type &1(&3%checkType%&1) &3%dev%
-        &8[&b&l!&8] &7VL: &f%vl%&7/&f%maxvl% &8| &7Ping: &f%ping%ms &8| &7TPS: &f%tps%
-      colors:
-        - '&7'
-        - '&b'
-    kekaquaOneLine:
-      message: '&1&l[&b&lQ&3&lT&b&lA&1&lC&1&l] &f%player% &7failed &b%checkName% &3Type &1(&3%checkType%&1) &3%dev% &8| &7VL: &f%vl%&7/&f%maxvl% &8| &7Ping: &f%ping%ms &8| &7TPS: &f%tps%'
-      colors:
-        - '&7'
-        - '&b'
-    kekaquaComplex:
-      message: |
-        &1&l[&b&lQ&3&lT&b&lA&1&lC&1&l] &f%player% &7failed &b%checkName% &1(&3%complexType%&1) &3%dev%
-        &8[&b&l!&8] &7VL: &f%vl%&7/&f%maxvl% &8| &7Ping: &f%ping%ms &8| &7TPS: &f%tps%
-      colors:
-        - '&b'
-        - '&3'
-    kekaquaComplexOneLine:
-      message: '&1&l[&b&lQ&3&lT&b&lA&1&lC&1&l] &f%player% &7failed &b%checkName% &1(&3%complexType%&1) &3%dev% &8| &7VL: &f%vl%&7/&f%maxvl% &8| &7Ping: &f%ping%ms &8| &7TPS: &f%tps%'
-      colors:
-        - '&b'
-        - '&3'
 
   # Accent colours. Changes might change time itself.
   accents:
@@ -273,268 +225,247 @@ violations:
   minimum-vl-to-alert: 1
   clear-violations-delay: 5
 
-
 checks:
   combat:
     aim:
       a:
         enabled: true
         max-violations: 10
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "0 Pitch [A]"  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: "0 Pitch [A]"
       b:
         enabled: true
         max-violations: 10
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Snap [B]"  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: "Snap [B]"
       c:
         enabled: true
         max-violations: 10
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Constant [C]"  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: "Constant [C]"
       d:
         enabled: true
         max-violations: 15
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Ratio [D]"  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: "Ratio [D]"
       e:
         enabled: true
         max-violations: 15
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Speed [E]"  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: "Speed [E]"
       f:
         enabled: true
         max-violations: 15
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "GCD Flaw [F]"  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: "GCD Flaw [F]"
       g:
         enabled: true
         max-violations: 15
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Randomisation [G]"  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: "Randomisation [G]"
       h:
         enabled: true
         max-violations: 15
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Analysis [H]"  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: "Analysis [H]"
       i:
         enabled: true
         max-violations: 15
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Invalid Yaw Change [I]"  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: "Invalid Yaw Change [I]"
       j:
         enabled: true
         max-violations: 15
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Switch [J"  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: "Switch [J"
         max_buffer: 10.0
         buffer_decay: 0.5
       k:
         enabled: true
         max-violations: 15
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Not Constant [K]"  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: "Not Constant [K]"
         max_buffer: 10.0
         buffer_decay: 0.5
       l:
         enabled: true
         max-violations: 15
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Not Constant [L]"  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: "Not Constant [L]"
         max_buffer: 10.0
         buffer_decay: 0.5
       m:
         enabled: true
         max-violations: 15
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Sigma [M]"  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: "Sigma [M]"
+        setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
       n:
         enabled: true
         max-violations: 15
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Subtle [N]"  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: "Subtle [N]"
+        setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
       o:
         enabled: true
         max-violations: 15
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Pattern [O]"  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: "Pattern [O]"
+        setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
       p:
         enabled: true
         max-violations: 15
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Pattern [P]"  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: "Aim Assistance"
+        setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
       q:
         enabled: true
         max-violations: 15
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Pattern [Q]"  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: "Aim Assistance"
+        setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
       r:
         enabled: true
         max-violations: 15
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Pattern [R]"  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: "Aim Assistance"
+        setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
       s:
         enabled: true
         max-violations: 15
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Pattern [S]"  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: "Aim Assistance"
+        setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
       t:
         enabled: true
         max-violations: 15
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Pattern [T]"  # Add this line to each check
-        max_buffer: 10.0
-        buffer_decay: 0.5
-      u:
-        enabled: true
-        max-violations: 15
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Pattern [U]"  # Add this line to each check
-        max_buffer: 10.0
-        buffer_decay: 0.5
-      v:
-        enabled: true
-        max-violations: 15
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Pattern [V]"  # Add this line to each check
-        max_buffer: 10.0
-        buffer_decay: 0.5
-      w:
-        enabled: true
-        max-violations: 15
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Pattern [W]"  # Add this line to each check
-        max_buffer: 10.0
-        buffer_decay: 0.5
-      x:
-        enabled: true
-        max-violations: 15
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Pattern [X]"  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: "Aim Assistance"
+        setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
     autoclicker:
       a:
         enabled: true
         max-violations: 10
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         max-cps: 24
-        complextype: "High Cps"  # Add this line to each check
+        complextype: "High Cps"
       b:
         enabled: true
         max-violations: 10
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Statistics"  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: "Statistics"
       c:
         enabled: true
         max-violations: 10
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Rounded"  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: "Rounded"
       d:
         enabled: true
         max-violations: 10
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: ""  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: ""
       e:
         enabled: true
         max-violations: 10
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
-        complextype: "Variance"  # Add this line to each check
+        punish-command: 'autoban %player%'
+        complextype: "Variance"
     hitbox:
       a:
-        enabled: false
+        enabled: true
         max-violations: 25
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         raytrace-sensitivity-level: 2
         max-latency: -1
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "Hitbox"  # Add this line to each check
+        complextype: "Hitbox"
       b:
         enabled: true
         max-violations: 27
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "Hitbox"  # Add this line to each check
+        complextype: "Hitbox"
     killaura:
       a:
         enabled: true
         max-violations: 20
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "Kill Aura"  # Add this line to each check
+        complextype: "Kill Aura"
       b:
         enabled: true
         max-violations: 22
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "Kill Aura"  # Add this line to each check
+        complextype: "Kill Aura"
       c:
         enabled: true
         max-violations: 24
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "Kill Aura"  # Add this line to each check
+        complextype: "Kill Aura"
       d:
         enabled: true
-        max-violations: 26
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        max-violations: 24
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "Kill Aura"  # Add this line to each check
+        complextype: "Kill Aura"
       e:
         enabled: true
-        max-violations: 28
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        max-violations: 24
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "Kill Aura"  # Add this line to each check
+        complextype: "Kill Aura"
       f:
         enabled: true
-        max-violations: 30
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        max-violations: 24
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "Kill Aura"  # Add this line to each check
+        complextype: "Kill Aura"
       g:
         enabled: true
-        max-violations: 29
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        max-violations: 24
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "Kill Aura"  # Add this line to each check
+        complextype: "Kill Aura"
     reach:
       a:
         enabled: false
         max-violations: 25
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         max-reach: 3.0
         max-threshold: 3.0
         threshold-decay: 0.1
@@ -546,7 +477,7 @@ checks:
       b:
         enabled: false
         max-violations: 27
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         max-latency: -1
         setback: true
         max_buffer: 10.0
@@ -555,18 +486,17 @@ checks:
       c:
         enabled: true
         max-violations: 26
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         max-reachDev: 3.0
         max-latencyDev: -1
-        setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: ""
+        complextype: "RayTrace"
     velocity:
       a:
         enabled: true
         max-violations: 23
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         minimum-velocity-percentage: 100
         maximum-velocity-percentage: 100
         setback: true
@@ -576,7 +506,7 @@ checks:
       b:
         enabled: true
         max-violations: 25
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
@@ -586,16 +516,33 @@ checks:
       a:
         enabled: true
         max-violations: 20
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
         complextype: "Fast Climb"
+    elytra:
+      a:
+        enabled: true
+        max-violations: 20
+        punish-command: 'autoban %player%'
+        setback: true
+        max_buffer: 5
+        buffer_decay: 0.5
+        complextype: "High Speed"
+      b:
+        enabled: true
+        max-violations: 20
+        punish-command: 'autoban %player%'
+        setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
+        complextype: "Invalid DeltaY"
     fly:
       a:
         enabled: true
         max-violations: 28
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 2
         buffer_decay: 0.5
@@ -603,7 +550,7 @@ checks:
       b:
         enabled: true
         max-violations: 26
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 4
         buffer_decay: 0.5
@@ -611,7 +558,7 @@ checks:
       c:
         enabled: true
         max-violations: 24
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 20
         buffer_decay: 0.5
@@ -619,7 +566,7 @@ checks:
       d:
         enabled: true
         max-violations: 22
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 0
         buffer_decay: 0.5
@@ -627,7 +574,7 @@ checks:
       e:
         enabled: true
         max-violations: 22
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 1
         buffer_decay: 0.5
@@ -636,7 +583,7 @@ checks:
       a:
         enabled: true
         max-violations: 30
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
@@ -644,7 +591,7 @@ checks:
       a:
         enabled: true
         max-violations: 25
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 2
         buffer_decay: 0.1
@@ -652,7 +599,7 @@ checks:
       b:
         enabled: true
         max-violations: 27
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 3
         buffer_decay: 0.1
@@ -661,35 +608,35 @@ checks:
       a:
         enabled: true
         max-violations: 21
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
       b:
         enabled: true
         max-violations: 23
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
       c:
         enabled: true
         max-violations: 25
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
       d:
         enabled: true
         max-violations: 27
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
       e:
         enabled: true
         max-violations: 29
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
@@ -697,7 +644,7 @@ checks:
       a:
         enabled: true
         max-violations: 26
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
@@ -705,7 +652,7 @@ checks:
       a:
         enabled: false
         max-violations: 28
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
@@ -713,23 +660,23 @@ checks:
       a:
         enabled: true
         max-violations: 25
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
-        max_buffer: 1
+        max_buffer: 2
         buffer_decay: 0.5
         complextype: "Backup"
       b:
         enabled: true
         max-violations: 27
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 5
-        buffer_decay: 0.15
+        buffer_decay: 0.25
         complextype: "Prediction"
       c:
         enabled: true
         max-violations: 23
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 3
         buffer_decay: 0.05
@@ -737,15 +684,15 @@ checks:
       d:
         enabled: true
         max-violations: 23
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
-        max_buffer: 3
-        buffer_decay: 0.05
+        max_buffer: 0.6
+        buffer_decay: 0.005
         complextype: "Fast Fall"
       e:
         enabled: true
         max-violations: 23
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 3
         buffer_decay: 0.05
@@ -753,7 +700,7 @@ checks:
       f:
         enabled: true
         max-violations: 23
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 3
         buffer_decay: 0.05
@@ -761,7 +708,7 @@ checks:
       g:
         enabled: true
         max-violations: 23
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 3
         buffer_decay: 0.05
@@ -769,7 +716,7 @@ checks:
       a:
         enabled: true
         max-violations: 26
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 4
         buffer_decay: 0.05
@@ -777,7 +724,7 @@ checks:
       b:
         enabled: true
         max-violations: 26
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 3
         buffer_decay: 0.05
@@ -786,21 +733,21 @@ checks:
       a:
         enabled: true
         max-violations: 22
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
     inventory:
       a:
         enabled: true
         max-violations: 24
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
       b:
         enabled: true
         max-violations: 26
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
@@ -808,99 +755,113 @@ checks:
       a:
         enabled: true
         max-violations: 15
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
         complextype: "BadPackets"
       b:
         enabled: true
         max-violations: 17
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
         complextype: "BadPackets"
       c:
         enabled: true
         max-violations: 19
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
         complextype: "BadPackets"
       d:
         enabled: true
         max-violations: 21
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
         complextype: "BadPackets"
       e:
         enabled: true
         max-violations: 23
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
         complextype: "BadPackets"
       f:
         enabled: true
         max-violations: 25
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
         complextype: "BadPackets"
       g:
         enabled: true
         max-violations: 27
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
         complextype: "BadPackets"
       h:
         enabled: true
         max-violations: 29
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
         complextype: "BadPackets"
       i:
         enabled: true
         max-violations: 30
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
         complextype: "BadPackets"
       j:
         enabled: true
         max-violations: 28
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
         complextype: "BadPackets"
       k:
         enabled: true
         max-violations: 26
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
         complextype: "BadPackets"
       l:
         enabled: true
         max-violations: 26
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
         complextype: "BadPackets"
+      m:
+        enabled: true
+        max-violations: 4
+        punish-command: 'autoban %player%'
+        setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
+        complextype: "Blink"
+      n:
+        enabled: true
+        max-violations: 4
+        punish-command: 'autoban %player%'
+        setback: true
+        complextype: "Disabler"
       x:
         enabled: true
         max-violations: 26
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
         complextype: "BadPackets"
       z:
         enabled: true
         max-violations: 26
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
         complextype: "BadPackets"
@@ -908,7 +869,7 @@ checks:
       a:
         enabled: true
         max-violations: 22
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
@@ -916,7 +877,7 @@ checks:
       b:
         enabled: true
         max-violations: 24
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
@@ -924,14 +885,14 @@ checks:
       c:
         enabled: true
         max-violations: 26
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
       d:
         enabled: true
         max-violations: 28
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
@@ -939,7 +900,7 @@ checks:
       a:
         enabled: true
         max-violations: 25
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         max-timer-speed: 1.02
         setback: true
         max_buffer: 10.0
@@ -948,7 +909,7 @@ checks:
       b:
         enabled: true
         max-violations: 27
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         minimum-timer-speed: 0.75
         setback: true
         max_buffer: 10.0
@@ -956,7 +917,7 @@ checks:
       c:
         enabled: true
         max-violations: 29
-        punish-command: 'custombroadcast %player% &7&m---»--*-------------------------------------*--«----- &8&l[&f&lQ&7&lT&f&lA&8&lC&8&l] &7has removed &c%player% &7from the network for using client modifications &7&m---»--*-------------------------------------*--«-----'
+        punish-command: 'autoban %player%'
         maximum-balance: 0
         balance-reset: -50
         balance-subtraction-on-teleport: 50

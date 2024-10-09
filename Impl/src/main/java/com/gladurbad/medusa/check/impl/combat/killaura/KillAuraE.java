@@ -6,9 +6,6 @@ import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.packet.Packet;
 import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
 
-/**
- * Created on 07/01/2020 Package luna.anticheat.checks.player.badpackets by GladUrBad
- */
 @CheckInfo(name = "KillAura (E)", description = "Checks for no swing modules.", complextype = "NoSwing")
 public final class KillAuraE extends Check {
 

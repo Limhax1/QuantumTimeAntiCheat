@@ -63,7 +63,7 @@ public class AimG extends Check {
                 double snapScore = calculateSnapScore();
                 double angleVariation = calculateAngleVariation();
 
-                boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.INSIDE_VEHICLE, ExemptType.JOINED, ExemptType.VELOCITY, ExemptType.FLYING);
+                boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.INSIDE_VEHICLE, ExemptType.JOINED, ExemptType.ANYVELOCITY, ExemptType.FLYING);
 
                 if (!exempt) {
                     int flags = 0;

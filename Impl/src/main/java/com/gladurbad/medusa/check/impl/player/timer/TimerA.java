@@ -30,7 +30,7 @@ public class TimerA extends Check {
         if (packet.isFlying()) {
             debug("b=" + buffer);
             final long delay = System.currentTimeMillis() - this.lastFlying;
-            final boolean exempt = this.isExempt(ExemptType.JOINED, ExemptType.TPS, ExemptType.INSIDE_VEHICLE, ExemptType.PISTON);
+            final boolean exempt = this.isExempt(ExemptType.JOINED, ExemptType.TPS, ExemptType.INSIDE_VEHICLE, ExemptType.PISTON, ExemptType.TELEPORT);
             if (delay > 4L && !exempt) {
                 this.samples.add(delay);
             }

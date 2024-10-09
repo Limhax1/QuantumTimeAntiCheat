@@ -45,7 +45,7 @@ public class StrafeA extends Check {
             Vector movement = new Vector(currentX - lastX, currentY - lastY, currentZ - lastZ);
 
             boolean inAir = !data.getPositionProcessor().isOnGround() && !data.getPositionProcessor().isInLiquid() && !data.getPositionProcessor().isOnClimbable();
-            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.VELOCITY, ExemptType.FLYING, ExemptType.ELYTRA);
+            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.ANYVELOCITY, ExemptType.FLYING, ExemptType.ELYTRA);
 
             if(DeltaYaw < 30) {
                 DIRECTION_CHANGE_THRESHOLD = 13;

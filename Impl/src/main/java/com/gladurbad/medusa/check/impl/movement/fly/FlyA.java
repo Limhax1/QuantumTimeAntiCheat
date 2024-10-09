@@ -27,9 +27,8 @@ public final class FlyA extends Check {
             final double DeltaY = data.getPositionProcessor().getDeltaY();
             final double speed = data.getPositionProcessor().getDeltaXZ();
 
-            boolean exempt = isExempt(ExemptType.FLYING, ExemptType.TELEPORT, ExemptType.VELOCITY, ExemptType.NEAR_VEHICLE, ExemptType.ELYTRA);
+            boolean exempt = isExempt(ExemptType.FLYING, ExemptType.TELEPORT, ExemptType.ANYVELOCITY, ExemptType.NEAR_VEHICLE, ExemptType.ELYTRA);
 
-            // Jobb klikkelés detektálása és kezelése
             if (DeltaY == 0 && lastDeltaY != 0) {
                 ignoreTicks = 1;
                 debug("Right-click detected, ignoring next tick");
@@ -43,7 +42,7 @@ public final class FlyA extends Check {
             }
 
             if(exempt) {
-                debug(isExempt(ExemptType.FLYING, ExemptType.TELEPORT, ExemptType.VELOCITY, ExemptType.NEAR_VEHICLE, ExemptType.ELYTRA));
+                debug(isExempt(ExemptType.FLYING, ExemptType.TELEPORT, ExemptType.ANYVELOCITY, ExemptType.NEAR_VEHICLE, ExemptType.ELYTRA));
             }
 
             if (data.getPositionProcessor().getAirTicks() > 60 && data.getPositionProcessor().isInAir() && !exempt) {

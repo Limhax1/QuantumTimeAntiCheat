@@ -8,10 +8,6 @@ import com.gladurbad.medusa.packet.Packet;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
-/**
- * Created on 10/24/2020 Package com.gladurbad.medusa.check.impl.combat.killaura by GladUrBad
- */
-
 @CheckInfo(name = "KillAura (B)", description = "Checks for KeepSprint modules.", complextype = "KeepSprint")
 public final class KillAuraB extends Check {
 

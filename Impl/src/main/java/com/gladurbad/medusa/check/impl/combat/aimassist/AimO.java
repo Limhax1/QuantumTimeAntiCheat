@@ -10,7 +10,7 @@ import org.bukkit.entity.Entity;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-@CheckInfo(name = "Aim (O)", description = "Checks for consistent aiming patterns and sudden snaps.", complextype = "Pattern")
+@CheckInfo(name = "Aim (O)", description = "Checks for consistent aiming patterns and snaps.", complextype = "Pattern")
 public class AimO extends Check {
 
     private static final int SAMPLE_SIZE = 25;

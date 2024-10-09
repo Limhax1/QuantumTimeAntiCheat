@@ -6,7 +6,6 @@ import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
-import org.bukkit.Bukkit;
 
 @CheckInfo(name = "Fly (C)", description = "Checks for gravity.", complextype = "Gravity")
 public final class FlyC extends Check {
@@ -25,7 +24,6 @@ public final class FlyC extends Check {
     @Override
     public void handle(final Packet packet) {
         if (packet.isBlockPlace()) {
-            // Ellenőrizzük, hogy levegőbe történt-e a klikkelés
             if (data.getPositionProcessor().getAirTicks() > 5) {
                 recentAirClick = true;
                 airClickTicks = 0;
@@ -43,14 +41,16 @@ public final class FlyC extends Check {
 
             final boolean exempt = isExempt(
                     ExemptType.TELEPORT, ExemptType.NEAR_VEHICLE, ExemptType.FLYING,
-                    ExemptType.INSIDE_VEHICLE, ExemptType.VELOCITY, ExemptType.ELYTRA, ExemptType.BUBBLE_COLUMN
+                    ExemptType.INSIDE_VEHICLE, ExemptType.ANYVELOCITY, ExemptType.ELYTRA,
+                    ExemptType.BUBBLE_COLUMN, ExemptType.SLOW_FALLING, ExemptType.LEVITATION,
+                    ExemptType.POWDER_SNOW
             );
 
             final boolean invalid = !exempt
                     && difference > 0.001D
                     && !onGround
                     && !(data.getPositionProcessor().getY() % 0.5 == 0 && data.getPositionProcessor().isOnGround() && lastDeltaY < 0)
-                    && !recentAirClick; // Hozzáadtuk a recentAirClick ellenőrzését
+                    && !recentAirClick;
 
             debug("posY=" + data.getPositionProcessor().getY() + " dY=" + deltaY + " at=" + data.getPositionProcessor().getAirTicks() + " recentAirClick=" + recentAirClick);
 
@@ -67,10 +67,9 @@ public final class FlyC extends Check {
                 buffer = Math.max(buffer - buffer_decay.getDouble(), 0);
             }
 
-            // Frissítjük a recentAirClick állapotát
             if (recentAirClick) {
                 airClickTicks++;
-                if (airClickTicks > 20) { // 1 másodperc után (20 tick) reseteljük
+                if (airClickTicks > 20) {
                     recentAirClick = false;
                     airClickTicks = 0;
                 }

@@ -6,7 +6,6 @@ import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
-import org.bukkit.potion.PotionEffectType;
 
 @CheckInfo(name = "Speed (D)", description = "Checks for abnormal vertical movement", complextype = "VerticalPrediction")
 public class SpeedD extends Check {
@@ -35,16 +34,24 @@ public class SpeedD extends Check {
             boolean onGround = data.getPositionProcessor().isOnGround();
             boolean exempt = isExempt(
                 ExemptType.TELEPORT, 
-                ExemptType.VELOCITY, 
-                ExemptType.FLYING, 
+                ExemptType.FLYING,
                 ExemptType.LIQUID, 
-                ExemptType.SLIME, 
+                ExemptType.SLIME,
+                ExemptType.ANYVELOCITY,
                 ExemptType.CLIMBABLE,
                 ExemptType.BOAT,
                 ExemptType.NEAR_VEHICLE,
                 ExemptType.PISTON,
-                ExemptType.UNDER_BLOCK
+                ExemptType.UNDER_BLOCK,
+                ExemptType.HIGHPING,
+                ExemptType.ELYTRA,
+                ExemptType.BUBBLE_COLUMN,
+                ExemptType.SLOW_FALLING,
+                ExemptType.LEVITATION,
+                ExemptType.POWDER_SNOW
             );
+
+
 
             if (!exempt) {
                 if (!onGround) {

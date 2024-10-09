@@ -28,7 +28,7 @@ public final class SpeedA extends Check {
             if(isExempt(ExemptType.TELEPORT)) {
                 debug(isExempt(ExemptType.TELEPORT));
             }
-            if(speed > 0.65 && !data.getPlayer().hasPotionEffect(PotionEffectType.SPEED) && !isExempt(ExemptType.FLYING, ExemptType.VELOCITY, ExemptType.TELEPORT, ExemptType.SLIME, ExemptType.PISTON, ExemptType.UNDER_BLOCK, ExemptType.ICE, ExemptType.JOINED, ExemptType.NEAR_VEHICLE, ExemptType.ELYTRA)) {
+            if(speed > 0.65 && !data.getPlayer().hasPotionEffect(PotionEffectType.SPEED) && !isExempt(ExemptType.FLYING, ExemptType.VELOCITYEXC_FALL, ExemptType.TELEPORT, ExemptType.SLIME, ExemptType.PISTON, ExemptType.UNDER_BLOCK, ExemptType.ICE, ExemptType.JOINED, ExemptType.NEAR_VEHICLE, ExemptType.ELYTRA)) {
                 buffer++;
                 if(setback.getBoolean()) {
                     setback();

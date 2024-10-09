@@ -6,12 +6,6 @@ import com.gladurbad.medusa.config.ConfigValue;
 import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-
-import static java.awt.SystemColor.info;
 
 @CheckInfo(name = "Fly (E)", description = "Checks for Continuous ascension.", experimental = true, complextype = "Continuous ascension")
 public class FlyE extends Check {
@@ -35,7 +29,19 @@ public class FlyE extends Check {
     public void handle(Packet packet) {
         if (packet.isFlying()) {
             final double deltaY = data.getPositionProcessor().getDeltaY();
-            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.FLYING, ExemptType.STEPPED, ExemptType.STAIRS, ExemptType.PISTON, ExemptType.LIQUID, ExemptType.CLIMBABLE, ExemptType.WEB, ExemptType.BUBBLE_COLUMN, ExemptType.ELYTRA);
+            boolean exempt = isExempt(ExemptType.TELEPORT,
+                ExemptType.FLYING,
+                ExemptType.STEPPED,
+                ExemptType.STAIRS,
+                ExemptType.PISTON,
+                ExemptType.LIQUID,
+                ExemptType.CLIMBABLE,
+                ExemptType.WEB,
+                ExemptType.BUBBLE_COLUMN,
+                ExemptType.ELYTRA,
+                ExemptType.POWDER_SNOW,
+                ExemptType.LEVITATION
+            );
 
             if (deltaY > DELTA_Y_THRESHOLD && deltaY == lastDeltaY && !exempt) {
                 consecutiveSameDeltaYCount++;

@@ -24,7 +24,7 @@ public class KillAuraG extends Check {
 
             debug("accel=" + accelXz + " dY=" + deltaYaw);
 
-            if (deltaYaw > 35 && accelXz < 0.00001) {
+            if (deltaYaw > 35 && accelXz < 0.00001 && deltaXz > 0.2) { // p100 devs forgot to check for 0 deltaXZ $$$
                 fail(String.format("accel=%.6f, dY=%.2f", accelXz, deltaYaw));
             }
         }

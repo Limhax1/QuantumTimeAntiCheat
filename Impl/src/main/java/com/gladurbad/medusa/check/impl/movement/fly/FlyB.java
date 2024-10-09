@@ -35,7 +35,10 @@ public final class FlyB extends Check {
 
     @Override
     public void handle(final Packet packet) {
-        boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.LIQUID, ExemptType.FLYING, ExemptType.VELOCITY, ExemptType.NEAR_VEHICLE, ExemptType.PISTON, ExemptType.ELYTRA);
+        boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.LIQUID, ExemptType.FLYING,
+                ExemptType.ANYVELOCITY, ExemptType.NEAR_VEHICLE, ExemptType.PISTON,
+                ExemptType.ELYTRA, ExemptType.LEVITATION, ExemptType.POWDER_SNOW,
+                ExemptType.BUBBLE_COLUMN, ExemptType.SLOW_FALLING);
 
         if (packet.isPosition()) {
 
@@ -46,7 +49,6 @@ public final class FlyB extends Check {
                 final double deltaY = y - lastY;
                 final boolean onGround = data.getPositionProcessor().isOnGround();
 
-                // Jobb klikkelés detektálása és kezelése
                 if (DY == 0 && lastDeltaY != 0) {
                     ignoreTicks = 1;
                     debug("Right-click detected, ignoring next tick");
@@ -98,7 +100,7 @@ public final class FlyB extends Check {
     }
 
     private void checkConstantHeight(double deltaY, int airTicks) {
-        if (Math.abs(deltaY) < 0.1 && airTicks > 15 && !isExempt(ExemptType.TELEPORT, ExemptType.LIQUID, ExemptType.FLYING, ExemptType.VELOCITY, ExemptType.NEAR_VEHICLE)) {
+        if (Math.abs(deltaY) < 0.1 && airTicks > 15 && !isExempt(ExemptType.TELEPORT, ExemptType.LIQUID, ExemptType.FLYING, ExemptType.ANYVELOCITY, ExemptType.NEAR_VEHICLE)) {
             violations++;
             if (violations > 6) {
                 if(setback.getBoolean()) {
@@ -117,7 +119,7 @@ public final class FlyB extends Check {
                     ascendingMoves++;
                 }
             }
-            if (ascendingMoves > MOVE_HISTORY_SIZE * 0.8 && !isExempt(ExemptType.TELEPORT, ExemptType.LIQUID, ExemptType.FLYING, ExemptType.VELOCITY, ExemptType.NEAR_VEHICLE)) {
+            if (ascendingMoves > MOVE_HISTORY_SIZE * 0.8 && !isExempt(ExemptType.TELEPORT, ExemptType.LIQUID, ExemptType.FLYING, ExemptType.ANYVELOCITY, ExemptType.NEAR_VEHICLE)) {
                 violations++;
                 if (violations > 1) {
                     if(setback.getBoolean()) {
