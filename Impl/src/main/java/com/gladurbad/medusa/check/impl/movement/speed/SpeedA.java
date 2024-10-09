@@ -50,6 +50,7 @@ public final class SpeedA extends Check {
                     fail("Going too Quick " + speed);
                 }
             }
+
         }
     }
 }

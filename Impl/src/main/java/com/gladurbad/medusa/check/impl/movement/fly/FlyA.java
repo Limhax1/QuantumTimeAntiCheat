@@ -42,10 +42,7 @@ public final class FlyA extends Check {
                 return;
             }
 
-            if(exempt) {
-                debug(isExempt(ExemptType.FLYING, ExemptType.TELEPORT, ExemptType.ANYVELOCITY,
-                        ExemptType.NEAR_VEHICLE, ExemptType.ELYTRA, ExemptType.HONEY_BLOCK));
-            }
+                debug(isExempt(ExemptType.HONEY_BLOCK));
 
             if (data.getPositionProcessor().getAirTicks() > 60 && data.getPositionProcessor().isInAir() && !exempt) {
                 if (speed > 0.34) {

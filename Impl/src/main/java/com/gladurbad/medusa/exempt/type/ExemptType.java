@@ -10,6 +10,9 @@ import lombok.Getter;
 
 import java.util.function.Function;
 
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+
 @Getter
 public enum ExemptType {
 
@@ -106,8 +109,17 @@ public enum ExemptType {
     }),
 
     HONEY_BLOCK(data -> {
+        Location location = data.getPlayer().getLocation();
         if (ServerUtil.getServerVersion().isLowerThan(ServerVersion.v_1_15)) return false;
-        return data.getPlayer().getLocation().getBlock().getType().toString().equals("HONEY_BLOCK");
+            for (double x = -2; x <= 2; x += 2) {
+                for (double z = -2; z <= 2; z += 2) {
+                    Block block = location.clone().add(x, -2, z).getBlock();
+                    if (block.getType().toString().equals("HONEY_BLOCK")) {
+                        return true;
+                    }
+                }
+            }
+        return false;
     }),
 
     LEVITATION(data -> VersionUtil.hasLevitation(data.getPlayer())),
