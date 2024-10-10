@@ -16,7 +16,7 @@ public class AimN extends Check {
     private static final int SAMPLE_SIZE = 40;
     private static final double MICRO_ADJUSTMENT_THRESHOLD = 0.1;
     private static final double BUFFER_LIMIT = 8.0;
-    private static final double DECAY_RATE = 0.025;
+    private static final double DECAY_RATE = 0.035;
 
     private final Deque<Double> yawChanges = new ArrayDeque<>();
     private final Deque<Double> pitchChanges = new ArrayDeque<>();

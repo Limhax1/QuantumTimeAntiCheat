@@ -11,7 +11,9 @@ import lombok.Getter;
 import java.util.function.Function;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 
 @Getter
 public enum ExemptType {
@@ -20,6 +22,11 @@ public enum ExemptType {
             data.getPlayer().getLocation().getBlockZ() << 4)),
 
     TPS(data -> ServerUtil.getTPS() < 18.5D),
+
+    STAIRS_ABOVE(data -> {
+        Block blockAbove = data.getPlayer().getLocation().getBlock().getRelative(BlockFace.UP);
+        return isStairs(blockAbove) || isStairs(blockAbove.getRelative(BlockFace.UP));
+    }),
 
     HIGHPING(data -> PlayerUtil.getPing(data.getPlayer()) > 400),
 
@@ -130,5 +137,10 @@ public enum ExemptType {
 
     ExemptType(final Function<PlayerData, Boolean> exception) {
         this.exception = exception;
+    }
+
+    private static boolean isStairs(Block block) {
+        Material type = block.getType();
+        return type.name().contains("STAIRS");
     }
 }

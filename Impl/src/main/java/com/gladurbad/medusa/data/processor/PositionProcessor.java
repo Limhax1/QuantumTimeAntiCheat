@@ -50,7 +50,7 @@ public final class PositionProcessor {
             lastDeltaX, lastDeltaZ, lastDeltaY, lastDeltaXZ;
 
     private boolean flying, inVehicle, inLiquid, inAir, inWeb,
-            blockNearHead, onClimbable, onSolidGround, nearVehicle, onSlime,
+            blockNearHead ,onClimbable, onSolidGround, nearVehicle, onSlime,
             onIce, nearPiston, nearTrapdoor, nearSlab, nearStairs, teleporting;
 
     private int airTicks, sinceVehicleTicks, sinceFlyingTicks,
@@ -261,7 +261,6 @@ public final class PositionProcessor {
         try {
             nearVehicle = PlayerUtil.isNearVehicle(data.getPlayer());
         } catch (NoSuchElementException e) {
-            // Kezeljük a kivételt, és állítsuk be a nearVehicle értékét false-ra
             nearVehicle = false;
         }
     }
@@ -298,7 +297,6 @@ public final class PositionProcessor {
         return collisionType == CollisionType.ALL ? materials.stream().allMatch(predicate) : materials.stream().allMatch(predicate);
     }
 
-    //Taken from Fiona. If you have anything better, please let me know, thanks.
     public Block getBlock(final Location location) {
         if (location.getWorld().isChunkLoaded(location.getBlockX() >> 4, location.getBlockZ() >> 4)) {
             return location.getBlock();
@@ -333,14 +331,6 @@ public final class PositionProcessor {
             }
             return null;
         }
-    }
-
-    public int getSinceSpeedTicks() {
-        return this.sinceSpeedTicks;
-    }
-
-    public void setSinceSpeedTicks(final int sinceSpeedTicks) {
-        this.sinceSpeedTicks = sinceSpeedTicks;
     }
 
     public void handleOutgoingPacket(final Packet packet) {

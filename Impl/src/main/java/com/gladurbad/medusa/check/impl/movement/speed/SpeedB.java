@@ -19,11 +19,11 @@ public class SpeedB extends Check {
     private static final ConfigValue setback = new ConfigValue(ConfigValue.ValueType.BOOLEAN, "setback");
 
     private static final double BASE_GROUND_SPEED = 0.2873;
-    private static final double ICE_BOOST = 0.5;
-    private static final double BLOCK_BOOST = 0.05;
+    private static final double ICE_BOOST = 0.3;
+    private static final double BLOCK_BOOST = 0.3;
     private static final double VELOCITY_BOOST_BASE = 0.05;
     private static final double VELOCITY_BOOST_MULTIPLIER = 2.0;
-    private static final int VELOCITY_TICKS_MAX = 40;
+    private static final int VELOCITY_TICKS_MAX = 35;
 
     private double lastValidDeltaXZ = 0.0;
     private int ignoreTicks = 0;
@@ -43,11 +43,19 @@ public class SpeedB extends Check {
             final int sinceIceTicks = data.getPositionProcessor().getSinceIceTicks();
             final int sinceSlimeTicks = data.getPositionProcessor().getSinceSlimeTicks();
             final int sinceVelocityTicks = data.getVelocityProcessor().getTicksSinceVelocity();
-            boolean exempt = isExempt(ExemptType.UNDER_BLOCK, ExemptType.BUBBLE_COLUMN, ExemptType.ELYTRA, ExemptType.TELEPORT, ExemptType.FLYING);
+            boolean exempt = isExempt(
+                    ExemptType.BUBBLE_COLUMN,
+                    ExemptType.ELYTRA, ExemptType.TELEPORT,
+                    ExemptType.FLYING
+            );
             double maxSpeed = BASE_GROUND_SPEED;
 
             double speedEffectMultiplier = getSpeedPotionCorrection(player);
             maxSpeed *= speedEffectMultiplier;
+
+            if(isExempt(ExemptType.UNDER_BLOCK)) {
+                maxSpeed += 0.3;
+            }
 
             if (sinceIceTicks < 40) {
                 maxSpeed += ICE_BOOST;
@@ -79,9 +87,8 @@ public class SpeedB extends Check {
                 maxSpeed += 0.1;
             }
 
-            // Jobb klikkelés detektálása és kezelése
             if (deltaXZ == 0 && lastValidDeltaXZ > 0) {
-                ignoreTicks = 2; // Ignoráljuk a következő 2 ticket
+                ignoreTicks = 2;
                 debug("Right-click detected, ignoring next 2 ticks");
             }
 
