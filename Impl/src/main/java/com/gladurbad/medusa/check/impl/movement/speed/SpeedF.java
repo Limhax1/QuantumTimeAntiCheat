@@ -37,7 +37,7 @@ public class SpeedF extends Check {
                     ExemptType.TELEPORT, ExemptType.FLYING, ExemptType.SLIME,
                     ExemptType.STAIRS, ExemptType.PISTON, ExemptType.WEB,
                     ExemptType.ELYTRA, ExemptType.BUBBLE_COLUMN, ExemptType.LIQUID,
-                    ExemptType.STAIRS_ABOVE
+                    ExemptType.STAIRS_ABOVE, ExemptType.FALLDAMAGE
             );
             boolean isheadfucked = data.getPositionProcessor().isBlockNearHead();
             if (isJumpHeight(deltaY)) {

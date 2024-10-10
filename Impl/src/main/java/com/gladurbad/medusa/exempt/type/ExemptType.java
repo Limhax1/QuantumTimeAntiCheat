@@ -36,6 +36,8 @@ public enum ExemptType {
 
     VELOCITYEXC_FALL(data -> data.getVelocityProcessor().isTakingVelocity() && !data.getPlayer().getLastDamageCause().getCause().name().equals("FALL")),
 
+    FALLDAMAGE(data -> data.getVelocityProcessor().isTakingVelocity() && data.getPlayer().getLastDamageCause().getCause().name().equals("FALL")),
+
     PVPVELOCITY(data -> data.getVelocityProcessor().isTakingVelocity() && data.getPlayer().getLastDamageCause().getCause().name().equals("ENTITY_ATTACK") || data.getPlayer().getLastDamageCause().getCause().name().equals("PROJECTILE")|| data.getPlayer().getLastDamageCause().getCause().name().equals("FIRE_TICK") || data.getPlayer().getLastDamageCause().getCause().name().equals("POISON") || data.getPlayer().getLastDamageCause().getCause().name().equals("WITHER") || data.getPlayer().getLastDamageCause().getCause().name().equals("THORNS")),
 
     JOINED(data -> System.currentTimeMillis() - data.getJoinTime() < 5000L),
