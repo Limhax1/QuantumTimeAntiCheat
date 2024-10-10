@@ -38,7 +38,6 @@ public class AimF extends Check {
             float deltaYaw = Math.abs(yaw - lastYaw);
             float deltaPitch = Math.abs(pitch - lastPitch);
 
-            // Normalize yaw
             if (deltaYaw > 180.0f) {
                 deltaYaw = 360.0f - deltaYaw;
             }
@@ -50,7 +49,6 @@ public class AimF extends Check {
                 yawChanges.removeFirst();
                 pitchChanges.removeFirst();
 
-                // Check for GCD errors
                 double gcdYaw = getGcd(yawChanges);
                 double gcdPitch = getGcd(pitchChanges);
 
@@ -58,7 +56,6 @@ public class AimF extends Check {
                     buffer += 1.0;
                 }
 
-                // Check for aim patterns
                 double yawSimilarity = calculateSimilarity(yawChanges);
                 double pitchSimilarity = calculateSimilarity(pitchChanges);
 
@@ -66,9 +63,8 @@ public class AimF extends Check {
                     buffer += 0.5;
                 }
 
-                // Trigger fail if buffer exceeds limit
                 if (buffer > BUFFER_LIMIT) {
-                    fail(String.format("GCD Flaw. [GCD Yaw=%.5f, GCD Pitch=%.5f, Yaw Similarity=%.3f, Pitch Similarity=%.3f]",
+                    fail(String.format("GCD Yaw=%.5f, GCD Pitch=%.5f, Yaw Similarity=%.3f, Pitch Similarity=%.3f",
                             gcdYaw, gcdPitch, yawSimilarity, pitchSimilarity));
                     buffer = BUFFER_LIMIT / 2;
                 } else {

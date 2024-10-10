@@ -77,7 +77,7 @@ public class AimE extends Check {
                         buffer += 0.5;
 
                         if (buffer > BUFFER_LIMIT) {
-                            fail(String.format("PatternE. Ratio: %.2f, ConsistentPatterns: %d", speedDistanceRatio, consistentPatternCount));
+                            fail(String.format("Ratio: %.2f, ConsistentPatterns: %d", speedDistanceRatio, consistentPatternCount));
                             buffer = 0;
                             rotationSpeeds.clear();
                             targetDistances.clear();

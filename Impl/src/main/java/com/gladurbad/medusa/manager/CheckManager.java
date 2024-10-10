@@ -11,6 +11,7 @@ import com.gladurbad.medusa.check.impl.combat.killaura.*;
 import com.gladurbad.medusa.check.impl.combat.reach.ReachC;
 import com.gladurbad.medusa.check.impl.combat.velocity.VelocityA;
 import com.gladurbad.medusa.check.impl.combat.velocity.VelocityB;
+import com.gladurbad.medusa.check.impl.movement.antiweb.AntiwebA;
 import com.gladurbad.medusa.check.impl.movement.elytra.ElytraA;
 import com.gladurbad.medusa.check.impl.movement.elytra.ElytraB;
 import com.gladurbad.medusa.check.impl.movement.fly.*;
@@ -52,6 +53,7 @@ public final class CheckManager {
             AimN.class,
             AimO.class,
             AimP.class,
+            AntiwebA.class,
             AutoClickerA.class,
             AutoClickerB.class,
             AutoClickerC.class,

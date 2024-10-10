@@ -122,7 +122,6 @@ public final class PositionProcessor {
             teleportLocation = loc;
         }
 
-        // Szinkron teleportálás
         Bukkit.getScheduler().runTask(QuantumTimeAC.INSTANCE.getPlugin(), () -> {
             data.getPlayer().teleport(teleportLocation);
         });

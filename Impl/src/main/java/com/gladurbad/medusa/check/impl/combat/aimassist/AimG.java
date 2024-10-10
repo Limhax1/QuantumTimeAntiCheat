@@ -75,7 +75,7 @@ public class AimG extends Check {
                         buffer += 1;
 
                         if (buffer > BUFFER_LIMIT) {
-                            fail(String.format("PatternG. CS: %.2f, SS: %.2f, AV: %.2f",
+                            fail(String.format("CS: %.2f, SS: %.2f, AV: %.2f",
                                                consistencyScore, snapScore, angleVariation));
                             buffer = 0;
                             angleChanges.clear();

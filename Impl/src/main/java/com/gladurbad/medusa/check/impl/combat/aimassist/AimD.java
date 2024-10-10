@@ -65,8 +65,8 @@ public class AimD extends Check {
 
                     if (suspicious) {
                         buffer += 1.0;
-                        if (buffer > 20) {
-                            fail(String.format("PatternD. [SnapPercentage=%.2f, ConsistentSmallMoves=%s, LinearMovement=%s", snapPercentage, consistentSmallMoves, linearMovement + "]"));
+                        if (buffer > 24) {
+                            fail(String.format("SnapPercentage=%.2f, ConsistentSmallMoves=%s, LinearMovement=%s", snapPercentage, consistentSmallMoves, linearMovement));
                             snapPercentage = 0;
                             consistentSmallMoves = false;
                             linearMovement = false;
@@ -111,7 +111,7 @@ public class AimD extends Check {
                 consistentMoves++;
             }
         }
-        return consistentMoves > SAMPLE_SIZE * 1.5; // Több mint 75% kis mozgás
+        return consistentMoves > SAMPLE_SIZE * 1.5;
     }
 
     private boolean checkLinearMovement() {
@@ -122,8 +122,8 @@ public class AimD extends Check {
         Float[] pitchArray = pitchChanges.toArray(new Float[0]);
 
         for (int i = 0; i < n; i++) {
-            double x = yawArray[i].doubleValue();  // Explicit konverzió Float-ról double-re
-            double y = pitchArray[i].doubleValue();  // Explicit konverzió Float-ról double-re
+            double x = yawArray[i].doubleValue();
+            double y = pitchArray[i].doubleValue();
             sumX += x;
             sumY += y;
             sumXY += x * y;
