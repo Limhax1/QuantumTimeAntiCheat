@@ -9,7 +9,7 @@ import com.gladurbad.medusa.util.MathUtil;
 
 @CheckInfo(name = "Aim (L)", description = "Checks for not constant rotations.", complextype = "Constant")
 public class AimL extends Check {
-    double MAX_BUFFER = 5;
+    double MAX_BUFFER = 20;
     double BUFFER;
     public AimL(PlayerData data) {
         super(data);
@@ -34,7 +34,7 @@ public class AimL extends Check {
                 }
             }
             else {
-                BUFFER = Math.max(0, BUFFER - 0.1);
+                BUFFER = Math.max(0, BUFFER - 0.15);
             }
         }
     }

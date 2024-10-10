@@ -7,7 +7,7 @@ import com.gladurbad.medusa.data.PlayerData;
 import com.gladurbad.medusa.exempt.type.ExemptType;
 import com.gladurbad.medusa.packet.Packet;
 
-@CheckInfo(name = "Speed (D)", description = "Checks for abnormal vertical movement", complextype = "VerticalPrediction")
+@CheckInfo(name = "Speed (D)", description = "Checks for abnormal vertical movements", complextype = "VerticalPrediction")
 public class SpeedD extends Check {
 
     private static final ConfigValue max_buffer = new ConfigValue(ConfigValue.ValueType.DOUBLE, "max_buffer");
@@ -33,22 +33,12 @@ public class SpeedD extends Check {
             double deltaY = data.getPositionProcessor().getDeltaY();
             boolean onGround = data.getPositionProcessor().isOnGround();
             boolean exempt = isExempt(
-                ExemptType.TELEPORT, 
-                ExemptType.FLYING,
-                ExemptType.LIQUID, 
-                ExemptType.SLIME,
-                ExemptType.ANYVELOCITY,
-                ExemptType.CLIMBABLE,
-                ExemptType.BOAT,
-                ExemptType.NEAR_VEHICLE,
-                ExemptType.PISTON,
-                ExemptType.UNDER_BLOCK,
-                ExemptType.HIGHPING,
-                ExemptType.ELYTRA,
-                ExemptType.BUBBLE_COLUMN,
-                ExemptType.SLOW_FALLING,
-                ExemptType.LEVITATION,
-                ExemptType.POWDER_SNOW
+                ExemptType.TELEPORT, ExemptType.FLYING,
+                ExemptType.LIQUID, ExemptType.SLIME, ExemptType.ANYVELOCITY,
+                ExemptType.CLIMBABLE, ExemptType.BOAT, ExemptType.NEAR_VEHICLE,
+                ExemptType.PISTON, ExemptType.UNDER_BLOCK, ExemptType.HIGHPING,
+                ExemptType.ELYTRA, ExemptType.BUBBLE_COLUMN, ExemptType.SLOW_FALLING,
+                ExemptType.LEVITATION, ExemptType.POWDER_SNOW, ExemptType.WEB
             );
 
 

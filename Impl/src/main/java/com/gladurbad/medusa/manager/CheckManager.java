@@ -47,6 +47,7 @@ public final class CheckManager {
             AimI.class,
             AimJ.class,
             AimK.class,
+            AimL.class,
             AimM.class,
             AimN.class,
             AimO.class,

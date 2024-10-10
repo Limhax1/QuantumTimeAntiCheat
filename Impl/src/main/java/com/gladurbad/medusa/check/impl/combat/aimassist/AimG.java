@@ -15,10 +15,10 @@ import java.util.Deque;
 public class AimG extends Check {
 
     private static final int SAMPLE_SIZE = 50;
-    private static final double ANGLE_THRESHOLD = 0.24;
-    private static final double CONSISTENCY_THRESHOLD = 1.79;
+    private static final double ANGLE_THRESHOLD = 0.23;
+    private static final double CONSISTENCY_THRESHOLD = 1.8;
     private static final double SNAP_THRESHOLD = 25.0;
-    private static final double BUFFER_LIMIT = 200;
+    private static final double BUFFER_LIMIT = 180;
 
     private final Deque<Double> yawChanges = new ArrayDeque<>();
     private final Deque<Double> pitchChanges = new ArrayDeque<>();

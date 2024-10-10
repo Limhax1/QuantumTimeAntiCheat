@@ -61,7 +61,7 @@ public class AimN extends Check {
 
                 double microAdjustmentRatio = microAdjustments / (SAMPLE_SIZE * 2);
 
-                if (microAdjustmentRatio > 0.4) {
+                if (microAdjustmentRatio > 0.6) {
                     buffer += 1.0;
 
                     if (buffer > BUFFER_LIMIT) {

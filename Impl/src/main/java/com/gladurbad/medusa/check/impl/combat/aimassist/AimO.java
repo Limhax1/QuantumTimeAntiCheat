@@ -10,10 +10,10 @@ import org.bukkit.entity.Entity;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-@CheckInfo(name = "Aim (O)", description = "Checks for consistent aiming patterns and snaps.", complextype = "Pattern")
+@CheckInfo(name = "Aim (O)", description = "Checks for high consistency.", complextype = "Pattern")
 public class AimO extends Check {
 
-    private static final int SAMPLE_SIZE = 25;
+    private static final int SAMPLE_SIZE = 35;
     private static final double CONSISTENCY_THRESHOLD = 0.38;
     private static final double BUFFER_LIMIT = 10;
     private final Deque<Double> yawChanges = new ArrayDeque<>();

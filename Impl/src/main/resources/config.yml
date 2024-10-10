@@ -232,73 +232,73 @@ checks:
         enabled: true
         max-violations: 10
         punish-command: 'autoban %player%'
-        complextype: "0 Pitch [A]"
+        complextype: "0 Pitch (A)"
       b:
         enabled: true
         max-violations: 10
         punish-command: 'autoban %player%'
-        complextype: "Snap [B]"
+        complextype: "Snap (B)"
       c:
         enabled: true
         max-violations: 10
         punish-command: 'autoban %player%'
-        complextype: "Constant [C]"
+        complextype: "Constant (C)"
       d:
         enabled: true
         max-violations: 15
         punish-command: 'autoban %player%'
-        complextype: "Ratio [D]"
+        complextype: "Ratio (D)"
       e:
         enabled: true
         max-violations: 15
         punish-command: 'autoban %player%'
-        complextype: "Speed [E]"
+        complextype: "Speed (E)"
       f:
         enabled: true
         max-violations: 15
         punish-command: 'autoban %player%'
-        complextype: "GCD Flaw [F]"
+        complextype: "GCD Flaw (F)"
       g:
         enabled: true
         max-violations: 15
         punish-command: 'autoban %player%'
-        complextype: "Randomisation [G]"
+        complextype: "Randomisation (G)"
       h:
         enabled: true
         max-violations: 15
         punish-command: 'autoban %player%'
-        complextype: "Analysis [H]"
+        complextype: "Analysis (H)"
       i:
         enabled: true
         max-violations: 15
         punish-command: 'autoban %player%'
-        complextype: "Invalid Yaw Change [I]"
+        complextype: "Invalid Yaw Change (I)"
       j:
         enabled: true
         max-violations: 15
         punish-command: 'autoban %player%'
-        complextype: "Switch [J"
+        complextype: "Switch (J)"
         max_buffer: 10.0
         buffer_decay: 0.5
       k:
         enabled: true
         max-violations: 15
         punish-command: 'autoban %player%'
-        complextype: "Not Constant [K]"
+        complextype: "Not Constant (K)"
         max_buffer: 10.0
         buffer_decay: 0.5
       l:
         enabled: true
         max-violations: 15
         punish-command: 'autoban %player%'
-        complextype: "Not Constant [L]"
+        complextype: "Not Constant (L)"
         max_buffer: 10.0
         buffer_decay: 0.5
       m:
         enabled: true
         max-violations: 15
         punish-command: 'autoban %player%'
-        complextype: "Sigma [M]"
+        complextype: "Sigma (M)"
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
@@ -306,7 +306,7 @@ checks:
         enabled: true
         max-violations: 15
         punish-command: 'autoban %player%'
-        complextype: "Subtle [N]"
+        complextype: "Subtle (N)"
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
@@ -314,7 +314,7 @@ checks:
         enabled: true
         max-violations: 15
         punish-command: 'autoban %player%'
-        complextype: "Pattern [O]"
+        complextype: "Pattern (O)"
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
@@ -322,7 +322,7 @@ checks:
         enabled: true
         max-violations: 15
         punish-command: 'autoban %player%'
-        complextype: "Aim Assistance"
+        complextype: "Accuracy (P)"
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
@@ -330,7 +330,7 @@ checks:
         enabled: true
         max-violations: 15
         punish-command: 'autoban %player%'
-        complextype: "Aim Assistance"
+        complextype: "Aim Assist (Q)"
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
@@ -338,7 +338,7 @@ checks:
         enabled: true
         max-violations: 15
         punish-command: 'autoban %player%'
-        complextype: "Aim Assistance"
+        complextype: "Aim Assist (R)"
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
@@ -346,7 +346,7 @@ checks:
         enabled: true
         max-violations: 15
         punish-command: 'autoban %player%'
-        complextype: "Aim Assistance"
+        complextype: "Aim Assist (S)"
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
@@ -354,7 +354,7 @@ checks:
         enabled: true
         max-violations: 15
         punish-command: 'autoban %player%'
-        complextype: "Aim Assistance"
+        complextype: "Aim Assist (T)"
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
@@ -364,27 +364,27 @@ checks:
         max-violations: 10
         punish-command: 'autoban %player%'
         max-cps: 24
-        complextype: "High Cps"
+        complextype: "High Cps (A)"
       b:
         enabled: true
         max-violations: 10
         punish-command: 'autoban %player%'
-        complextype: "Statistics"
+        complextype: "Statistics (B)"
       c:
         enabled: true
         max-violations: 10
         punish-command: 'autoban %player%'
-        complextype: "Rounded"
+        complextype: "Rounded (C)"
       d:
         enabled: true
         max-violations: 10
         punish-command: 'autoban %player%'
-        complextype: ""
+        complextype: "Variance (D)"
       e:
         enabled: true
         max-violations: 10
         punish-command: 'autoban %player%'
-        complextype: "Variance"
+        complextype: "Variance (E)"
     hitbox:
       a:
         enabled: true
@@ -395,7 +395,7 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "Hitbox"
+        complextype: "Hitbox (A)"
       b:
         enabled: true
         max-violations: 27
@@ -403,64 +403,32 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "Hitbox"
+        complextype: "Hitbox (B)"
     killaura:
       a:
-        enabled: true
+        enabled: false
         max-violations: 20
         punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "Kill Aura"
+        complextype: "Kill Aura (A)"
       b:
-        enabled: true
+        enabled: false
         max-violations: 22
         punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "Kill Aura"
+        complextype: "Kill Aura (B)"
       c:
-        enabled: true
+        enabled: false
         max-violations: 24
         punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "Kill Aura"
-      d:
-        enabled: true
-        max-violations: 24
-        punish-command: 'autoban %player%'
-        setback: true
-        max_buffer: 10.0
-        buffer_decay: 0.5
-        complextype: "Kill Aura"
-      e:
-        enabled: true
-        max-violations: 24
-        punish-command: 'autoban %player%'
-        setback: true
-        max_buffer: 10.0
-        buffer_decay: 0.5
-        complextype: "Kill Aura"
-      f:
-        enabled: true
-        max-violations: 24
-        punish-command: 'autoban %player%'
-        setback: true
-        max_buffer: 10.0
-        buffer_decay: 0.5
-        complextype: "Kill Aura"
-      g:
-        enabled: true
-        max-violations: 24
-        punish-command: 'autoban %player%'
-        setback: true
-        max_buffer: 10.0
-        buffer_decay: 0.5
-        complextype: "Kill Aura"
+        complextype: "Kill Aura (C)"
     reach:
       a:
         enabled: false
@@ -473,7 +441,7 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: ""
+        complextype: "Reach (A)"
       b:
         enabled: false
         max-violations: 27
@@ -482,7 +450,7 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: ""
+        complextype: "Reach (B)"
       c:
         enabled: true
         max-violations: 26
@@ -491,7 +459,7 @@ checks:
         max-latencyDev: -1
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "RayTrace"
+        complextype: "RayTrace (C)"
     velocity:
       a:
         enabled: true
@@ -502,7 +470,7 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "Vertical"
+        complextype: "Vertical (A)"
       b:
         enabled: true
         max-violations: 25
@@ -510,7 +478,7 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "Self Damage"
+        complextype: "Self Damage (B)"
   movement:
     fastclimb:
       a:
@@ -520,7 +488,7 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "Fast Climb"
+        complextype: "Fast Climb (A)"
     elytra:
       a:
         enabled: true
@@ -529,7 +497,7 @@ checks:
         setback: true
         max_buffer: 5
         buffer_decay: 0.5
-        complextype: "High Speed"
+        complextype: "High Speed (A)"
       b:
         enabled: true
         max-violations: 20
@@ -537,7 +505,7 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "Invalid DeltaY"
+        complextype: "Invalid DeltaY (B)"
     fly:
       a:
         enabled: true
@@ -546,7 +514,7 @@ checks:
         setback: true
         max_buffer: 2
         buffer_decay: 0.5
-        complextype: "Hover"
+        complextype: "Hover (A)"
       b:
         enabled: true
         max-violations: 26
@@ -554,7 +522,7 @@ checks:
         setback: true
         max_buffer: 4
         buffer_decay: 0.5
-        complextype: "Constant"
+        complextype: "Constant (B)"
       c:
         enabled: true
         max-violations: 24
@@ -562,7 +530,7 @@ checks:
         setback: true
         max_buffer: 20
         buffer_decay: 0.5
-        complextype: "Gravity"
+        complextype: "Gravity (C)"
       d:
         enabled: true
         max-violations: 22
@@ -570,7 +538,7 @@ checks:
         setback: true
         max_buffer: 0
         buffer_decay: 0.5
-        complextype: "Fast Fall"
+        complextype: "Fast Fall (D)"
       e:
         enabled: true
         max-violations: 22
@@ -578,7 +546,7 @@ checks:
         setback: true
         max_buffer: 1
         buffer_decay: 0.5
-        complextype: "Ascension"
+        complextype: "Ascension (E)"
     selfdamage:
       a:
         enabled: true
@@ -587,6 +555,7 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
+        complextype: "Self Damage (A)"
     jesus:
       a:
         enabled: true
@@ -595,7 +564,7 @@ checks:
         setback: true
         max_buffer: 2
         buffer_decay: 0.1
-        complextype: "Walking"
+        complextype: "Walking (A)"
       b:
         enabled: true
         max-violations: 27
@@ -603,7 +572,7 @@ checks:
         setback: true
         max_buffer: 3
         buffer_decay: 0.1
-        complextype: "Speed"
+        complextype: "Speed (B)"
     motion:
       a:
         enabled: true
@@ -612,6 +581,7 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
+        complextype: "Motion (A)"
       b:
         enabled: true
         max-violations: 23
@@ -619,13 +589,16 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
+        complextype: "Motion (B)"
       c:
+
         enabled: true
         max-violations: 25
         punish-command: 'autoban %player%'
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
+        complextype: "Motion (C)"
       d:
         enabled: true
         max-violations: 27
@@ -633,13 +606,7 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-      e:
-        enabled: true
-        max-violations: 29
-        punish-command: 'autoban %player%'
-        setback: true
-        max_buffer: 10.0
-        buffer_decay: 0.5
+        complextype: "Motion (D)"
     noslow:
       a:
         enabled: true
@@ -648,6 +615,7 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
+        complextype: "No Slow (A)"
     phase:
       a:
         enabled: false
@@ -656,6 +624,7 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
+        complextype: "Phase (A)"
     speed:
       a:
         enabled: true
@@ -664,7 +633,7 @@ checks:
         setback: true
         max_buffer: 2
         buffer_decay: 0.5
-        complextype: "Backup"
+        complextype: "Backup (A)"
       b:
         enabled: true
         max-violations: 27
@@ -672,7 +641,7 @@ checks:
         setback: true
         max_buffer: 5
         buffer_decay: 0.25
-        complextype: "Prediction"
+        complextype: "Prediction (B)"
       c:
         enabled: true
         max-violations: 23
@@ -680,7 +649,7 @@ checks:
         setback: true
         max_buffer: 3
         buffer_decay: 0.05
-        complextype: "Motion"
+        complextype: "Jump (C)"
       d:
         enabled: true
         max-violations: 23
@@ -688,7 +657,7 @@ checks:
         setback: true
         max_buffer: 0.6
         buffer_decay: 0.005
-        complextype: "Fast Fall"
+        complextype: "Fast Fall (D)"
       e:
         enabled: true
         max-violations: 23
@@ -696,7 +665,7 @@ checks:
         setback: true
         max_buffer: 3
         buffer_decay: 0.05
-        complextype: "Spoofed Motion"
+        complextype: "Spoofed Motion (E)"
       f:
         enabled: true
         max-violations: 23
@@ -704,7 +673,7 @@ checks:
         setback: true
         max_buffer: 3
         buffer_decay: 0.05
-        complextype: "Spoofed Motion"
+        complextype: "Spoofed Motion (F)"
       g:
         enabled: true
         max-violations: 23
@@ -712,6 +681,7 @@ checks:
         setback: true
         max_buffer: 3
         buffer_decay: 0.05
+        complextype: "Strafe (G)"
     strafe:
       a:
         enabled: true
@@ -728,6 +698,7 @@ checks:
         setback: true
         max_buffer: 3
         buffer_decay: 0.05
+        complextype: "Angle (B)"
   player:
     hand:
       a:
@@ -736,6 +707,7 @@ checks:
         punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
+        complextype: "Hand (A)"
     inventory:
       a:
         enabled: true
@@ -744,6 +716,7 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
+        complextype: "Inventory (A)"
       b:
         enabled: true
         max-violations: 26
@@ -751,6 +724,7 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
+        complextype: "Inventory (B)"
     protocol:
       a:
         enabled: true
@@ -758,77 +732,77 @@ checks:
         punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "BadPackets"
+        complextype: "BadPackets (A)"
       b:
         enabled: true
         max-violations: 17
         punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "BadPackets"
+        complextype: "BadPackets (B)"
       c:
         enabled: true
         max-violations: 19
         punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "BadPackets"
+        complextype: "BadPackets (C)"
       d:
         enabled: true
         max-violations: 21
         punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "BadPackets"
+        complextype: "BadPackets (D)"
       e:
         enabled: true
         max-violations: 23
         punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "BadPackets"
+        complextype: "BadPackets (E)"
       f:
         enabled: true
         max-violations: 25
         punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "BadPackets"
+        complextype: "BadPackets (F)"
       g:
         enabled: true
         max-violations: 27
         punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "BadPackets"
+        complextype: "BadPackets (G)"
       h:
         enabled: true
         max-violations: 29
         punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "BadPackets"
+        complextype: "BadPackets (H)"
       i:
         enabled: true
         max-violations: 30
         punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "BadPackets"
+        complextype: "BadPackets (I)"
       j:
         enabled: true
         max-violations: 28
         punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "BadPackets"
+        complextype: "BadPackets (J)"
       k:
         enabled: true
         max-violations: 26
         punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "BadPackets"
+        complextype: "BadPackets (K)"
       l:
         enabled: true
         max-violations: 26
@@ -836,7 +810,7 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "BadPackets"
+        complextype: "BadPackets (L)"
       m:
         enabled: true
         max-violations: 4
@@ -844,27 +818,27 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "Blink"
+        complextype: "Blink (M)"
       n:
         enabled: true
         max-violations: 4
         punish-command: 'autoban %player%'
         setback: true
-        complextype: "Disabler"
+        complextype: "Disabler (N)"
       x:
         enabled: true
         max-violations: 26
         punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "BadPackets"
+        complextype: "BadPackets (X)"
       z:
         enabled: true
         max-violations: 26
         punish-command: 'autoban %player%'
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "BadPackets"
+        complextype: "BadPackets (Z)"
     scaffold:
       a:
         enabled: true
@@ -873,7 +847,7 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "RayTrace"
+        complextype: "RayTrace (A)"
       b:
         enabled: true
         max-violations: 24
@@ -881,7 +855,7 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "FastPlace"
+        complextype: "FastPlace (B)"
       c:
         enabled: true
         max-violations: 26
@@ -889,6 +863,7 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
+        complextype: "FastPlace (C)"
       d:
         enabled: true
         max-violations: 28
@@ -896,6 +871,7 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
+        complextype: "FastPlace (D)"
     timer:
       a:
         enabled: true
@@ -905,7 +881,7 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
-        complextype: "GameSpeed"
+        complextype: "GameSpeed (A)"
       b:
         enabled: true
         max-violations: 27
@@ -914,6 +890,7 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
+        complextype: "GameSpeed (B)"
       c:
         enabled: true
         max-violations: 29
@@ -924,3 +901,12 @@ checks:
         setback: true
         max_buffer: 10.0
         buffer_decay: 0.5
+        complextype: "GameSpeed (C)"
+      d:
+        enabled: true
+        max-violations: 30
+        punish-command: 'autoban %player%'
+        setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
+        complextype: "GameSpeed (D)"

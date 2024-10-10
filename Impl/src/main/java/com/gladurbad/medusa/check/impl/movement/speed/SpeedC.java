@@ -38,7 +38,10 @@ public class SpeedC extends Check {
             boolean onGround = positionProcessor.isOnGround();
             boolean lastOnGround = positionProcessor.isLastOnGround();
             double deltaY = positionProcessor.getDeltaY();
-            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.ANYVELOCITY, ExemptType.SLIME, ExemptType.FLYING, ExemptType.UNDER_BLOCK, ExemptType.LIQUID, ExemptType.PISTON, ExemptType.CLIMBABLE, ExemptType.NEAR_VEHICLE, ExemptType.ELYTRA, ExemptType.BUBBLE_COLUMN);
+            boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.ANYVELOCITY, ExemptType.SLIME,
+                    ExemptType.FLYING, ExemptType.UNDER_BLOCK, ExemptType.LIQUID,
+                    ExemptType.PISTON, ExemptType.CLIMBABLE, ExemptType.NEAR_VEHICLE,
+                    ExemptType.ELYTRA, ExemptType.BUBBLE_COLUMN, ExemptType.HONEY_BLOCK, ExemptType.WEB);
 
             if (!onGround && lastOnGround && deltaY > 0 && !exempt) {
                 double expectedYMotion = getExpectedYMotion(data.getPlayer());
