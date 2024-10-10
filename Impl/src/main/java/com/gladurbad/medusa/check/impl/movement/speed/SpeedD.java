@@ -39,7 +39,8 @@ public class SpeedD extends Check {
                 ExemptType.PISTON, ExemptType.UNDER_BLOCK, ExemptType.HIGHPING,
                 ExemptType.ELYTRA, ExemptType.BUBBLE_COLUMN, ExemptType.SLOW_FALLING,
                 ExemptType.LEVITATION, ExemptType.POWDER_SNOW, ExemptType.WEB,
-                ExemptType.STAIRS_ABOVE, ExemptType.PLACING
+                ExemptType.STAIRS_ABOVE, ExemptType.PLACING, ExemptType.STAIRS,
+                ExemptType.STAIRS
             );
 
 

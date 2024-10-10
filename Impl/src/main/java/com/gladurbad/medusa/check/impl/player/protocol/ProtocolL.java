@@ -27,9 +27,16 @@ public final class ProtocolL extends Check {
             return;
         }
 
-        boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.NEAR_VEHICLE, ExemptType.JOINED, ExemptType.PISTON, ExemptType.SLIME, ExemptType.STEPPED, ExemptType.STAIRS);
+        boolean exempt = isExempt(
+                ExemptType.TELEPORT, ExemptType.NEAR_VEHICLE, ExemptType.JOINED,
+                ExemptType.PISTON, ExemptType.SLIME, ExemptType.STEPPED,
+                ExemptType.STAIRS
+        );
 
-        if (exempt) return;
+        boolean isnearslabs = data.getPositionProcessor().isNearSlab();
+
+
+        if (exempt || isnearslabs) return;
 
         WrappedPacketInFlying wrapper = new WrappedPacketInFlying(packet.getRawPacket());
         boolean spoofedGround = wrapper.isOnGround();
