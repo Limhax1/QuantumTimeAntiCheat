@@ -79,20 +79,6 @@ public final class FlyB extends Check {
                     violations--;
                 }
 
-                if(!onGround && !nearClimbable(location)) {
-                    double prediction = (lastDeltaY -0.08 ) * 0.9800000190734863;
-
-                    if(!(DY - prediction < 0.2) && lastDeltaY > 0 && DY != 0) {
-                        if(BUFFER++ > max_buffer.getDouble()) {
-                            if(setback.getBoolean()) {
-                                setback();
-                            }
-                            fail("Gravity prediction " + (DY - prediction));
-                        } else {
-                            BUFFER = Math.max(0, BUFFER - buffer_decay.getDouble());
-                        }
-                    }
-                }
                 lastDeltaY = DY;
                 lastY = y;
             }

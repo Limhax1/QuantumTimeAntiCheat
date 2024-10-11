@@ -27,6 +27,10 @@ public class ProtocolN extends Check {
                 timer = 0;
             }
 
+            if(timer > 7) {
+                setback();
+            }
+
             if(timer > 80) {
                 fail("Tried to exploit teleport exemption");
                 if(setback.getBoolean()) {

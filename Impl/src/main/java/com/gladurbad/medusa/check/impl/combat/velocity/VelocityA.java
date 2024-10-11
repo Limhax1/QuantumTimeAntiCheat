@@ -32,31 +32,15 @@ public final class VelocityA extends Check {
             if (data.getVelocityProcessor().getTicksSinceVelocity() < 5) {
                 final double deltaY = data.getPositionProcessor().getDeltaY();
                 final double velocityY = data.getVelocityProcessor().getVelocityY();
-
+                double diff = Math.abs(velocityY - deltaY);
                 debug("dy=" + deltaY + " vy=" + velocityY);
-                if (velocityY > 0) {
-                    final int percentage = (int) Math.round((deltaY * 100.0) / velocityY);
 
-                    final boolean exempt = isExempt(
-                            ExemptType.LIQUID, ExemptType.PISTON, ExemptType.CLIMBABLE,
-                            ExemptType.UNDER_BLOCK, ExemptType.TELEPORT, ExemptType.FLYING,
-                            ExemptType.WEB, ExemptType.STEPPED
-                    );
-
-                    debug(velocityY);
-
-                    final boolean invalid = !exempt
-                            && (percentage < minVelPct.getInt() || percentage > maxVelPct.getInt());
-
-                    if (invalid && !checkHorizontalCollision(data.getPositionProcessor())){
-
+                if(data.getVelocityProcessor().getTicksSinceVelocity() == 1) {
+                    if(diff > 0.15) {
+                        fail(diff);
                     }
                 }
             }
         }
-    }
-    private boolean checkHorizontalCollision(PositionProcessor positionProcessor) {
-        double deltaXZ = Math.hypot(positionProcessor.getDeltaX(), positionProcessor.getDeltaZ());
-        return deltaXZ < 0.01;
     }
 }

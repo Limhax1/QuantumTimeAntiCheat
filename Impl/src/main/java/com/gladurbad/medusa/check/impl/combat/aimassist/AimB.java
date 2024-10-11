@@ -10,9 +10,8 @@ import java.util.function.Predicate;
 @CheckInfo(name = "Aim (B)", description = "Checks for killAura flaws.", experimental = true, complextype = "Snap")
 public final class AimB extends Check {
 
-    private final Predicate<Float> validRotation = rotation -> rotation > 3F && rotation < 35F;
     private double buffer = 0.0;
-    private static final double BUFFER_LIMIT = 4.0;
+    private static final double BUFFER_LIMIT = 2.0;
     private static final double BUFFER_DECAY = 0.25;
 
     public AimB(final PlayerData data) {
