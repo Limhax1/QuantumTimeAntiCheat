@@ -22,7 +22,7 @@ public class SpeedB extends Check {
     private static final double ICE_BOOST = 0.3;
     private static final double BLOCK_BOOST = 0.3;
     private static final double VELOCITY_BOOST_BASE = 0.05;
-    private static final double VELOCITY_BOOST_MULTIPLIER = 2.0;
+    private static final double VELOCITY_BOOST_MULTIPLIER = 1.2;
     private static final int VELOCITY_TICKS_MAX = 35;
 
     private double lastValidDeltaXZ = 0.0;
@@ -39,6 +39,8 @@ public class SpeedB extends Check {
             final boolean onGround = data.getPositionProcessor().isOnGround();
             final double deltaXZ = data.getPositionProcessor().getDeltaXZ();
             final double lastDeltaXZ = data.getPositionProcessor().getLastDeltaXZ();
+            final double deltaY = data.getPositionProcessor().getDeltaY();
+            final double lastDeltaY = data.getPositionProcessor().getLastDeltaY();
             final int groundTicks = data.getPositionProcessor().getGroundTicks();
             final int sinceIceTicks = data.getPositionProcessor().getSinceIceTicks();
             final int sinceSlimeTicks = data.getPositionProcessor().getSinceSlimeTicks();
@@ -78,9 +80,15 @@ public class SpeedB extends Check {
             }
 
             if (deltaXZ > lastDeltaXZ) {
-                maxSpeed += 0.01 + (groundTicks * 0.0005);
+                maxSpeed += 0.006 + (groundTicks * 0.00005);
             } else {
-                maxSpeed += 0.08;
+                maxSpeed += 0.04;
+            }
+
+            if(deltaY > lastDeltaY) {
+                maxSpeed += 0.15;
+            } else if (!data.getPositionProcessor().isOnGround()){
+                maxSpeed += 0.03 * getSpeedPotionCorrection(data.getPlayer());
             }
 
             if (groundTicks == 1 && data.getPositionProcessor().getDeltaY() > 0) {
@@ -103,12 +111,13 @@ public class SpeedB extends Check {
             }
 
             if (deltaXZ > maxSpeed && !exempt) {
+                buffer += 0.7;
 
-                if(buffer++ > max_buffer.getDouble() / 2 && setback.getBoolean()) {
+                if(buffer > max_buffer.getDouble() / 2 && setback.getBoolean()) {
                     setback();
                 }
 
-                if (buffer++ > max_buffer.getDouble()) {
+                if (buffer > max_buffer.getDouble()) {
                     fail(String.format("(%.2f > %.2f)", deltaXZ, maxSpeed));
                     buffer = 0;
                 }

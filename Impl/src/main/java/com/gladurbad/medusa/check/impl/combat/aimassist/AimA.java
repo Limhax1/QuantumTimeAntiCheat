@@ -12,7 +12,7 @@ public final class AimA extends Check {
 
     private final Predicate<Float> validRotation = rotation -> rotation > 3F && rotation < 35F;
     private double buffer = 0.0;
-    private static final double BUFFER_LIMIT = 6.0;
+    private static final double BUFFER_LIMIT = 10;
     private static final double BUFFER_DECAY = 0.25;
 
     public AimA(final PlayerData data) {
@@ -26,8 +26,9 @@ public final class AimA extends Check {
             final double deltaPitch = data.getRotationProcessor().getDeltaPitch();
             final boolean invalid = deltaYaw > 3F && deltaPitch < 0.01 && Math.abs(data.getRotationProcessor().getPitch()) != 90  ;
             final boolean invalid2 = deltaYaw < 0.01 && deltaPitch > 4F;
+            final boolean invalid3 = deltaYaw < 6F && deltaPitch < 0.15;
 
-            if (invalid || invalid2) {
+            if (invalid || invalid2 || invalid3) {
                 buffer += 1.0;
 
                 if (buffer > BUFFER_LIMIT) {

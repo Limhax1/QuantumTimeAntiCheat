@@ -64,7 +64,7 @@ public final class QuantumTimePlugin extends JavaPlugin {
                     String message = BAN_MESSAGE.replace("%player%", playerName);
                     Bukkit.getScheduler().runTaskLater(this, () -> {
                         Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', message));
-                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "tempban " + playerName + " 3s Unfair Advantage");
+                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "say " + playerName + " 3s Unfair Advantage");
                     }, 60L);
                     sender.sendMessage(ChatColor.GREEN + "Broadcast and ban will be executed in 3 seconds.");
 

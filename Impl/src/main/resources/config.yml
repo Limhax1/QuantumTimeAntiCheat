@@ -462,7 +462,7 @@ checks:
         complextype: "RayTrace (C)"
     velocity:
       a:
-        enabled: true
+        enabled: false
         max-violations: 23
         punish-command: 'autoban %player%'
         minimum-velocity-percentage: 100
@@ -480,6 +480,16 @@ checks:
         buffer_decay: 0.5
         complextype: "Self Damage (B)"
   movement:
+    antiweb:
+      a:
+        enabled: true
+        max-violations: 20
+        punish-command: 'autoban %player%'
+        setback: true
+        max_buffer: 3
+        buffer_decay: 0.5
+        complextype: "Speed (A)"
+
     fastclimb:
       a:
         enabled: true
@@ -708,6 +718,22 @@ checks:
         max_buffer: 10.0
         buffer_decay: 0.5
         complextype: "Hand (A)"
+    scaffold:
+      a:
+        enabled: true
+        max-violations: 22
+        punish-command: 'autoban %player%'
+        max_buffer: 10.0
+        buffer_decay: 0.5
+        complextype: "RayTrace (A)"
+      b:
+        enabled: true
+        max-violations: 24
+        punish-command: 'autoban %player%'
+        setback: true
+        max_buffer: 10.0
+        buffer_decay: 0.5
+        complextype: "FastPlace (B)"
     inventory:
       a:
         enabled: true
@@ -839,39 +865,6 @@ checks:
         max_buffer: 10.0
         buffer_decay: 0.5
         complextype: "BadPackets (Z)"
-    scaffold:
-      a:
-        enabled: true
-        max-violations: 22
-        punish-command: 'autoban %player%'
-        setback: true
-        max_buffer: 10.0
-        buffer_decay: 0.5
-        complextype: "RayTrace (A)"
-      b:
-        enabled: true
-        max-violations: 24
-        punish-command: 'autoban %player%'
-        setback: true
-        max_buffer: 10.0
-        buffer_decay: 0.5
-        complextype: "FastPlace (B)"
-      c:
-        enabled: true
-        max-violations: 26
-        punish-command: 'autoban %player%'
-        setback: true
-        max_buffer: 10.0
-        buffer_decay: 0.5
-        complextype: "FastPlace (C)"
-      d:
-        enabled: true
-        max-violations: 28
-        punish-command: 'autoban %player%'
-        setback: true
-        max_buffer: 10.0
-        buffer_decay: 0.5
-        complextype: "FastPlace (D)"
     timer:
       a:
         enabled: true

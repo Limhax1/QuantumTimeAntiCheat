@@ -46,7 +46,7 @@ public class SpeedD extends Check {
 
 
             if (!exempt) {
-                if (!onGround) {
+                if (!onGround && deltaY != 0) {
                     airTicks++;
                     double predictedDeltaY = predictNextMotionY(lastDeltaY);
                     double difference = Math.abs(deltaY - predictedDeltaY);

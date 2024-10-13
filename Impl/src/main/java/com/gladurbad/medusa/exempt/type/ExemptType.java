@@ -143,6 +143,6 @@ public enum ExemptType {
 
     private static boolean isStairs(Block block) {
         Material type = block.getType();
-        return type.name().contains("STAIRS");
+        return type.name().contains("STAIRS") || type.name().contains("STEP");
     }
 }

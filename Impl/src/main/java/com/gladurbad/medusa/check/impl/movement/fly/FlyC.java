@@ -40,7 +40,7 @@ public final class FlyC extends Check {
             final double difference = Math.abs(deltaY - prediction);
 
             final boolean exempt = isExempt(
-                    ExemptType.TELEPORT, ExemptType.NEAR_VEHICLE, ExemptType.FLYING,
+                    ExemptType.NEAR_VEHICLE, ExemptType.FLYING,
                     ExemptType.INSIDE_VEHICLE, ExemptType.ANYVELOCITY, ExemptType.ELYTRA,
                     ExemptType.BUBBLE_COLUMN, ExemptType.SLOW_FALLING, ExemptType.LEVITATION,
                     ExemptType.POWDER_SNOW, ExemptType.HONEY_BLOCK

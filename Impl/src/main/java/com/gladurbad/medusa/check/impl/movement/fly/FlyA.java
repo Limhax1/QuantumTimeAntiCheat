@@ -27,7 +27,7 @@ public final class FlyA extends Check {
             final double DeltaY = data.getPositionProcessor().getDeltaY();
             final double speed = data.getPositionProcessor().getDeltaXZ();
 
-            boolean exempt = isExempt(ExemptType.FLYING, ExemptType.TELEPORT, ExemptType.ANYVELOCITY,
+            boolean exempt = isExempt(ExemptType.FLYING, ExemptType.FALLDAMAGE,
                     ExemptType.NEAR_VEHICLE, ExemptType.ELYTRA, ExemptType.HONEY_BLOCK);
 
             if (DeltaY == 0 && lastDeltaY != 0) {
@@ -44,7 +44,7 @@ public final class FlyA extends Check {
 
                 debug(isExempt(ExemptType.HONEY_BLOCK));
 
-            if (data.getPositionProcessor().getAirTicks() > 60 && data.getPositionProcessor().isInAir() && !exempt) {
+            if (data.getPositionProcessor().getAirTicks() > 20 && data.getPositionProcessor().isInAir() && !exempt) {
                 if (speed > 0.34) {
                     if(setback.getBoolean()) {
                         setback();
